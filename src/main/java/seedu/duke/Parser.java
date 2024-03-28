@@ -130,6 +130,7 @@ public class Parser {
         case "help":
             // Help code here
             Help.printHelp();
+            assert(true);
             break;
         case "create":
             GroupCommand.createGroup(argument);
