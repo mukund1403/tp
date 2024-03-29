@@ -131,10 +131,13 @@ public class Parser {
         case "help":
             // Help code here
             Help.printHelp();
-            assert(true);
+            assert (true);
             break;
         case "create":
             GroupCommand.createGroup(argument);
+            break;
+        case "delete":
+            GroupCommand.deleteGroup(argument);
             break;
         case "member":
             GroupCommand.addMember(argument);
@@ -148,7 +151,7 @@ public class Parser {
         case "expense":
             // Checks if user is currently in a Group
             Optional<Group> currentGroup = Group.getCurrentGroup();
-            if(currentGroup.isEmpty()){
+            if (currentGroup.isEmpty()) {
                 String exceptionMessage = "Not signed in to a Group! Use 'create <name>' to create Group";
                 throw new ExpensesException(exceptionMessage);
             }
@@ -187,13 +190,13 @@ public class Parser {
             // Checks if user is currently in a Group
             // named 'currentGroup1' to prevent conflict with previous declaration
             Optional<Group> currentGroup1 = Group.getCurrentGroup();
-            if(currentGroup1.isEmpty()){
+            if (currentGroup1.isEmpty()) {
                 String exceptionMessage = "Not signed in to a Group! Use 'create <name>' to create Group";
                 throw new ExpensesException(exceptionMessage);
             }
 
             // Checks if user specified is in Current Group
-            if(!currentGroup1.get().isMember(argument)){
+            if (!currentGroup1.get().isMember(argument)) {
                 String exceptionMessage = argument + " is not in current Group!";
                 throw new ExpensesException(exceptionMessage);
             }

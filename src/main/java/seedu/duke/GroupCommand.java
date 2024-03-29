@@ -1,4 +1,4 @@
-//@@ author hafizuddin-a
+//@@author hafizuddin-a
 
 package seedu.duke;
 
@@ -21,6 +21,25 @@ public class GroupCommand {
             System.out.println(e.getMessage());
         }
     }
+
+    //@@author avrilgk
+
+    /**
+     * Deletes the current group.
+     * If the user is not currently in a group, prints a message indicating so.
+     *
+     * @param groupName the name of the group to delete
+     */
+    public static void deleteGroup(String groupName) {
+        if (Group.groups.containsKey(groupName)) {
+            Group.groups.remove(groupName);
+            System.out.println("The group " + groupName + " has been deleted.");
+        } else {
+            System.out.println("The group " + groupName + " does not exist.");
+        }
+    }
+
+    //@@author hafizuddin-a
 
     /**
      * Adds a member with the specified name to the current group.
@@ -56,3 +75,4 @@ public class GroupCommand {
         Group.exitGroup();
     }
 }
+
