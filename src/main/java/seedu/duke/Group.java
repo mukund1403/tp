@@ -1,4 +1,4 @@
-//@@ author avrilgk
+//@@author avrilgk
 
 package seedu.duke;
 
@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.Optional;
 
 public class Group {
-    private static final Map<String, Group> groups = new HashMap<>();
+    static final Map<String, Group> groups = new HashMap<>();
     private static Optional<String> currentGroupName = Optional.empty();
     private static final GroupStorage groupStorage = new GroupStorage(new FileIOImpl());
 
@@ -209,3 +209,4 @@ public class Group {
         return new ArrayList<>(expenseList);
     }
 }
+
