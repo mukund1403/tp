@@ -72,8 +72,18 @@ public class Group {
     public static Optional<Group> enterGroup(String groupName) {
         Optional<Group> group = Optional.ofNullable(groups.get(groupName));
         if (group.isEmpty()) {
-            System.out.println("Group does not exist.");
-            return group;
+            //@@ author hafizuddin-a
+            // If the group doesn't exist in memory, try loading it from file
+            Group loadedGroup = GroupStorage.loadGroup(groupName);
+
+            if (loadedGroup != null) {
+                groups.put(groupName, loadedGroup);
+                group = Optional.of(loadedGroup);
+            } else {
+                //@@ author avrilgk
+                System.out.println("Group does not exist.");
+                return group;
+            }
         }
         currentGroupName = Optional.of(groupName);
         System.out.println("You are now in " + groupName);
@@ -86,6 +96,7 @@ public class Group {
      */
     public static void exitGroup() {
         if (currentGroupName.isPresent()) {
+            GroupStorage.saveGroup(groups.get(currentGroupName.get()));
             System.out.println("You have exited " + currentGroupName.get() + ".");
             currentGroupName = Optional.empty();
         } else {

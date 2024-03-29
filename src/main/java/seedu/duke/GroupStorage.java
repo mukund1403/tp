@@ -1,3 +1,4 @@
+//@@ author hafizuddin-a
 package seedu.duke;
 
 import java.io.BufferedReader;
@@ -21,7 +22,7 @@ public class GroupStorage {
      *
      * @param group The group to save.
      */
-    public void saveGroup(Group group) {
+    public static void saveGroup(Group group) {
         String groupName = group.getGroupName();
         List<User> members = group.getMembers();
         List<Expense> expenses = group.getExpenseList();
@@ -66,7 +67,7 @@ public class GroupStorage {
      * @param groupName The name of the group to load.
      * @return The loaded group, or null if the group file does not exist.
      */
-    public Group loadGroup(String groupName) {
+    public static Group loadGroup(String groupName) {
         String filePath = getGroupFilePath(groupName);
         Path path = Paths.get(filePath);
 
@@ -110,7 +111,7 @@ public class GroupStorage {
     /**
      * Creates the groups directory if it does not exist.
      */
-    private void createGroupDirectory() {
+    private static void createGroupDirectory() {
         Path path = Paths.get(GROUPS_DIRECTORY);
         if (!Files.exists(path)) {
             try {
@@ -127,7 +128,7 @@ public class GroupStorage {
      * @param groupName The name of the group.
      * @return The file path for the group file.
      */
-    private String getGroupFilePath(String groupName) {
+    private static String getGroupFilePath(String groupName) {
         return GROUPS_DIRECTORY + "/" + groupName + GROUP_FILE_EXTENSION;
     }
 }
