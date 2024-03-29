@@ -1,5 +1,9 @@
 //@@ author hafizuddin-a
-package seedu.duke;
+package seedu.duke.storage;
+
+import seedu.duke.Expense;
+import seedu.duke.Group;
+import seedu.duke.User;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

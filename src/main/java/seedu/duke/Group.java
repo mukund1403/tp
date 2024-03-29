@@ -2,6 +2,8 @@
 
 package seedu.duke;
 
+import seedu.duke.storage.GroupStorage;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

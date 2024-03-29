@@ -19,7 +19,7 @@ public class Expense {
      * @param payeeList : String array of people who are involved in the transaction
      *                  (Index 0 is the payer and will also be added to the payee list)
      */
-    Expense(String payerName, float totalAmount, String[] payeeList) {
+    public Expense(String payerName, float totalAmount, String[] payeeList) {
         payees.addAll(Arrays.asList(payeeList));
         this.payerName = payerName;
         this.totalAmount = totalAmount;
