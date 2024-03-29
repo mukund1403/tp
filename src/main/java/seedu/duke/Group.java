@@ -76,7 +76,7 @@ public class Group {
         if (group.isEmpty()) {
             //@@ author hafizuddin-a
             // If the group doesn't exist in memory, try loading it from file
-            Group loadedGroup = GroupStorage.loadGroup(groupName);
+            Group loadedGroup = GroupStorage.loadGroupFromFile(groupName);
 
             if (loadedGroup != null) {
                 groups.put(groupName, loadedGroup);
@@ -98,7 +98,7 @@ public class Group {
      */
     public static void exitGroup() {
         if (currentGroupName.isPresent()) {
-            GroupStorage.saveGroup(groups.get(currentGroupName.get()));
+            GroupStorage.saveGroupToFile(groups.get(currentGroupName.get()));
             System.out.println("You have exited " + currentGroupName.get() + ".");
             currentGroupName = Optional.empty();
         } else {
