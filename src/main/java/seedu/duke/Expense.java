@@ -1,5 +1,5 @@
+//@@ author mukund1403
 package seedu.duke;
-
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,6 +32,7 @@ public class Expense {
         System.out.println();
     }
 
+    //@@ author Cohii2
     public String getPayerName() {
         return payerName;
     }
