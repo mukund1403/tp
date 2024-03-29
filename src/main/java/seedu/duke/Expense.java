@@ -1,4 +1,4 @@
-//@@ author mukund1403
+//@@author mukund1403
 package seedu.duke;
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class Expense {
         System.out.println();
     }
 
-    //@@ author Cohii2
+    //@@author Cohii2
     public String getPayerName() {
         return payerName;
     }

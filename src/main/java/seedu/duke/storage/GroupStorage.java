@@ -1,4 +1,4 @@
-//@@ author hafizuddin-a
+//@@author hafizuddin-a
 package seedu.duke.storage;
 
 import seedu.duke.Expense;

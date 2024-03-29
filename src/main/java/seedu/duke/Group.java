@@ -77,7 +77,7 @@ public class Group {
     public static Optional<Group> enterGroup(String groupName) {
         Optional<Group> group = Optional.ofNullable(groups.get(groupName));
         if (group.isEmpty()) {
-            //@@ author hafizuddin-a
+            //@@author hafizuddin-a
             try {
                 // If the group doesn't exist in memory, try loading it from file
                 Group loadedGroup = groupStorage.loadGroupFromFile(groupName);
@@ -89,13 +89,13 @@ public class Group {
                     System.out.println("Group does not exist.");
                     return Optional.empty();
                 }
-            // @@ author hafizuddin-a
+            // @@author hafizuddin-a
             } catch (GroupLoadException e) {
                 System.out.println("Error loading group: " + e.getMessage());
                 return Optional.empty();
             }
         }
-        //@@ author avrilgk
+        //@@author avrilgk
         currentGroupName = Optional.of(groupName);
         System.out.println("You are now in " + groupName);
         return group;
@@ -107,14 +107,14 @@ public class Group {
      */
     public static void exitGroup() {
         if (currentGroupName.isPresent()) {
-            //@@ author hafizuddin-a
+            //@@author hafizuddin-a
             try {
                 groupStorage.saveGroupToFile(groups.get(currentGroupName.get()));
                 System.out.println("Group data saved successfully.");
             } catch (GroupSaveException e) {
                 System.out.println("Error saving group: " + e.getMessage());
             }
-            //@@ author avrilgk
+            //@@author avrilgk
             System.out.println("You have exited " + currentGroupName.get() + ".");
             currentGroupName = Optional.empty();
         } else {
