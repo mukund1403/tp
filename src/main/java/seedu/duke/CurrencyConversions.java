@@ -1,5 +1,5 @@
 package seedu.duke;
-
+//@@author MonkeScripts
 //all rates are relative to 1 SGD
 public enum CurrencyConversions {
     USD("USD", 0.74),

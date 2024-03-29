@@ -1,5 +1,5 @@
 package seedu.duke;
-
+//@@author MonkeScripts
 public class Money {
     private final double amount;
     private final CurrencyConversions currency;
