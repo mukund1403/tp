@@ -12,6 +12,10 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Represents the storage manager for group data.
+ * Handles the saving and loading of group information to and from files.
+ */
 public class GroupStorage {
     private static final String MEMBERS_HEADER = "Members:";
     private static final String EXPENSES_HEADER = "Expenses:";
@@ -22,6 +26,12 @@ public class GroupStorage {
         this.fileIO = fileIO;
     }
 
+    /**
+     * Saves the group information to a file.
+     *
+     * @param group The group to save.
+     * @throws GroupSaveException If an error occurs while saving the group information.
+     */
     public static void saveGroupToFile(Group group) throws GroupSaveException {
         String groupName = group.getGroupName();
         List<User> members = group.getMembers();
@@ -60,6 +70,13 @@ public class GroupStorage {
         }
     }
 
+    /**
+     * Loads the group information from a file.
+     *
+     * @param groupName The name of the group to load.
+     * @return The loaded group, or null if the group file does not exist.
+     * @throws GroupLoadException If an error occurs while loading the group information.
+     */
     public static Group loadGroupFromFile(String groupName) throws GroupLoadException {
         String filePath = GroupFilePath.getFilePath(groupName);
 
