@@ -63,6 +63,22 @@ Additionally, it implements the following operations:
 
 These operations are exposed in the Expense class through the `getPayerName()`, `getTotalAmount()`, and `getPayees()` functions respectively.
 
+### Balance feature
+
+#### Implementation
+
+The Balance feature is facilitated through the Balance class. 
+It allows a user to view a printed list of other users in the Group, and the amount that is owed by/to each user.
+
+Each `Balance` object contains a String of a user `userName`,
+and a Map `balanceList`. This Map uses String of other users' usernames as Key, and
+a Float of the amount that is owed by/to each user. 
+
+To print a user's Balance List, perform the following steps:
+1. Create a `Balance` object with the params String `userName` and the current Group `group`.
+2. From the `members` and `expenseList` List items in `group`, the Map `balanceList` is populated.
+3. Call method `printBalance()` to print the contents of the Map `balanceList`.
+
 ## Product scope
 
 ### Target user profile
