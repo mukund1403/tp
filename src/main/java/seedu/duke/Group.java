@@ -2,7 +2,10 @@
 
 package seedu.duke;
 
+import seedu.duke.exceptions.GroupLoadException;
+import seedu.duke.exceptions.GroupSaveException;
 import seedu.duke.storage.GroupStorage;
+import seedu.duke.storage.FileIOImpl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,6 +16,7 @@ import java.util.Optional;
 public class Group {
     private static final Map<String, Group> groups = new HashMap<>();
     private static Optional<String> currentGroupName = Optional.empty();
+    private static final GroupStorage groupStorage = new GroupStorage(new FileIOImpl());
 
     private final String groupName;
     private final List<User> members;
@@ -70,23 +74,28 @@ public class Group {
      * @param groupName The name of the group to enter.
      * @return The existing group.
      */
-
     public static Optional<Group> enterGroup(String groupName) {
         Optional<Group> group = Optional.ofNullable(groups.get(groupName));
         if (group.isEmpty()) {
             //@@ author hafizuddin-a
-            // If the group doesn't exist in memory, try loading it from file
-            Group loadedGroup = GroupStorage.loadGroupFromFile(groupName);
-
-            if (loadedGroup != null) {
-                groups.put(groupName, loadedGroup);
-                group = Optional.of(loadedGroup);
-            } else {
-                //@@ author avrilgk
-                System.out.println("Group does not exist.");
-                return group;
+            try {
+                // If the group doesn't exist in memory, try loading it from file
+                Group loadedGroup = groupStorage.loadGroupFromFile(groupName);
+                if (loadedGroup != null) {
+                    groups.put(groupName, loadedGroup);
+                    group = Optional.of(loadedGroup);
+                } else {
+                    //@@ author avrilgk
+                    System.out.println("Group does not exist.");
+                    return Optional.empty();
+                }
+            // @@ author hafizuddin-a
+            } catch (GroupLoadException e) {
+                System.out.println("Error loading group: " + e.getMessage());
+                return Optional.empty();
             }
         }
+        //@@ author avrilgk
         currentGroupName = Optional.of(groupName);
         System.out.println("You are now in " + groupName);
         return group;
@@ -98,7 +107,14 @@ public class Group {
      */
     public static void exitGroup() {
         if (currentGroupName.isPresent()) {
-            GroupStorage.saveGroupToFile(groups.get(currentGroupName.get()));
+            //@@ author hafizuddin-a
+            try {
+                groupStorage.saveGroupToFile(groups.get(currentGroupName.get()));
+                System.out.println("Group data saved successfully.");
+            } catch (GroupSaveException e) {
+                System.out.println("Error saving group: " + e.getMessage());
+            }
+            //@@ author avrilgk
             System.out.println("You have exited " + currentGroupName.get() + ".");
             currentGroupName = Optional.empty();
         } else {
