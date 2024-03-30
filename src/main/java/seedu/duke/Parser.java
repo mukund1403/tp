@@ -182,10 +182,11 @@ public class Parser {
             //Adding expenses split equally and unequally
             Expense newTransaction;
             if(userInput.contains("/unequal")){
-                newTransaction = new Expense(true, payerName, this.argument, totalAmount, payeeList.toArray(new String[0]));
-            }
-            else {
-                newTransaction = new Expense(false, payerName, this.argument, totalAmount, payeeList.toArray(new String[0]));
+                newTransaction = new Expense(true, payerName, this.argument,
+                        totalAmount, payeeList.toArray(new String[0]));
+            } else {
+                newTransaction = new Expense(false, payerName, this.argument,
+                        totalAmount, payeeList.toArray(new String[0]));
             }
             currentGroup.get().addExpense(newTransaction);
 

@@ -5,7 +5,6 @@ package seedu.duke;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * A class to add a new expense
@@ -26,7 +25,8 @@ public class Expense {
      * @param payeeList : String array of people who are involved in the transaction
      *                  (Index 0 is the payer and will also be added to the payees but as last index)
      */
-    Expense(boolean isUnequal, String payerName, String description, float totalAmount, String[] payeeList) throws ExpensesException {
+    Expense(boolean isUnequal, String payerName, String description, float totalAmount, String[] payeeList)
+            throws ExpensesException {
         if(isUnequal){
             float amountDueByPayees = 0;
             for(String payee : payeeList){
@@ -54,8 +54,7 @@ public class Expense {
                 throw new ExpensesException(exceptionMessage);
             }
             payees.add(new Pair<>(payerName,totalAmount-amountDueByPayees));
-        }
-        else {
+        } else {
             Float amountDue = totalAmount/payeeList.length;
             for(String payee : payeeList){
                 payees.add(new Pair<>(payee,amountDue));
