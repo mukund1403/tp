@@ -36,6 +36,18 @@ public class GroupFilePath {
         }
     }
 
+    /**
+     * Sets the directory where group files are stored.
+     * <p>
+     * This method allows changing the default groups directory to a custom directory.
+     * It is useful for testing purposes or when the groups need to be stored in a different location.
+     * <p>
+     * Assertions are used to check that the provided directory is not null or empty.
+     * If the assertion fails, an {@code AssertionError} will be thrown, indicating a programming error.
+     *
+     * @param directory the directory where group files should be stored
+     * @throws AssertionError if the provided directory is null or empty
+     */
     public static void setGroupsDirectory(String directory) {
         assert directory != null && !directory.isEmpty() : "Groups directory cannot be null or empty";
         groupsDirectory = directory;
