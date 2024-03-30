@@ -1,14 +1,14 @@
 package seedu.duke;
 
-    /**
-     * This utility class stores two items together in a pair.
-     * It could be used, for instance, to faciliate returning of
-     * two values in a function.
-     *
-     * @author cs2030
-     * @param <T> the type of the first element
-     * @param <U> the type of the second element
-     **/
+/**
+ * This utility class stores two items together in a pair.
+ * It could be used, for instance, to faciliate returning of
+ * two values in a function.
+ *
+ * @author cs2030
+ * @param <T> the type of the first element
+ * @param <U> the type of the second element
+ **/
 public class Pair<T, U> {
     private final T t;
     private final U u;

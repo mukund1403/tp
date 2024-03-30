@@ -196,23 +196,23 @@ public class Parser {
 
 
             break;
-//        case "balance":
-//            // Checks if user is currently in a Group
-//            // named 'currentGroup1' to prevent conflict with previous declaration
-//            Optional<Group> currentGroup1 = Group.getCurrentGroup();
-//            if (currentGroup1.isEmpty()) {
-//                String exceptionMessage = "Not signed in to a Group! Use 'create <name>' to create Group";
-//                throw new ExpensesException(exceptionMessage);
-//            }
-//
-//            // Checks if user specified is in Current Group
-//            if (!currentGroup1.get().isMember(argument)) {
-//                String exceptionMessage = argument + " is not in current Group!";
-//                throw new ExpensesException(exceptionMessage);
-//            }
-//            Balance balance = new Balance(argument, currentGroup1.get());
-//            balance.printBalance();
-//            break;
+        case "balance":
+            // Checks if user is currently in a Group
+            // named 'currentGroup1' to prevent conflict with previous declaration
+            Optional<Group> currentGroup1 = Group.getCurrentGroup();
+            if (currentGroup1.isEmpty()) {
+                String exceptionMessage = "Not signed in to a Group! Use 'create <name>' to create Group";
+                throw new ExpensesException(exceptionMessage);
+            }
+
+            // Checks if user specified is in Current Group
+            if (!currentGroup1.get().isMember(argument)) {
+                String exceptionMessage = argument + " is not in current Group!";
+                throw new ExpensesException(exceptionMessage);
+            }
+            Balance balance = new Balance(argument, currentGroup1.get());
+            balance.printBalance();
+            break;
         default:
             // Default clause
             System.out.println("That is not a command. " +
