@@ -174,7 +174,7 @@ public class Parser {
             // Obtain necessary information from 'params' and create new Expense
             ArrayList<String> payeeList = params.get("user");
             String payerName = params.get("paid").get(0);
-            payeeList.add(0, payerName);
+            //payeeList.add(0, payerName);
             if(this.argument.isEmpty()){
                 System.out.println("Warning! Empty description");
             }
@@ -184,9 +184,8 @@ public class Parser {
             if(userInput.contains("/unequal")){
                 newTransaction = new Expense(true, payerName, this.argument,
                         totalAmount, payeeList.toArray(new String[0]));
-            } else {
-                newTransaction = new Expense(false, payerName, this.argument,
-                        totalAmount, payeeList.toArray(new String[0]));
+            } else{
+                newTransaction = new Expense(payerName, this.argument, totalAmount, payeeList.toArray(new String[0]));
             }
             currentGroup.get().addExpense(newTransaction);
 
@@ -194,6 +193,8 @@ public class Parser {
             break;
         case "list":
             // List code here
+
+
             break;
 //        case "balance":
 //            // Checks if user is currently in a Group
