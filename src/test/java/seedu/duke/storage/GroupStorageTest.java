@@ -20,7 +20,6 @@ class GroupStorageTest {
     private static final String TEST_GROUPS_DIRECTORY = "src/test/data/groups";
 
     private GroupStorage groupStorage;
-    private FileIO fileIO;
 
     @BeforeAll
     static void setUpTestDirectory() {
@@ -29,7 +28,7 @@ class GroupStorageTest {
 
     @BeforeEach
     void setUp() throws IOException {
-        fileIO = new FileIOImpl();
+        FileIO fileIO = new FileIOImpl();
         groupStorage = new GroupStorage(fileIO);
 
         // Create the test groups directory if it doesn't exist
