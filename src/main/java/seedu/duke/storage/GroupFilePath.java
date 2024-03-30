@@ -52,4 +52,8 @@ public class GroupFilePath {
         assert directory != null && !directory.isEmpty() : "Groups directory cannot be null or empty";
         groupsDirectory = directory;
     }
+
+    public static String getGroupsDirectory() {
+        return groupsDirectory;
+    }
 }

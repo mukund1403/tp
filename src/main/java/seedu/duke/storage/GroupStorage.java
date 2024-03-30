@@ -9,6 +9,10 @@ import seedu.duke.exceptions.GroupSaveException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -176,5 +180,28 @@ public class GroupStorage {
             Expense expense = new Expense(payerName, totalAmount, payeeList.toArray(new String[0]));
             group.addExpense(expense);
         }
+    }
+
+    /**
+     * Loads all the group names from the saved files.
+     *
+     * @return a list of group names
+     */
+    public List<String> loadGroupNames() {
+        List<String> groupNames = new ArrayList<>();
+        try {
+            GroupFilePath.createGroupDirectory();
+            Path groupsDirectory = Paths.get(GroupFilePath.getGroupsDirectory());
+            try (DirectoryStream<Path> stream = Files.newDirectoryStream(groupsDirectory, "*.txt")) {
+                for (Path file : stream) {
+                    String fileName = file.getFileName().toString();
+                    String groupName = fileName.substring(0, fileName.lastIndexOf('.'));
+                    groupNames.add(groupName);
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred while loading group names.");
+        }
+        return groupNames;
     }
 }
