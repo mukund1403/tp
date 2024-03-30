@@ -179,7 +179,9 @@ public class Parser {
             String payerName = params.get("paid").get(0);
             payeeList.add(0, payerName);
 
-            Expense newTransaction = new Expense(payerName, totalAmount, payeeList.toArray(new String[0]));
+            System.out.println(this.argument);
+
+            Expense newTransaction = new Expense(payerName, this.argument, totalAmount, payeeList.toArray(new String[0]));
             currentGroup.get().addExpense(newTransaction);
 
             break;
@@ -200,7 +202,6 @@ public class Parser {
                 String exceptionMessage = argument + " is not in current Group!";
                 throw new ExpensesException(exceptionMessage);
             }
-
             Balance balance = new Balance(argument, currentGroup1.get());
             balance.printBalance();
             break;

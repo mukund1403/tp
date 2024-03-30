@@ -12,6 +12,8 @@ public class Expense {
     private float totalAmount;
     private ArrayList<String> payees = new ArrayList<>();
 
+    private String description;
+
     /**
      * Constructor to create new Expense
      * @param payerName : The name of the user who paid for the Expense
@@ -19,13 +21,14 @@ public class Expense {
      * @param payeeList : String array of people who are involved in the transaction
      *                  (Index 0 is the payer and will also be added to the payee list)
      */
-    Expense(String payerName, float totalAmount, String[] payeeList) {
+    Expense(String payerName, String description, float totalAmount, String[] payeeList) {
         payees.addAll(Arrays.asList(payeeList));
         this.payerName = payerName;
         this.totalAmount = totalAmount;
+        this.description = description;
 
-        System.out.printf("Added new expense %.2f paid by %s and split between:"
-                ,this.totalAmount,this.payerName);
+        System.out.printf("Added new expense with description %s and amount %.2f paid by %s and split between:",
+                this.description,this.totalAmount,this.payerName);
         for(String payee : payees) {
             System.out.print(payee + ", ");
         }
@@ -46,4 +49,10 @@ public class Expense {
     public ArrayList<String> getPayees() {
         return payees;
     }
+
+    public String getDescription(){
+        return description;
+    }
 }
+
+
