@@ -10,7 +10,7 @@ import java.nio.file.Paths;
  * Provides methods to get the file path for a group and create the groups directory.
  */
 public class GroupFilePath {
-    private static final String GROUPS_DIRECTORY = "data/groups";
+    private static String groupsDirectory = "data/groups";
     private static final String GROUP_FILE_EXTENSION = ".txt";
 
     /**
@@ -20,7 +20,7 @@ public class GroupFilePath {
      * @return The file path for the group file.
      */
     public static String getFilePath(String groupName) {
-        return GROUPS_DIRECTORY + "/" + groupName + GROUP_FILE_EXTENSION;
+        return groupsDirectory + "/" + groupName + GROUP_FILE_EXTENSION;
     }
 
     /**
@@ -29,9 +29,13 @@ public class GroupFilePath {
      * @throws IOException If an I/O error occurs while creating the directory.
      */
     public static void createGroupDirectory() throws IOException {
-        Path path = Paths.get(GROUPS_DIRECTORY);
+        Path path = Paths.get(groupsDirectory);
         if (!Files.exists(path)) {
             Files.createDirectories(path);
         }
+    }
+
+    public static void setGroupsDirectory(String directory) {
+        groupsDirectory = directory;
     }
 }
