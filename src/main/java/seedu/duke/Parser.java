@@ -208,6 +208,5 @@ public class Parser {
             Help.printHelp();
             break;
         }
-
     }
 }
