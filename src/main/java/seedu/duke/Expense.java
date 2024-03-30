@@ -1,6 +1,8 @@
 //@@author mukund1403
 package seedu.duke;
 
+
+import javafx.util.Pair;
 import java.util.ArrayList;
 
 /**
@@ -22,7 +24,7 @@ public class Expense {
      * @param payeeList : String array of people who are involved in the transaction
      *                  (Index 0 is the payer and will also be added to the payees but as last index)
      */
-    Expense(boolean isUnequal, String payerName, String description, float totalAmount, String[] payeeList)
+    public Expense(boolean isUnequal, String payerName, String description, float totalAmount, String[] payeeList)
             throws ExpensesException {
         float amountDueByPayees = 0;
         for (String payee : payeeList) {
@@ -48,8 +50,6 @@ public class Expense {
             throw new ExpensesException(exceptionMessage);
         }
         payees.add(new Pair<>(payerName, totalAmount - amountDueByPayees));
-
-
         this.payerName = payerName;
         this.totalAmount = totalAmount;
         this.description = description;
@@ -69,6 +69,7 @@ public class Expense {
         printSuccessMessage();
     }
 
+    //@@author Cohii2
     public String getPayerName() {
         return payerName;
     }

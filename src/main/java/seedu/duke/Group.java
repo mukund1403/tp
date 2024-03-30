@@ -2,6 +2,11 @@
 
 package seedu.duke;
 
+import seedu.duke.exceptions.GroupLoadException;
+import seedu.duke.exceptions.GroupSaveException;
+import seedu.duke.storage.GroupStorage;
+import seedu.duke.storage.FileIOImpl;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +16,7 @@ import java.util.Optional;
 public class Group {
     static final Map<String, Group> groups = new HashMap<>();
     private static Optional<String> currentGroupName = Optional.empty();
+    private static final GroupStorage groupStorage = new GroupStorage(new FileIOImpl());
 
     private final String groupName;
     private final List<User> members;
@@ -68,13 +74,28 @@ public class Group {
      * @param groupName The name of the group to enter.
      * @return The existing group.
      */
-
     public static Optional<Group> enterGroup(String groupName) {
         Optional<Group> group = Optional.ofNullable(groups.get(groupName));
         if (group.isEmpty()) {
-            System.out.println("Group does not exist.");
-            return group;
+            //@@author hafizuddin-a
+            try {
+                // If the group doesn't exist in memory, try loading it from file
+                Group loadedGroup = groupStorage.loadGroupFromFile(groupName);
+                if (loadedGroup != null) {
+                    groups.put(groupName, loadedGroup);
+                    group = Optional.of(loadedGroup);
+                } else {
+                    //@@ author avrilgk
+                    System.out.println("Group does not exist.");
+                    return Optional.empty();
+                }
+            // @@author hafizuddin-a
+            } catch (GroupLoadException e) {
+                System.out.println("Error loading group: " + e.getMessage());
+                return Optional.empty();
+            }
         }
+        //@@author avrilgk
         currentGroupName = Optional.of(groupName);
         System.out.println("You are now in " + groupName);
         return group;
@@ -86,6 +107,14 @@ public class Group {
      */
     public static void exitGroup() {
         if (currentGroupName.isPresent()) {
+            //@@author hafizuddin-a
+            try {
+                groupStorage.saveGroupToFile(groups.get(currentGroupName.get()));
+                System.out.println("Group data saved successfully.");
+            } catch (GroupSaveException e) {
+                System.out.println("Error saving group: " + e.getMessage());
+            }
+            //@@author avrilgk
             System.out.println("You have exited " + currentGroupName.get() + ".");
             currentGroupName = Optional.empty();
         } else {
@@ -133,6 +162,11 @@ public class Group {
      * @return The newly added user, or null if the user is already a member of the group.
      */
     public User addMember(String memberName) {
+        if (memberName == null || memberName.isEmpty()) {
+            System.out.println("Please provide a valid member name.");
+            return null;
+        }
+
         if (isMember(memberName)) {
             System.out.println(memberName + " is already a member of " + groupName + ".");
             return null;

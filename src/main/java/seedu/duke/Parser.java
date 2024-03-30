@@ -193,8 +193,6 @@ public class Parser {
             break;
         case "list":
             // List code here
-
-
             break;
         case "balance":
             // Checks if user is currently in a Group
