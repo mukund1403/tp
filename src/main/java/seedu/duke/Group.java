@@ -162,6 +162,11 @@ public class Group {
      * @return The newly added user, or null if the user is already a member of the group.
      */
     public User addMember(String memberName) {
+        if (memberName == null || memberName.isEmpty()) {
+            System.out.println("Please provide a valid member name.");
+            return null;
+        }
+
         if (isMember(memberName)) {
             System.out.println(memberName + " is already a member of " + groupName + ".");
             return null;
