@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Optional;
 
 public class Parser {
-
     /**
      * List of parameters to extract from user input.
      * For example, "/amount (amount)".
@@ -123,7 +122,6 @@ public class Parser {
         return parser.toString();
     }
 
-
     public void handleUserInput() throws EndProgramException, ExpensesException {
         switch (command) {
         case "bye":
@@ -155,12 +153,11 @@ public class Parser {
                 String exceptionMessage = "Not signed in to a Group! Use 'create <name>' to create Group";
                 throw new ExpensesException(exceptionMessage);
             }
-
             // Checks for missing Expense Parameters
             String[] expenseParams = {"amount", "paid", "user"};
             for (String expenseParam : expenseParams) {
                 if (params.get(expenseParam).isEmpty()) {
-                    String exceptionMessage = "No description for expenses! Add /" + expenseParam;
+                    String exceptionMessage = "No " + expenseParam + " for expenses! Add /" + expenseParam;
                     throw new ExpensesException(exceptionMessage);
                 }
             }
@@ -178,33 +175,42 @@ public class Parser {
             ArrayList<String> payeeList = params.get("user");
             String payerName = params.get("paid").get(0);
             payeeList.add(0, payerName);
+            if(this.argument.isEmpty()){
+                System.out.println("Warning! Empty description");
+            }
 
-            System.out.println(this.argument);
-
-            Expense newTransaction = new Expense(payerName, this.argument, totalAmount, payeeList.toArray(new String[0]));
+            //Adding expenses split equally and unequally
+            Expense newTransaction;
+            if(userInput.contains("/unequal")){
+                newTransaction = new Expense(true, payerName, this.argument, totalAmount, payeeList.toArray(new String[0]));
+            }
+            else {
+                newTransaction = new Expense(false, payerName, this.argument, totalAmount, payeeList.toArray(new String[0]));
+            }
             currentGroup.get().addExpense(newTransaction);
+
 
             break;
         case "list":
             // List code here
             break;
-        case "balance":
-            // Checks if user is currently in a Group
-            // named 'currentGroup1' to prevent conflict with previous declaration
-            Optional<Group> currentGroup1 = Group.getCurrentGroup();
-            if (currentGroup1.isEmpty()) {
-                String exceptionMessage = "Not signed in to a Group! Use 'create <name>' to create Group";
-                throw new ExpensesException(exceptionMessage);
-            }
-
-            // Checks if user specified is in Current Group
-            if (!currentGroup1.get().isMember(argument)) {
-                String exceptionMessage = argument + " is not in current Group!";
-                throw new ExpensesException(exceptionMessage);
-            }
-            Balance balance = new Balance(argument, currentGroup1.get());
-            balance.printBalance();
-            break;
+//        case "balance":
+//            // Checks if user is currently in a Group
+//            // named 'currentGroup1' to prevent conflict with previous declaration
+//            Optional<Group> currentGroup1 = Group.getCurrentGroup();
+//            if (currentGroup1.isEmpty()) {
+//                String exceptionMessage = "Not signed in to a Group! Use 'create <name>' to create Group";
+//                throw new ExpensesException(exceptionMessage);
+//            }
+//
+//            // Checks if user specified is in Current Group
+//            if (!currentGroup1.get().isMember(argument)) {
+//                String exceptionMessage = argument + " is not in current Group!";
+//                throw new ExpensesException(exceptionMessage);
+//            }
+//            Balance balance = new Balance(argument, currentGroup1.get());
+//            balance.printBalance();
+//            break;
         default:
             // Default clause
             System.out.println("That is not a command. " +
