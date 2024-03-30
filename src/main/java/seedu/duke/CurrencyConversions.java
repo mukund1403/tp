@@ -8,7 +8,7 @@ public enum CurrencyConversions {
     JPY("JPY", 112.12),
     AUD("AUD", 1.12),
     MYR("MYR", 3.50),
-    SGD("USD", 1.00),
+    SGD("SGD", 1.00),
 
     ;
 
