@@ -20,6 +20,7 @@ public class GroupFilePath {
      * @return The file path for the group file.
      */
     public static String getFilePath(String groupName) {
+        assert groupName != null && !groupName.isEmpty() : "Group name cannot be null or empty";
         return groupsDirectory + "/" + groupName + GROUP_FILE_EXTENSION;
     }
 
@@ -36,6 +37,7 @@ public class GroupFilePath {
     }
 
     public static void setGroupsDirectory(String directory) {
+        assert directory != null && !directory.isEmpty() : "Groups directory cannot be null or empty";
         groupsDirectory = directory;
     }
 }
