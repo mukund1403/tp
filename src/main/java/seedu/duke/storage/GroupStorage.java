@@ -10,6 +10,7 @@ import seedu.duke.exceptions.GroupSaveException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -97,11 +98,17 @@ public class GroupStorage {
 
             // Read expenses
             while ((line = reader.readLine()) != null) {
-                String[] expenseData = line.split(",");
+                String[] expenseData = line.split(",", 3);
                 float totalAmount = Float.parseFloat(expenseData[0]);
                 String payerName = expenseData[1];
-                String[] payeeList = expenseData[2].split(",");
-                Expense expense = new Expense(payerName, totalAmount, payeeList);
+                String[] payeeNames = expenseData[2].split(",");
+
+                List<String> payeeList = new ArrayList<>();
+                for (String payeeName : payeeNames) {
+                    payeeList.add(payeeName);
+                }
+
+                Expense expense = new Expense(payerName, totalAmount, payeeList.toArray(new String[0]));
                 group.addExpense(expense);
             }
 
