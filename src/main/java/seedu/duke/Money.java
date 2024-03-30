@@ -36,10 +36,9 @@ public class Money {
         return new Money(foreignAmount, resultCurrency);
     }
 
-    Money multiplication(Money other, CurrencyConversions resultCurrency) {
+    Money multiplication(double constant, CurrencyConversions resultCurrency) {
         double amountInSGD = this.convertToSGD().getAmount();
-        double otherAmountInSGD = other.convertToSGD().getAmount();
-        double foreignAmount = (amountInSGD * otherAmountInSGD)
+        double foreignAmount = (amountInSGD * constant)
                 * resultCurrency.getRate();
         return new Money(foreignAmount, resultCurrency);
     }
