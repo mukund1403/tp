@@ -1,6 +1,8 @@
 package seedu.duke.storage;
 
+import javafx.util.Pair;
 import seedu.duke.Expense;
+import seedu.duke.ExpensesException;
 import seedu.duke.Group;
 import seedu.duke.User;
 import seedu.duke.exceptions.GroupLoadException;
@@ -14,7 +16,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -25,6 +26,8 @@ public class GroupStorage {
     private static final String MEMBERS_HEADER = "Members:";
     private static final String EXPENSES_HEADER = "Expenses:";
     private static final String EXPENSE_DELIMITER = ",";
+    private static final String PAYEE_DELIMITER = ":";
+    private static final String PAYEE_DATA_DELIMITER = ",";
 
     private final FileIO fileIO;
 
@@ -98,15 +101,21 @@ public class GroupStorage {
         writer.write(EXPENSES_HEADER);
         writer.newLine();
         for (Expense expense : expenses) {
-            String expenseData = String.format("%.2f%s%s%s%s",
-                    expense.getTotalAmount(), EXPENSE_DELIMITER,
-                    expense.getPayerName(), EXPENSE_DELIMITER,
-                    String.join(EXPENSE_DELIMITER, expense.getPayees()));
-            writer.write(expenseData);
+            StringBuilder expenseData = new StringBuilder();
+            expenseData.append(expense.getTotalAmount()).append(EXPENSE_DELIMITER)
+                    .append(expense.getPayerName()).append(EXPENSE_DELIMITER)
+                    .append(expense.getDescription()).append(EXPENSE_DELIMITER);
+
+            List<String> payeeData = new ArrayList<>();
+            for (Pair<String, Float> payee : expense.getPayees()) {
+                payeeData.add(payee.getKey() + PAYEE_DELIMITER + payee.getValue());
+            }
+            expenseData.append(String.join(PAYEE_DATA_DELIMITER, payeeData));
+
+            writer.write(expenseData.toString());
             writer.newLine();
         }
     }
-
     /**
      * Loads the group information from a file.
      *
@@ -169,16 +178,27 @@ public class GroupStorage {
     private void loadExpenses(BufferedReader reader, Group group) throws IOException {
         String line;
         while ((line = reader.readLine()) != null) {
-            String[] expenseData = line.split(EXPENSE_DELIMITER, 3);
+            String[] expenseData = line.split(EXPENSE_DELIMITER, 4);
             float totalAmount = Float.parseFloat(expenseData[0]);
             String payerName = expenseData[1];
-            String[] payeeNames = expenseData[2].split(EXPENSE_DELIMITER);
+            String description = expenseData[2];
+            String[] payeeData = expenseData[3].split(PAYEE_DATA_DELIMITER);
 
             List<String> payeeList = new ArrayList<>();
-            Collections.addAll(payeeList, payeeNames);
+            for (String payee : payeeData) {
+                String[] payeeInfo = payee.split(PAYEE_DELIMITER);
+                String payeeName = payeeInfo[0];
+                float amountDue = Float.parseFloat(payeeInfo[1]);
+                payeeList.add(payeeName + " " + amountDue);
+            }
 
-            Expense expense = new Expense(payerName, totalAmount, payeeList.toArray(new String[0]));
-            group.addExpense(expense);
+            try {
+                Expense expense = new Expense(false, payerName, description, totalAmount,
+                        payeeList.toArray(new String[0]));
+                group.addExpense(expense);
+            } catch (ExpensesException e) {
+                System.out.println("Error loading expense: " + e.getMessage());
+            }
         }
     }
 
