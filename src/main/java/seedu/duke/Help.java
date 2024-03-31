@@ -12,7 +12,8 @@ public class Help {
                     "expense <description> /unequal /amount <amount> /paid <paid_by> " +
                     "/user <user_1> <amount_owed> /user <user_2> <amount owed> ...: Add an expense SPLIT UNEQUALLY.\n" +
                     "list: List all expenses in the group.\n" +
-                    "balance <user_name>: Show user's balance.";
+                    "balance <user_name>: Show user's balance.\n" +
+                    "luck : luck is in the air tonight";
 
     static void printHelp() {
         System.out.println(prompt);

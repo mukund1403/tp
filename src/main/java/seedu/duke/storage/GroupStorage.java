@@ -1,6 +1,5 @@
 package seedu.duke.storage;
-
-import javafx.util.Pair;
+import seedu.duke.Pair;
 import seedu.duke.Expense;
 import seedu.duke.ExpensesException;
 import seedu.duke.Group;
