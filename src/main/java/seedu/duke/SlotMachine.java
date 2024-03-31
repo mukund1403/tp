@@ -93,22 +93,4 @@ public class SlotMachine {
         }
         return true;
     }
-
-//    public static void main(String[] args) {
-//        int rows = 9; // Total rows in the slot machine
-//        int cols = 9; // Total columns in the slot machine
-//        SlotMachine slotMachine = new SlotMachine(rows, cols);
-//        System.out.println("Initial Slot Machine:");
-//        System.out.println(slotMachine);
-//
-//        slotMachine.reroll();
-//        System.out.println("After Reroll");
-//        System.out.println(slotMachine);
-//        // Check if all characters in the middle rows are the same
-//        if (slotMachine.checkMiddleRows()) {
-//            System.out.println("All characters in the middle rows are the same.");
-//        } else {
-//            System.out.println("Not all characters in the middle rows are the same.");
-//        }
-//    }
 }
