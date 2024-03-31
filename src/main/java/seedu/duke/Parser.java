@@ -191,6 +191,10 @@ public class Parser {
 
 
             break;
+        case "gamble":
+            Gambling.printWelcome();
+            Gambling.startGambling();
+            break;
         case "list":
             // List code here
             break;

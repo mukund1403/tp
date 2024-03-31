@@ -1,6 +1,5 @@
 package seedu.duke.storage;
 
-import javafx.util.Pair;
 import seedu.duke.Expense;
 import seedu.duke.ExpensesException;
 import seedu.duke.Group;
@@ -107,9 +106,9 @@ public class GroupStorage {
                     .append(expense.getDescription()).append(EXPENSE_DELIMITER);
 
             List<String> payeeData = new ArrayList<>();
-            for (Pair<String, Float> payee : expense.getPayees()) {
-                payeeData.add(payee.getKey() + PAYEE_DELIMITER + payee.getValue());
-            }
+//            for (Pair<String, Float> payee : expense.getPayees()) {
+//                payeeData.add(payee.getKey() + PAYEE_DELIMITER + payee.getValue());
+//            }
             expenseData.append(String.join(PAYEE_DATA_DELIMITER, payeeData));
 
             writer.write(expenseData.toString());
