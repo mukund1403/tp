@@ -236,7 +236,7 @@ public class Group {
         if (amount > 0) {
             Settle settle = new Settle(payer, payee, amount);
             addExpense(settle);
-            System.out.println("Settled! " + payerName + " should pay " + payeeName + String.format("%.2f", amount));
+            System.out.println(payerName + " should pay " + payeeName + " " + String.format("%.2f", amount));
         } else {
             System.out.println(payerName + " does not owe " + payeeName + " any money.");
         }
@@ -258,6 +258,12 @@ public class Group {
                 for (Pair<String, Float> user : expense.getPayees()) {
                     if (user.getKey().equals(payee.getName())) {
                         totalAmount += user.getValue();
+                    }
+                }
+            } else if (expense.getPayer().equals(payee.getName())) {
+                for (Pair<String, Float> user : expense.getPayees()) {
+                    if (user.getKey().equals(payer.getName())) {
+                        totalAmount -= user.getValue();
                     }
                 }
             }
