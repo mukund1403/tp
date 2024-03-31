@@ -2,7 +2,7 @@ package seedu.duke;
 
 import java.util.Scanner;
 
-public class Gambling {
+public class Luck {
     private static final String icon =
             "                   .=*+::.                          \n" +
             "                   =*=-:::.                         \n" +

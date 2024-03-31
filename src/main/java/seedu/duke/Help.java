@@ -13,7 +13,7 @@ public class Help {
                     "/user <user_1> <amount_owed> /user <user_2> <amount owed> ...: Add an expense SPLIT UNEQUALLY.\n" +
                     "list: List all expenses in the group.\n" +
                     "balance <user_name>: Show user's balance.\n" +
-                    "gamble : gamble away your debts";
+                    "luck : luck is in the air tonight";
 
     static void printHelp() {
         System.out.println(prompt);
