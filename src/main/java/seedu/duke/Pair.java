@@ -1,5 +1,7 @@
 package seedu.duke;
 
+//@@author cs2030-reused
+//Utility class for Java Pair given in cs2030 module
 public class Pair<T, U> {
     private final T t;
     private final U u;
@@ -22,3 +24,4 @@ public class Pair<T, U> {
         return "(" + this.t + ", " + this.u + ")";
     }
 }
+//@@author
