@@ -10,18 +10,19 @@ import java.util.ArrayList;
 public class Expense {
     private String payerName;
     private float totalAmount;
-    private ArrayList<Pair<String,Float>> payees = new ArrayList<>();
+    private ArrayList<Pair<String, Float>> payees = new ArrayList<>();
 
     private String description;
 
     /**
      * Constructor to create new Expense
-     * @param isUnequal : Boolean showing whether expense is split unequally or not
-     * @param payerName : The name of the user who paid for the Expense
+     *
+     * @param isUnequal   : Boolean showing whether expense is split unequally or not
+     * @param payerName   : The name of the user who paid for the Expense
      * @param description : Description of the expense
      * @param totalAmount : The total amount before being divided
-     * @param payeeList : String array of people who are involved in the transaction
-     *                  (Index 0 is the payer and will also be added to the payees but as last index)
+     * @param payeeList   : String array of people who are involved in the transaction
+     *                    (Index 0 is the payer and will also be added to the payees but as last index)
      */
     public Expense(boolean isUnequal, String payerName, String description, float totalAmount, String[] payeeList)
             throws ExpensesException {
@@ -55,7 +56,7 @@ public class Expense {
         printSuccessMessage();
     }
 
-    Expense(String payerName, String description, float totalAmount, String[] payeeList){
+    Expense(String payerName, String description, float totalAmount, String[] payeeList) {
         Float amountDue = totalAmount / (payeeList.length + 1);
         for (String payee : payeeList) {
             payees.add(new Pair<>(payee, amountDue));
@@ -66,6 +67,9 @@ public class Expense {
         this.totalAmount = totalAmount;
         this.description = description;
         printSuccessMessage();
+    }
+
+    public Expense(User payer, double amount) {
     }
 
     //@@author Cohii2
@@ -80,26 +84,27 @@ public class Expense {
         return totalAmount;
     }
 
-    public ArrayList<Pair<String,Float>> getPayees() {
+    public ArrayList<Pair<String, Float>> getPayees() {
         return payees;
     }
 
     //@@author mukund1403
-    public String getDescription(){
+    public String getDescription() {
         return description;
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         String expensesDetails = "";
         expensesDetails += "description " + description + " and amount " + totalAmount +
                 " paid by " + payerName + " and split between:\n";
-        for(Pair<String,Float> payee : payees) {
-            expensesDetails += payee.getKey() + " who owes " + String.format("%.2f",payee.getValue()) + "\n";
+        for (Pair<String, Float> payee : payees) {
+            expensesDetails += payee.getKey() + " who owes " + String.format("%.2f", payee.getValue()) + "\n";
         }
         return expensesDetails;
     }
-    private void printSuccessMessage(){
+
+    void printSuccessMessage() {
         System.out.printf("Added new expense with description %s and amount %.2f paid by %s and split between:\n",
                 this.description, this.totalAmount, this.payerName);
         for (Pair<String, Float> payee : payees) {
@@ -107,14 +112,20 @@ public class Expense {
         }
         System.out.println();
     }
-    private String mergeBack(String[] splitArray){
+
+    private String mergeBack(String[] splitArray) {
         String mergedString = "";
-        for(int i = 0; i < splitArray.length-2; i++){
+        for (int i = 0; i < splitArray.length - 2; i++) {
             mergedString += splitArray[i].trim() + " ";
         }
-        mergedString += splitArray[splitArray.length-2];
+        mergedString += splitArray[splitArray.length - 2];
         return mergedString;
     }
+
+    public String getPayer() {
+        return payerName;
+    }
 }
+
 
 

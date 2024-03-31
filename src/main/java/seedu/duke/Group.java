@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.Optional;
 
 public class Group {
-    static final Map<String, Group> groups = new HashMap<>();
+    static Map<String, Group> groups = new HashMap<>();
     private static Optional<String> currentGroupName = Optional.empty();
     private static final GroupStorage groupStorage = new GroupStorage(new FileIOImpl());
 
@@ -37,6 +37,13 @@ public class Group {
      * @throws IllegalStateException If trying to create or join a new group while already in another group.
      */
     public static Optional<Group> getOrCreateGroup(String groupName) {
+
+        // Check if group name is empty
+        if (groupName == null || groupName.trim().isEmpty()) {
+            System.out.println("Group name cannot be empty. Please try again.");
+            return Optional.empty();
+        }
+
         // Check if user is accessing a group they are already in
         getCurrentGroup().ifPresent(currentGroup -> {
             if (currentGroup.getGroupName().equals(groupName)) {
@@ -56,6 +63,7 @@ public class Group {
 
         Optional<Group> group = Optional.ofNullable(groups.get(groupName));
 
+        // Create a new group if it doesn't exist
         if (group.isEmpty()) {
             Group newGroup = new Group(groupName);
             groups.put(groupName, newGroup);
@@ -89,7 +97,7 @@ public class Group {
                     System.out.println("Group does not exist.");
                     return Optional.empty();
                 }
-            // @@author hafizuddin-a
+                // @@author hafizuddin-a
             } catch (GroupLoadException e) {
                 System.out.println("Error loading group: " + e.getMessage());
                 return Optional.empty();
@@ -212,6 +220,49 @@ public class Group {
      */
     public List<Expense> getExpenseList() {
         return new ArrayList<>(expenseList);
+    }
+
+    public void settle(String payerName, String payeeName) {
+        User payer = findUser(payerName);
+        User payee = findUser(payeeName);
+
+        if (payer == null || payee == null) {
+            System.out.println("User not found.");
+            return;
+        }
+
+        double amount = calculateOutstandingAmount(payee, payer);
+
+        if (amount > 0) {
+            Settle settle = new Settle(payer, payee, amount);
+            addExpense(settle);
+            System.out.println("Settled! " + payerName + " should pay " + payeeName + String.format("%.2f", amount));
+        } else {
+            System.out.println(payerName + " does not owe " + payeeName + " any money.");
+        }
+    }
+
+    private User findUser(String userName) {
+        for (User user : members) {
+            if (user.getName().equals(userName)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    private double calculateOutstandingAmount(User payer, User payee) {
+        double totalAmount = 0;
+        for (Expense expense : expenseList) {
+            if (expense.getPayer().equals(payer.getName())) {
+                for (Pair<String, Float> user : expense.getPayees()) {
+                    if (user.getKey().equals(payee.getName())) {
+                        totalAmount += user.getValue();
+                    }
+                }
+            }
+        }
+        return totalAmount;
     }
 }
 

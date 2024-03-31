@@ -175,20 +175,33 @@ public class Parser {
             ArrayList<String> payeeList = params.get("user");
             String payerName = params.get("paid").get(0);
             //payeeList.add(0, payerName);
-            if(this.argument.isEmpty()){
+            if (this.argument.isEmpty()) {
                 System.out.println("Warning! Empty description");
             }
 
             //Adding expenses split equally and unequally
             Expense newTransaction;
-            if(userInput.contains("/unequal")){
+            if (userInput.contains("/unequal")) {
                 newTransaction = new Expense(true, payerName, this.argument,
                         totalAmount, payeeList.toArray(new String[0]));
-            } else{
+            } else {
                 newTransaction = new Expense(payerName, this.argument, totalAmount, payeeList.toArray(new String[0]));
             }
             currentGroup.get().addExpense(newTransaction);
 
+
+            break;
+        case "settle":
+            String[] commandParts = userInput.split(" ");
+            if (commandParts.length < 4 || !commandParts[2].equals("/user")) {
+                System.out.println("Invalid command. Syntax: settle payerName /user payeeName");
+                return;
+            }
+
+            String payer = commandParts[1];
+            String payee = commandParts[3];
+
+            Group.getCurrentGroup().ifPresent(group -> group.settle(payer, payee));
 
             break;
         case "luck":
