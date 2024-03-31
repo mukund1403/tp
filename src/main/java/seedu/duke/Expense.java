@@ -56,7 +56,7 @@ public class Expense {
     }
 
     Expense(String payerName, String description, float totalAmount, String[] payeeList){
-        Float amountDue = totalAmount / payeeList.length;
+        Float amountDue = totalAmount / (payeeList.length + 1);
         for (String payee : payeeList) {
             payees.add(new Pair<>(payee, amountDue));
         }
@@ -84,6 +84,7 @@ public class Expense {
         return payees;
     }
 
+    //@@author mukund1403
     public String getDescription(){
         return description;
     }
