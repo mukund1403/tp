@@ -1,6 +1,10 @@
 package seedu.duke.storage;
 
-import seedu.duke.*;
+import seedu.duke.Pair;
+import seedu.duke.Expense;
+import seedu.duke.ExpensesException;
+import seedu.duke.Group;
+import seedu.duke.User;
 import seedu.duke.exceptions.GroupLoadException;
 import seedu.duke.exceptions.GroupSaveException;
 

@@ -17,4 +17,5 @@ expense <description> /amount <amount> /paid <paid_by> /user <user_1> /user <use
 expense <description> /unequal /amount <amount> /paid <paid_by> /user <user_1> <amount_owed> /user <user_2> <amount owed> ...: Add an expense SPLIT UNEQUALLY.
 list: List all expenses in the group.
 balance <user_name>: Show user's balance.
+luck : luck is in the air tonight
 Goodbye!
