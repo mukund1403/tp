@@ -1,11 +1,14 @@
 package seedu.duke;
 
 import org.junit.jupiter.api.Test;
+import seedu.duke.exceptions.ExpensesException;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
 
+//@@author Cohii2
 public class BalanceTest {
     @Test
     public void testConstructor() throws ExpensesException {

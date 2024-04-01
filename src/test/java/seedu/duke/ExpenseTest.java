@@ -1,6 +1,7 @@
 package seedu.duke;
 
 import org.junit.jupiter.api.Test;
+import seedu.duke.exceptions.ExpensesException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

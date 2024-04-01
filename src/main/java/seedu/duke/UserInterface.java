@@ -1,5 +1,6 @@
 package seedu.duke;
 
+
 public class UserInterface {
 
     private static final String SUCCESS_BORDER = "<----------SUCCESS----------->";
