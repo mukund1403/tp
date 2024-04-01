@@ -24,6 +24,9 @@ public class Settle extends Expense {
      */
     public Settle(User payer, User payee, double amount) {
         super(payer, amount);
+        assert payer != null : "Payer cannot be null";
+        assert payee != null : "Payee cannot be null";
+        assert amount >= 0 : "Amount cannot be negative";
         this.payer = payer;
         this.payee = payee;
         this.amount = amount;
@@ -37,24 +40,6 @@ public class Settle extends Expense {
 
     public String getPayer() {
         return payer.getName();
-    }
-
-    /**
-     * Returns the user who is receiving the payment.
-     *
-     * @return The user who is receiving the payment
-     */
-    public String getPayee() {
-        return payee.getName();
-    }
-
-    /**
-     * Returns the amount of the payment.
-     *
-     * @return The amount of the payment
-     */
-    public double getAmount() {
-        return amount;
     }
 
     /**
