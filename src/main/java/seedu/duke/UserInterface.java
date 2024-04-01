@@ -1,7 +1,5 @@
 package seedu.duke;
 
-import java.io.PrintStream;
-
 public class UserInterface {
 
     private static final String SUCCESS_BORDER = "<----------SUCCESS----------->";
@@ -9,20 +7,20 @@ public class UserInterface {
     private static final String DEFAULT_BORDER = "<---------------------------->";
     private static final String HAPPY_CAT =
             "  /\\_/\\\n" +
-            " ( ^.^ )\n" +
-            "  > ^ <";
+                    " ( ^.^ )\n" +
+                    "  > ^ <";
     private static final String GRUMPY_CAT =
             "  /\\_/\\\n" +
-            " ( >_< )\n" +
-            "  > ^ <";
+                    " ( >_< )\n" +
+                    "  > ^ <";
 
     private static final String SAD_CAT =
             "  /\\_/\\\n" +
-            " ( ._. )\n" +
-            "  > ^ <";
+                    " ( ._. )\n" +
+                    "  > ^ <";
 
     public static void printMessage(String message, MessageType type) {
-        switch(type) {
+        switch (type) {
         case SUCCESS:
             System.out.println(HAPPY_CAT);
             System.out.println(SUCCESS_BORDER);
@@ -30,6 +28,8 @@ public class UserInterface {
         case ERROR:
             System.out.println(GRUMPY_CAT);
             System.out.println(ERROR_BORDER);
+            break;
+        default:
             break;
         }
 
