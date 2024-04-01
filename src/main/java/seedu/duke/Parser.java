@@ -1,5 +1,9 @@
 package seedu.duke;
 
+import seedu.duke.commands.ExpenseCommand;
+import seedu.duke.commands.ListCommand;
+import seedu.duke.exceptions.ExpensesException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -147,56 +151,14 @@ public class Parser {
             GroupCommand.exitGroup();
             break;
         case "expense":
-            // Checks if user is currently in a Group
-            Optional<Group> currentGroup = Group.getCurrentGroup();
-            if (currentGroup.isEmpty()) {
-                String exceptionMessage = "Not signed in to a Group! Use 'create <name>' to create Group";
-                throw new ExpensesException(exceptionMessage);
-            }
-            // Checks for missing Expense Parameters
-            String[] expenseParams = {"amount", "paid", "user"};
-            for (String expenseParam : expenseParams) {
-                if (params.get(expenseParam).isEmpty()) {
-                    String exceptionMessage = "No " + expenseParam + " for expenses! Add /" + expenseParam;
-                    throw new ExpensesException(exceptionMessage);
-                }
-            }
-
-            // Checks if amount is a valid Float
-            float totalAmount;
-            try {
-                totalAmount = Float.parseFloat(params.get("amount").get(0));
-            } catch (NumberFormatException e) {
-                String exceptionMessage = "Re-enter expense with amount as a proper number.";
-                throw new ExpensesException(exceptionMessage);
-            }
-
-            // Obtain necessary information from 'params' and create new Expense
-            ArrayList<String> payeeList = params.get("user");
-            String payerName = params.get("paid").get(0);
-            //payeeList.add(0, payerName);
-            if(this.argument.isEmpty()){
-                System.out.println("Warning! Empty description");
-            }
-
-            //Adding expenses split equally and unequally
-            Expense newTransaction;
-            if(userInput.contains("/unequal")){
-                newTransaction = new Expense(true, payerName, this.argument,
-                        totalAmount, payeeList.toArray(new String[0]));
-            } else{
-                newTransaction = new Expense(payerName, this.argument, totalAmount, payeeList.toArray(new String[0]));
-            }
-            currentGroup.get().addExpense(newTransaction);
-
-
+            ExpenseCommand.addExpense(params, argument, userInput);
             break;
         case "luck":
             Luck.printWelcome();
             Luck.startGambling();
             break;
         case "list":
-            // List code here
+            ListCommand.printList();
             break;
         case "balance":
             // Checks if user is currently in a Group
@@ -216,11 +178,11 @@ public class Parser {
             balance.printBalance();
             break;
         default:
-            // Default clause
             System.out.println("That is not a command. " +
                     "Please use one of the commands given here");
             Help.printHelp();
             break;
         }
     }
+
 }

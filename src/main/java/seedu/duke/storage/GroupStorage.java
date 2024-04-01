@@ -2,7 +2,7 @@ package seedu.duke.storage;
 
 import seedu.duke.Pair;
 import seedu.duke.Expense;
-import seedu.duke.ExpensesException;
+import seedu.duke.exceptions.ExpensesException;
 import seedu.duke.Group;
 import seedu.duke.User;
 import seedu.duke.exceptions.GroupLoadException;
@@ -184,17 +184,19 @@ public class GroupStorage {
             String description = expenseData[2];
             String[] payeeData = expenseData[3].split(PAYEE_DATA_DELIMITER);
 
-            List<String> payeeList = new ArrayList<>();
+            //List<String> payeeList = new ArrayList<>();
+            ArrayList<Pair<String,Float>> payeeList = new ArrayList<>();
             for (String payee : payeeData) {
                 String[] payeeInfo = payee.split(PAYEE_DELIMITER);
                 String payeeName = payeeInfo[0];
                 float amountDue = Float.parseFloat(payeeInfo[1]);
-                payeeList.add(payeeName + " " + amountDue);
+                //payeeList.add(payeeName + " " + amountDue);
+                payeeList.add(new Pair<>(payeeName,amountDue));
             }
 
             try {
                 Expense expense = new Expense(false, payerName, description, totalAmount,
-                        payeeList.toArray(new String[0]));
+                        payeeList);
                 group.addExpense(expense);
             } catch (ExpensesException e) {
                 System.out.println("Error loading expense: " + e.getMessage());

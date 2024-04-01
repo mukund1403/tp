@@ -1,4 +1,4 @@
-package seedu.duke;
+package seedu.duke.exceptions;
 
 public class ExpensesException extends Exception {
     public ExpensesException(String s, Throwable err){

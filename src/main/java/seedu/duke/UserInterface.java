@@ -1,6 +1,5 @@
 package seedu.duke;
 
-import java.io.PrintStream;
 
 public class UserInterface {
 
@@ -30,6 +29,8 @@ public class UserInterface {
         case ERROR:
             System.out.println(GRUMPY_CAT);
             System.out.println(ERROR_BORDER);
+            break;
+        default:
             break;
         }
 

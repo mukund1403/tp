@@ -1,5 +1,7 @@
 package seedu.duke;
 
+import seedu.duke.exceptions.ExpensesException;
+
 import java.util.Scanner;
 
 public class Duke {
