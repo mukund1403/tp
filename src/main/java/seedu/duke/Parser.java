@@ -153,6 +153,19 @@ public class Parser {
         case "expense":
             ExpenseCommand.addExpense(params, argument, userInput);
             break;
+        case "settle":
+            String[] commandParts = userInput.split(" ");
+            if (commandParts.length < 4 || !commandParts[2].equals("/user")) {
+                System.out.println("Invalid command. Syntax: settle payerName /user payeeName");
+                return;
+            }
+
+            String payer = commandParts[1];
+            String payee = commandParts[3];
+
+            Group.getCurrentGroup().ifPresent(group -> group.settle(payer, payee));
+
+            break;
         case "luck":
             Luck.printWelcome();
             Luck.startGambling();

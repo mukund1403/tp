@@ -13,16 +13,18 @@ import java.util.ArrayList;
 public class Expense {
     private String payerName;
     private float totalAmount;
-    private ArrayList<Pair<String,Float>> payees = new ArrayList<>();
+    private ArrayList<Pair<String, Float>> payees = new ArrayList<>();
 
     private String description;
 
     /**
      * Constructor to create new Expense
-     * @param isUnequal : Boolean showing whether expense is split unequally or not
-     * @param payerName : The name of the user who paid for the Expense
+     *
+     * @param isUnequal   : Boolean showing whether expense is split unequally or not
+     * @param payerName   : The name of the user who paid for the Expense
      * @param description : Description of the expense
      * @param totalAmount : The total amount before being divided
+<<<<<<< HEAD
      * @param payees : ArrayList of pairs containing names of people who are involved in the transaction and
      *               the amount they owe (Index 0 is the payer and will also be added to the payees but as last index)
      */
@@ -44,6 +46,9 @@ public class Expense {
         printSuccessMessage();
     }
 
+    public Expense(User payer, double amount) {
+    }
+
     //@@author Cohii2
     public String getPayerName() {
         return payerName;
@@ -56,26 +61,27 @@ public class Expense {
         return totalAmount;
     }
 
-    public ArrayList<Pair<String,Float>> getPayees() {
+    public ArrayList<Pair<String, Float>> getPayees() {
         return payees;
     }
 
     //@@author mukund1403
-    public String getDescription(){
+    public String getDescription() {
         return description;
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         String expensesDetails = "";
         expensesDetails += "description " + description + " and amount " + totalAmount +
                 " paid by " + payerName + " and split between:\n";
-        for(Pair<String,Float> payee : payees) {
-            expensesDetails += payee.getKey() + " who owes " + String.format("%.2f",payee.getValue()) + "\n";
+        for (Pair<String, Float> payee : payees) {
+            expensesDetails += payee.getKey() + " who owes " + String.format("%.2f", payee.getValue()) + "\n";
         }
         return expensesDetails;
     }
-    private void printSuccessMessage(){
+
+    void printSuccessMessage() {
         System.out.printf("Added new expense with description %s and amount %.2f paid by %s and split between:\n",
                 this.description, this.totalAmount, this.payerName);
         for (Pair<String, Float> payee : payees) {
@@ -83,6 +89,11 @@ public class Expense {
         }
         System.out.println();
     }
+
+    public String getPayer() {
+        return payerName;
+    }
 }
+
 
 

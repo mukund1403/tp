@@ -8,20 +8,20 @@ public class UserInterface {
     private static final String DEFAULT_BORDER = "<---------------------------->";
     private static final String HAPPY_CAT =
             "  /\\_/\\\n" +
-            " ( ^.^ )\n" +
-            "  > ^ <";
+                    " ( ^.^ )\n" +
+                    "  > ^ <";
     private static final String GRUMPY_CAT =
             "  /\\_/\\\n" +
-            " ( >_< )\n" +
-            "  > ^ <";
+                    " ( >_< )\n" +
+                    "  > ^ <";
 
     private static final String SAD_CAT =
             "  /\\_/\\\n" +
-            " ( ._. )\n" +
-            "  > ^ <";
+                    " ( ._. )\n" +
+                    "  > ^ <";
 
     public static void printMessage(String message, MessageType type) {
-        switch(type) {
+        switch (type) {
         case SUCCESS:
             System.out.println(HAPPY_CAT);
             System.out.println(SUCCESS_BORDER);
