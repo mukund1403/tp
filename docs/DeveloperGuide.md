@@ -8,12 +8,14 @@ original source as well}
 ## Design & implementation
 
 {Describe the design and implementation of the product. Use UML diagrams and short code snippets where applicable.}
+
 ### Help menu feature
+
 #### Implementation
-The "help" feature is facilitated by the  `Help` class. 
+
+The "help" feature is facilitated by the  `Help` class.
 It provides a static method `printHelp` to print out a guide on how to use the commands in the application.
 `printHelp` can be used in the event the user issues an invalid command
-
 
 ### Group Creation feature
 
@@ -55,29 +57,51 @@ steps:
 
 #### Implementation
 
-The Expenses feature is facilitated through the Expense class. It allows users to add a new Expense through creation of a new Expense object. Users can specify amount paid, the payee, and the members of the group involved in the transaction.
+The Expenses feature is facilitated through the Expense class. It allows users to add a new Expense through creation of
+a new Expense object. Users can specify amount paid, the payee, and the members of the group involved in the
+transaction.
 Additionally, it implements the following operations:
+
 + `Expenses#payer()` - Gives the name of the member who paid for the expense
 + `Expenses#totalAmount()` - Returns the total amount of the expense
 + `Expenses#payees()` - Returns all the members involved in the transaction
 
-These operations are exposed in the Expense class through the `getPayerName()`, `getTotalAmount()`, and `getPayees()` functions respectively.
+These operations are exposed in the Expense class through the `getPayerName()`, `getTotalAmount()`, and `getPayees()`
+functions respectively.
 
 ### Balance feature
 
 #### Implementation
 
-The Balance feature is facilitated through the Balance class. 
+The Balance feature is facilitated through the Balance class.
 It allows a user to view a printed list of other users in the Group, and the amount that is owed by/to each user.
 
 Each `Balance` object contains a String of a user `userName`,
 and a Map `balanceList`. This Map uses String of other users' usernames as Key, and
-a Float of the amount that is owed by/to each user. 
+a Float of the amount that is owed by/to each user.
 
 To print a user's Balance List, perform the following steps:
+
 1. Create a `Balance` object with the params String `userName` and the current Group `group`.
 2. From the `members` and `expenseList` List items in `group`, the Map `balanceList` is populated.
 3. Call method `printBalance()` to print the contents of the Map `balanceList`.
+
+### Settle feature
+
+#### Implementation
+
+The Settle feature is facilitated through the Settle class.
+It allows a user to settle the debts between two users in a Group.
+
+The `Settle` class contains a `settleDebt(String userName1, String userName2)` method.
+This method takes in two Strings `userName1` and `userName2` as parameters, representing the two users to settle the
+debt between.
+The method then prints out the amount that is owed by `userName1` to `userName2`, and the amount that is owed
+by `userName2` to `userName1`.
+It then prints out the total amount that is owed between the two users, and prompts the user to enter the amount to
+settle the debt.
+The method then prints out the amount that is owed by `userName1` to `userName2`, and the amount that is owed
+by `userName2` to `userName1` after the settlement.
 
 ## Product scope
 
@@ -93,7 +117,6 @@ The application gives an accurate and simple way to represent unsettled debts be
 
 ## User Stories
 
-
 | Version | As a ... | I want to ...                                                  | So that I can ...                                           |
 |---------|----------|----------------------------------------------------------------|-------------------------------------------------------------|
 | v1.0    | new user | see usage instructions                                         | refer to them when I forget how to use the application      |
@@ -102,7 +125,6 @@ The application gives an accurate and simple way to represent unsettled debts be
 | v1.0    | user     | list all expenses within a group                               | see recent transactions                                     |
 | v1.0    | user     | check how much I owe each member in the group                  | keep track of my debts                                      |
 | v2.0    | user     | find a to-do item by name                                      | locate a to-do without having to go through the entire list |
-
 
 ## Non-Functional Requirements
 
