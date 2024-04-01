@@ -4,7 +4,7 @@ package seedu.duke.exceptions;
  * Represents an exception that occurs when saving group information fails.
  * This exception is thrown when an error occurs while saving a group to a file.
  */
-public class GroupSaveException extends Exception {
+public class GroupSaveException extends UniversalExceptions {
     /**
      * Constructs a new GroupSaveException with the specified detail message.
      *
