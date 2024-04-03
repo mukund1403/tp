@@ -2,7 +2,8 @@
 
 ## Introduction
 
-{Give a product intro}
+Split-liang is an application that helps you split expenses with friends in a fun way!
+
 
 ## Quick Start
 
@@ -15,28 +16,72 @@
 
 {Give detailed description of each feature}
 
-### Adding a todo: `todo`
-Adds a new item to the list of todo items.
+### Viewing help: `help`
+Shows a message explaining how to use the application.
 
-Format: `todo n/TODO_NAME d/DEADLINE`
+Format: `help`
 
-* The `DEADLINE` can be in a natural language format.
-* The `TODO_NAME` cannot contain punctuation.  
+### Creating a group: `create group`
 
-Example of usage: 
+Creates a new group with the specified group name.
 
-`todo n/Write the rest of the User Guide d/next week`
+Format: `create group GROUP_NAME`
 
-`todo n/Refactor the User Guide to remove passive voice d/13/04/2020`
+- `GROUP_NAME` is the name of the group.
+
+Example: `create Friends`
+
+This command will create a new group named 'Friends'.
+
+### Entering a group: `enter`
+
+Enters an existing group with the specified group name.
+
+Format: `enter GROUP_NAME`
+
+- `GROUP_NAME` is the name of the group.
+
+Example: `enter Friends`
+
+This command will enter the group named 'Friends'.
+
+### Exiting a group: `exit`
+
+Exits the current group.
+
+Format: `exit GROUP_NAME`
+
+Example: `exit Friends`
+
+This command will exit the current group.
+
+### Settle expenses: `settle`
+
+Settles the expenses between two users in the group.
+
+Format: `settle USER_NAME1 /user USER_NAME2`
+
+- `USER_NAME1` is the name of the first user.
+- `USER_NAME2` is the name of the second user.
+- `/user` is a keyword to indicate the start of the second user's name.
+
+Example: `settle Alice /user Bob`
+
+This command will settle the expenses between Alice and Bob, showing what Alice owes Bob.
+
 
 ## FAQ
 
-**Q**: How do I transfer my data to another computer? 
-
-**A**: {your answer here}
+1. **How do I create a new group?**
+   To create a new group, use the `create group` command followed by the group name.
 
 ## Command Summary
 
 {Give a 'cheat sheet' of commands here}
 
-* Add todo `todo n/TODO_NAME d/DEADLINE`
+- `help`: Shows a message explaining how to use the application.
+- `create group GROUP_NAME`: Creates a new group with the specified group name.
+- `enter GROUP_NAME`: Enters an existing group with the specified group name.
+- `exit`: Exits the current group.
+- `settle USER_NAME1 /user USER_NAME2`: Settles the expenses between two users in the group.
+- `bye`: Exits the application.
