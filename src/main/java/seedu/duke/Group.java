@@ -51,15 +51,7 @@ public class Group {
             }
         });
 
-        // If the user is in a different group, prevent them from creating or joining a new group.
-        if (isInGroup()) {
-            getCurrentGroup().ifPresent(currentGroup -> {
-                if (!currentGroup.getGroupName().equals(groupName)) {
-                    throw new IllegalStateException("Please exit the current group '" + currentGroup.getGroupName()
-                            + "' to create or join another group.");
-                }
-            });
-        }
+
 
         Optional<Group> group = Optional.ofNullable(groups.get(groupName));
 
@@ -73,6 +65,12 @@ public class Group {
         }
 
         System.out.println("You are now in " + groupName);
+
+        assert group.isPresent() : "Group should be created and present";
+        assert currentGroupName.isPresent() : "Current group name should be set";
+        assert currentGroupName.get().equals(groupName) : "Current group name should match the created or retrieved group";
+        assert groups.containsKey(groupName) : "Groups map should contain the new or retrieved group";
+
         return group;
     }
 
@@ -242,6 +240,13 @@ public class Group {
         }
     }
 
+    /**
+     * Finds a user by their name.
+     *
+     * @param userName The name of the user to find.
+     * @return The user with the given name, or null if the user is not found.
+     */
+
     private User findUser(String userName) {
         for (User user : members) {
             if (user.getName().equals(userName)) {
@@ -251,24 +256,66 @@ public class Group {
         return null;
     }
 
+    /**
+     * Calculates the outstanding amount between two users.
+     *
+     * @param payer The user who paid the expense.
+     * @param payee The user who owes money for the expense.
+     * @return The outstanding amount between the two users.
+     */
+
     private double calculateOutstandingAmount(User payer, User payee) {
         double totalAmount = 0;
         for (Expense expense : expenseList) {
-            if (expense.getPayer().equals(payer.getName())) {
-                for (Pair<String, Float> user : expense.getPayees()) {
-                    if (user.getKey().equals(payee.getName())) {
-                        totalAmount += user.getValue();
-                    }
-                }
-            } else if (expense.getPayer().equals(payee.getName())) {
-                for (Pair<String, Float> user : expense.getPayees()) {
-                    if (user.getKey().equals(payer.getName())) {
-                        totalAmount -= user.getValue();
-                    }
-                }
+            if (!isRelevantExpense(expense, payer, payee)) {
+                continue;
+            }
+
+            // Process the relevant expense
+            for (Pair<String, Float> userExpense : expense.getPayees()) {
+                totalAmount += calculateAdjustedAmount(expense, payer, payee, userExpense);
             }
         }
         return totalAmount;
+    }
+
+    /**
+     * Checks if an expense is relevant to the payer and payee.
+     *
+     * @param expense The expense to check.
+     * @param payer   The user who paid the expense.
+     * @param payee   The user who owes money for the expense.
+     * @return true if the expense is relevant to the payer and payee, false otherwise.
+     */
+    private boolean isRelevantExpense(Expense expense, User payer, User payee) {
+        String payerName = payer.getName();
+        String payeeName = payee.getName();
+        String expensePayer = expense.getPayer();
+
+        return expensePayer.equals(payerName) || expensePayer.equals(payeeName);
+    }
+
+    /**
+     * Calculates the adjusted amount for a user in an expense.
+     *
+     * @param expense     The expense to calculate the adjusted amount for.
+     * @param payer       The user who paid the expense.
+     * @param payee       The user who owes money for the expense.
+     * @param userExpense The user and the amount they owe for the expense.
+     * @return The adjusted amount for the user in the expense.
+     */
+
+    private double calculateAdjustedAmount(Expense expense, User payer, User payee, Pair<String, Float> userExpense) {
+        String payerName = payer.getName();
+        String payeeName = payee.getName();
+        String expensePayer = expense.getPayer();
+
+        if (userExpense.getKey().equals(payeeName) && expensePayer.equals(payerName)) {
+            return userExpense.getValue();
+        } else if (userExpense.getKey().equals(payerName) && expensePayer.equals(payeeName)) {
+            return -userExpense.getValue();
+        }
+        return 0;
     }
 }
 
