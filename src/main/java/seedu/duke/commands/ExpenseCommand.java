@@ -47,6 +47,11 @@ public class ExpenseCommand {
         currentGroup.get().addExpense(newTransaction);
     }
 
+    public static void deleteExpense(String argument){
+
+    }
+
+
     //@@author mukund1403
     private static Float checkTotal(HashMap <String, ArrayList<String>> params) throws ExpensesException {
         float totalAmount;
