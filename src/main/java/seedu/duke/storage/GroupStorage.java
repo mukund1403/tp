@@ -112,6 +112,7 @@ public class GroupStorage {
             writer.newLine();
         }
     }
+
     /**
      * Loads the group information from a file.
      *
@@ -140,7 +141,6 @@ public class GroupStorage {
             throw new GroupLoadException("An unexpected error occurred while loading the group: " + e.getMessage());
         }
     }
-
 
     /**
      * Loads the group name from the file.
