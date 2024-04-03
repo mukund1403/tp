@@ -45,6 +45,20 @@ Example: `enter Friends`
 
 This command will enter the group named 'Friends'.
 
+### Add members to group: `member`
+
+Adds a new member to the group.
+
+Format: `member USER_NAME`
+- `USER_NAME` is the name of the user to be added to the group. 
+
+Example: `member Alice`
+
+This command will add a new member named 'Alice' to the group.
+
+Output: `Alice has been added to group.`
+
+
 ### Exiting a group: `exit`
 
 Exits the current group.
@@ -69,11 +83,22 @@ Example: `settle Alice /user Bob`
 
 This command will settle the expenses between Alice and Bob, showing what Alice owes Bob.
 
+### Saving the data
+
+Split-liang automatically saves the data in each group to `GROUP_NAME.txt` in the `data` folder after the application exits. There is no need to save manually.
+
+The data is loaded automatically when the application starts.
+
+### Saying goodbye: `bye`
+
+This command exits the application.
 
 ## FAQ
 
-1. **How do I create a new group?**
-   To create a new group, use the `create group` command followed by the group name.
+1. **Q: How do I create a new group?**
+   - A: To create a new group, use the `create group` command followed by the group name.
+2. **Q: How do I transfer my data to another device?**
+   - A: You can copy the `data` folder to the new device to transfer your data. 
 
 ## Command Summary
 
@@ -82,6 +107,7 @@ This command will settle the expenses between Alice and Bob, showing what Alice 
 - `help`: Shows a message explaining how to use the application.
 - `create group GROUP_NAME`: Creates a new group with the specified group name.
 - `enter GROUP_NAME`: Enters an existing group with the specified group name.
+- `member USER_NAME`: Adds a new member to the group.
 - `exit`: Exits the current group.
 - `settle USER_NAME1 /user USER_NAME2`: Settles the expenses between two users in the group.
 - `bye`: Exits the application.
