@@ -55,6 +55,16 @@ Example: `exit Friends`
 
 This command will exit the current group.
 
+### Show balance of user: `balance`
+
+Shows list of members the user owes money to.
+
+Format: `balance USER_NAME`
+
+Example: `balance Shaoliang`
+
+This command will display the balance of the user named Shaoliang.
+
 ### Settle expenses: `settle`
 
 Settles the expenses between two users in the group.
