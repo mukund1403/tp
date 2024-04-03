@@ -4,6 +4,7 @@ package seedu.duke;
 
 import seedu.duke.exceptions.GroupLoadException;
 import seedu.duke.exceptions.GroupSaveException;
+import seedu.duke.storage.GroupNameChecker;
 import seedu.duke.storage.GroupStorage;
 import seedu.duke.storage.FileIOImpl;
 
@@ -17,6 +18,8 @@ public class Group {
     static Map<String, Group> groups = new HashMap<>();
     private static Optional<String> currentGroupName = Optional.empty();
     private static final GroupStorage groupStorage = new GroupStorage(new FileIOImpl());
+    private static GroupNameChecker groupNameChecker = new GroupNameChecker();
+
 
     private final String groupName;
     private final List<User> members;
@@ -47,7 +50,7 @@ public class Group {
         // Check if user is accessing a group they are already in
         getCurrentGroup().ifPresent(currentGroup -> {
             if (currentGroup.getGroupName().equals(groupName)) {
-                System.out.println("You are in " + groupName);
+                System.out.println("You are already in " + groupName);
             }
         });
 
@@ -64,12 +67,15 @@ public class Group {
         Optional<Group> group = Optional.ofNullable(groups.get(groupName));
 
         // Create a new group if it doesn't exist
-        if (group.isEmpty()) {
+        if (group.isEmpty() && !groupNameChecker.doesGroupNameExist(groupName)) {
             Group newGroup = new Group(groupName);
             groups.put(groupName, newGroup);
             System.out.println(groupName + " created.");
             currentGroupName = Optional.of(groupName);
             group = Optional.of(newGroup);
+        } else if (groupNameChecker.doesGroupNameExist(groupName)) {
+            System.out.println("Group already exists. Use 'enter " + groupName + "' to enter the group.");
+            return Optional.empty();
         }
 
         System.out.println("You are now in " + groupName);

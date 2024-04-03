@@ -203,27 +203,4 @@ public class GroupStorage {
             }
         }
     }
-
-    /**
-     * Loads all the group names from the saved files.
-     *
-     * @return a list of group names
-     */
-    public List<String> loadGroupNames() {
-        List<String> groupNames = new ArrayList<>();
-        try {
-            GroupFilePath.createGroupDirectory();
-            Path groupsDirectory = Paths.get(GroupFilePath.getGroupsDirectory());
-            try (DirectoryStream<Path> stream = Files.newDirectoryStream(groupsDirectory, "*.txt")) {
-                for (Path file : stream) {
-                    String fileName = file.getFileName().toString();
-                    String groupName = fileName.substring(0, fileName.lastIndexOf('.'));
-                    groupNames.add(groupName);
-                }
-            }
-        } catch (IOException e) {
-            System.out.println("An error occurred while loading group names.");
-        }
-        return groupNames;
-    }
 }
