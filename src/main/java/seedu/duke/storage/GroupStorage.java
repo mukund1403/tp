@@ -11,10 +11,6 @@ import seedu.duke.exceptions.GroupSaveException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -116,6 +112,7 @@ public class GroupStorage {
             writer.newLine();
         }
     }
+
     /**
      * Loads the group information from a file.
      *
@@ -129,13 +126,19 @@ public class GroupStorage {
             BufferedReader reader = fileIO.getFileReader(filePath);
 
             Group group = loadGroupName(reader);
+            if (group == null) {
+                throw new GroupLoadException("Failed to load group name from file.");
+            }
+
             loadMembers(reader, group);
             loadExpenses(reader, group);
 
             reader.close();
             return group;
         } catch (IOException e) {
-            throw new GroupLoadException("An error occurred while loading the group information.");
+            throw new GroupLoadException("An error occurred while loading the group: " + e.getMessage());
+        } catch (Exception e) {
+            throw new GroupLoadException("An unexpected error occurred while loading the group: " + e.getMessage());
         }
     }
 
@@ -147,8 +150,11 @@ public class GroupStorage {
      * @throws IOException if an I/O error occurs while reading from the file
      */
     private Group loadGroupName(BufferedReader reader) throws IOException {
-        String name = reader.readLine();
-        return Group.getOrCreateGroup(name).orElse(null);
+        String line = reader.readLine();
+        if (line != null && !line.isEmpty()) {
+            return new Group(line.trim());
+        }
+        return null;
     }
 
     /**
@@ -202,28 +208,5 @@ public class GroupStorage {
                 System.out.println("Error loading expense: " + e.getMessage());
             }
         }
-    }
-
-    /**
-     * Loads all the group names from the saved files.
-     *
-     * @return a list of group names
-     */
-    public List<String> loadGroupNames() {
-        List<String> groupNames = new ArrayList<>();
-        try {
-            GroupFilePath.createGroupDirectory();
-            Path groupsDirectory = Paths.get(GroupFilePath.getGroupsDirectory());
-            try (DirectoryStream<Path> stream = Files.newDirectoryStream(groupsDirectory, "*.txt")) {
-                for (Path file : stream) {
-                    String fileName = file.getFileName().toString();
-                    String groupName = fileName.substring(0, fileName.lastIndexOf('.'));
-                    groupNames.add(groupName);
-                }
-            }
-        } catch (IOException e) {
-            System.out.println("An error occurred while loading group names.");
-        }
-        return groupNames;
     }
 }
