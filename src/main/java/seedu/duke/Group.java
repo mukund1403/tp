@@ -18,11 +18,13 @@ public class Group {
     static Map<String, Group> groups = new HashMap<>();
     private static Optional<String> currentGroupName = Optional.empty();
     private static final GroupStorage groupStorage = new GroupStorage(new FileIOImpl());
+
     private static GroupNameChecker groupNameChecker = new GroupNameChecker();
 
+    private static List<User> members = null;
 
     private final String groupName;
-    private final List<User> members;
+
     private final List<Expense> expenseList;
 
     public Group(String groupName) {
@@ -160,7 +162,7 @@ public class Group {
      * @param memberName The name of the member to check.
      * @return true if the user is a member of the group, false otherwise.
      */
-    public boolean isMember(String memberName) {
+    public static boolean isMember(String memberName) {
         for (User member : members) {
             if (member.getName().equals(memberName)) {
                 return true;
