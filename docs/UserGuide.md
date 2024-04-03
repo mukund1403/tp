@@ -69,6 +69,16 @@ Example: `exit Friends`
 
 This command will exit the current group.
 
+### Show balance of user: `balance`
+
+Shows list of members the user owes money to.
+
+Format: `balance USER_NAME`
+
+Example: `balance Shaoliang`
+
+This command will display the balance of the user named Shaoliang.
+
 ### Settle expenses: `settle`
 
 Settles the expenses between two users in the group.
@@ -83,6 +93,31 @@ Example: `settle Alice /user Bob`
 
 This command will settle the expenses between Alice and Bob, showing what Alice owes Bob.
 
+
+### Create expenses: `expense`
+
+Create a new expense for a given group.
+
+#### Create expense split equally
+Format:`expense DESCRIPITON /amount AMOUNT /paid PAYER_USER_NAME /user USER_NAME /user USER_NAME`
+
+`PAYER_USER_NAME` is the username of the person who paid for the transaction.
+`USER_NAME` is the username of the payee.
+
+- The amount will be split equally between all members including the payer.
+- The expense will be added to a list of expenses.
+
+#### Create expense split unequally
+Format:`expense DESCRIPITON /unequal /amount TOTAL_AMOUNT 
+/paid PAYER_USER_NAME /user USER_NAME AMOUNT_OWED /user USER_NAME AMOUNT_OWED`
+
+`PAYER_USER_NAME` is the username of the person who paid for the transaction.
+`USER_NAME` is the username of the payee.
+`AMOUNT_OWED` is the amount owed by the 
+
+- The amount will be split unequally between all members including the payer based on the `AMOUNT_OWED`.
+- The expense will be added to a list of expenses.
+
 ### Saving the data
 
 Split-liang automatically saves the data in each group to `GROUP_NAME.txt` in the `data` folder after the application exits. There is no need to save manually.
@@ -92,6 +127,7 @@ The data is loaded automatically when the application starts.
 ### Saying goodbye: `bye`
 
 This command exits the application.
+
 
 ## FAQ
 
