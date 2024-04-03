@@ -94,10 +94,10 @@ public class Group {
             //@@author hafizuddin-a
             try {
                 // If the group doesn't exist in memory, try loading it from file
-                Group loadedGroup = groupStorage.loadGroupFromFile(groupName);
-                if (loadedGroup != null) {
-                    groups.put(groupName, loadedGroup);
-                    group = Optional.of(loadedGroup);
+                Optional<Group> loadedGroup = Optional.ofNullable(groupStorage.loadGroupFromFile(groupName));
+                if (loadedGroup.isPresent()) {
+                    groups.put(groupName, loadedGroup.get());
+                    group = loadedGroup;
                 } else {
                     //@@ author avrilgk
                     System.out.println("Group does not exist.");

@@ -1,4 +1,4 @@
-package seedu.duke;
+package seedu.duke.exceptions;
 
 public class UniversalExceptions extends Exception {
     private final String errorMessage;

@@ -190,13 +190,11 @@ public class GroupStorage {
             String description = expenseData[2];
             String[] payeeData = expenseData[3].split(PAYEE_DATA_DELIMITER);
 
-            //List<String> payeeList = new ArrayList<>();
             ArrayList<Pair<String,Float>> payeeList = new ArrayList<>();
             for (String payee : payeeData) {
                 String[] payeeInfo = payee.split(PAYEE_DELIMITER);
                 String payeeName = payeeInfo[0];
                 float amountDue = Float.parseFloat(payeeInfo[1]);
-                //payeeList.add(payeeName + " " + amountDue);
                 payeeList.add(new Pair<>(payeeName,amountDue));
             }
 
