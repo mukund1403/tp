@@ -25,7 +25,7 @@ public class Group {
     private final List<User> members;
     private final List<Expense> expenseList;
 
-    private Group(String groupName) {
+    public Group(String groupName) {
         this.groupName = groupName;
         this.members = new ArrayList<>();
         this.expenseList = new ArrayList<>();
