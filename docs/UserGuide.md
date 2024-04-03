@@ -93,6 +93,18 @@ Example: `settle Alice /user Bob`
 
 This command will settle the expenses between Alice and Bob, showing what Alice owes Bob.
 
+### Trying your luck: `luck`
+
+Play slots to remove debts
+
+Format: `luck` (Coming soon feature)
+
+- Enters the slot machine 
+  - `/reroll` to reroll the slots
+  - `/exit` to exit the slot machine
+  - Example: `/reroll`
+
+This command enable users play slots to remove their debts
 
 ### Create expenses: `expense`
 
