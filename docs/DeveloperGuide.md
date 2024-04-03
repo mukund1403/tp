@@ -93,13 +93,14 @@ To print a user's Balance List, perform the following steps:
 The Settle feature is facilitated through the Settle class.
 It allows a user to settle the debts between two users in a Group.
 
-The `Settle` class contains a `settleDebt(String userName1, String userName2)` method.
+ The `Settle` class contains a `settleDebt(String userName1, String userName2)` method.
 This method takes in two Strings `userName1` and `userName2` as parameters, representing the two users to settle the
 debt between.
+
 The method then prints out the amount that is owed by `userName1` to `userName2`, and the amount that is owed
-by `userName2` to `userName1`.
-It then prints out the total amount that is owed between the two users, and prompts the user to enter the amount to
+by `userName2` to `userName1`.  It then prints out the total amount that is owed between the two users, and prompts the user to enter the amount to
 settle the debt.
+
 The method then prints out the amount that is owed by `userName1` to `userName2`, and the amount that is owed
 by `userName2` to `userName1` after the settlement.
 
