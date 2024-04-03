@@ -16,15 +16,13 @@ public class ExpenseCommand {
             throws ExpensesException {
         Optional<Group> currentGroup = Group.getCurrentGroup();
         if (currentGroup.isEmpty()) {
-            String exceptionMessage = "Not signed in to a Group! Use 'create <name>' to create Group";
-            throw new ExpensesException(exceptionMessage);
+            throw new ExpensesException("Not signed in to a Group! Use 'create <name>' to create Group");
         }
 
         String[] expenseParams = {"amount", "paid", "user"};
         for (String expenseParam : expenseParams) {
             if (params.get(expenseParam).isEmpty()) {
-                String exceptionMessage = "No " + expenseParam + " for expenses! Add /" + expenseParam;
-                throw new ExpensesException(exceptionMessage);
+                throw new ExpensesException("No " + expenseParam + " for expenses! Add /" + expenseParam);
             }
         }
 
@@ -32,7 +30,17 @@ public class ExpenseCommand {
 
         // Obtain necessary information from 'params' and create new Expense
         ArrayList<String> payeeList = params.get("user");
+
+        for(String payee : payeeList){
+            if(!Group.isMember(payee)){
+                throw new ExpensesException(payee + " is not a member of the group!");
+            }
+        }
+
         String payerName = params.get("paid").get(0);
+        if(!Group.isMember(payerName)){
+            throw new ExpensesException(payerName + " is not a member of the group!");
+        }
         if(argument.isEmpty()){
             System.out.println("Warning! Empty description");
         }

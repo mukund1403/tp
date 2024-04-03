@@ -24,7 +24,6 @@ public class Expense {
      * @param payerName   : The name of the user who paid for the Expense
      * @param description : Description of the expense
      * @param totalAmount : The total amount before being divided
-     *
      * @param payees : ArrayList of pairs containing names of people who are involved in the transaction and
      *               the amount they owe (Index 0 is the payer and will also be added to the payees but as last index)
      */

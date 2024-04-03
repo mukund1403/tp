@@ -18,7 +18,6 @@ public class BalanceTest {
         users.add(new User("member2"));
         users.add(new User("member3"));
 
-        // public Expense(String payerName, String description, float totalAmount, ArrayList<Pair<String, Float>> payees){
         List<Expense> expenses = new ArrayList<>();
         expenses.add(new Expense(true, "member1", "expense1", 20f,
                 new ArrayList<>(Arrays.asList(
