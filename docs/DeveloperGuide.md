@@ -44,14 +44,15 @@ and allows users to add new members to an existing group. The implementation of 
 
 The Group class maintains a list of members as a `private List<User>` field called `members`.
 
-The `addMember(String memberName)` method is responsible for adding a new member to the group. It performs the following
-steps:
+Users can add a new member to the group by using the command `member USER_NAME`. The `addMember(String memberName)` method is responsible for adding a new member to the group. It performs the following steps:
 
 1. Checks if a user with the given `memberName` is already a member of the group using the `isMember(String memberName)`
    method.
 2. If the user is not a member, creates a new `User` object with the provided `memberName`.
 3. Adds the new `User` object to the `members` list.
 4. Prints a success message indicating that the member has been added to the group.
+
+![Sequence Diagram](AddMember.png)
 
 ### Expenses feature
 
