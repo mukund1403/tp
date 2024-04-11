@@ -19,6 +19,8 @@ import java.util.List;
  * Handles the saving and loading of group information to and from files.
  */
 public class GroupStorage {
+    public static boolean isLoading = false;
+
     private static final String MEMBERS_HEADER = "Members:";
     private static final String EXPENSES_HEADER = "Expenses:";
     private static final String EXPENSE_DELIMITER = ",";
@@ -121,6 +123,7 @@ public class GroupStorage {
      * @throws GroupLoadException if an error occurs while loading the group information
      */
     public Group loadGroupFromFile(String groupName) throws GroupLoadException {
+        isLoading = true;
         try {
             String filePath = GroupFilePath.getFilePath(groupName);
             BufferedReader reader = fileIO.getFileReader(filePath);
@@ -134,6 +137,7 @@ public class GroupStorage {
             loadExpenses(reader, group);
 
             reader.close();
+            isLoading = false;
             return group;
         } catch (IOException e) {
             throw new GroupLoadException("An error occurred while loading the group: " + e.getMessage());

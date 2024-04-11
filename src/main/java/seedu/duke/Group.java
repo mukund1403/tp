@@ -188,7 +188,9 @@ public class Group {
 
         User newMember = new User(memberName);
         members.add(newMember);
-        System.out.println(memberName + " has been added to " + groupName + ".");
+        if (!GroupStorage.isLoading) {
+            System.out.println(memberName + " has been added to " + groupName + ".");
+        }
         return newMember;
     }
 
