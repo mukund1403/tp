@@ -162,7 +162,7 @@ public class Group {
      */
     public static boolean isMember(String memberName) {
         for (User member : members) {
-            if (member.getName().equals(memberName)) {
+            if (member.getName().equalsIgnoreCase(memberName)) {
                 return true;
             }
         }
