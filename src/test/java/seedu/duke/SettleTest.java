@@ -31,41 +31,52 @@ public class SettleTest {
     @Test
     void testToString() {
         String expected = "Alice paid Bob 100.0";
-        assertEquals(expected, settle.toString(), "toString should return a string in the format 'payerName paid payeeName amount'");
+        assertEquals(expected, settle.toString(), "toString should return a string in the format 'payerName " +
+                "paid payeeName amount'");
     }
 
     @Test
     void testNegativeAmount() {
-        Exception exception = Assertions.assertThrows(IllegalArgumentException.class, () -> new Settle(payer, payee, -50.0),
+        Exception exception = Assertions.assertThrows(IllegalArgumentException.class,
+                () -> new Settle(payer, payee, -50.0),
                 "Constructor should throw IllegalArgumentException for negative amounts");
-        assertTrue(exception.getMessage().contains("Amount cannot be negative"), "Exception message should indicate the negative amount problem");
+        assertTrue(exception.getMessage().contains("Amount cannot be negative"),
+                "Exception message should indicate the negative amount problem");
     }
 
     @Test
     void testNullPayer() {
-        Exception exception = Assertions.assertThrows(IllegalArgumentException.class, () -> new Settle(null, payee, 50.0),
+        Exception exception = Assertions.assertThrows(IllegalArgumentException.class,
+                () -> new Settle(null, payee, 50.0),
                 "Constructor should throw IllegalArgumentException for null payer");
-        assertTrue(exception.getMessage().contains("Payer cannot be null"), "Exception message should indicate the null payer problem");
+        assertTrue(exception.getMessage().contains("Payer cannot be null"),
+                "Exception message should indicate the null payer problem");
     }
 
     @Test
     void testNullPayee() {
-        Exception exception = Assertions.assertThrows(IllegalArgumentException.class, () -> new Settle(payer, null, 50.0),
+        Exception exception = Assertions.assertThrows(IllegalArgumentException.class,
+                () -> new Settle(payer, null, 50.0),
                 "Constructor should throw IllegalArgumentException for null payee");
-        assertTrue(exception.getMessage().contains("Payee cannot be null"), "Exception message should indicate the null payee problem");
+        assertTrue(exception.getMessage().contains("Payee cannot be null"),
+                "Exception message should indicate the null payee problem");
     }
 
     @Test
     void testNullPayerAndPayee() {
-        Exception exception = Assertions.assertThrows(IllegalArgumentException.class, () -> new Settle(null, null, 50.0),
+        Exception exception = Assertions.assertThrows(IllegalArgumentException.class,
+                () -> new Settle(null, null, 50.0),
                 "Constructor should throw IllegalArgumentException for null payer and payee");
-        assertTrue(exception.getMessage().contains("Payer cannot be null"), "Exception message should indicate the null payer problem");
+        assertTrue(exception.getMessage().contains("Payer cannot be null"),
+                "Exception message should indicate the null payer problem");
     }
 
     @Test
     void testNullPayerPayeeAndAmount() {
-        Exception exception = Assertions.assertThrows(IllegalArgumentException.class, () -> new Settle(null, null, -50.0),
+        Exception exception = Assertions.assertThrows(IllegalArgumentException.class,
+                () -> new Settle(null, null, -50.0),
                 "Constructor should throw IllegalArgumentException for null payer, payee and negative amount");
-        assertTrue(exception.getMessage().contains("Payer cannot be null"), "Exception message should indicate the null payer problem");
+        assertTrue(exception.getMessage().contains("Payer cannot be null"),
+                "Exception message should indicate the null payer problem");
     }
 }
