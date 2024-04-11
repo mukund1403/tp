@@ -105,7 +105,7 @@ public class Group {
                 }
                 // @@author hafizuddin-a
             } catch (GroupLoadException e) {
-                System.out.println("Error loading group: " + e.getMessage());
+                System.out.println("Group does not exist.");
                 return Optional.empty();
             }
         }
