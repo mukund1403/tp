@@ -76,7 +76,8 @@ public class Group {
 
         assert group.isPresent() : "Group should be created and present";
         assert currentGroupName.isPresent() : "Current group name should be set";
-        assert currentGroupName.get().equals(groupName) : "Current group name should match the created or retrieved group";
+        assert currentGroupName.get().equals(groupName) : "Current group name should match " +
+                "the created or retrieved group";
         assert groups.containsKey(groupName) : "Groups map should contain the new or retrieved group";
 
         return group;
