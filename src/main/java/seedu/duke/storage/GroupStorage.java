@@ -137,12 +137,13 @@ public class GroupStorage {
             loadExpenses(reader, group);
 
             reader.close();
-            isLoading = false;
             return group;
         } catch (IOException e) {
             throw new GroupLoadException("An error occurred while loading the group: " + e.getMessage());
         } catch (Exception e) {
             throw new GroupLoadException("An unexpected error occurred while loading the group: " + e.getMessage());
+        } finally {
+            isLoading = false;
         }
     }
 
