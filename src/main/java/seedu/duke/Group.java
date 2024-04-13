@@ -41,6 +41,7 @@ public class Group {
      * @return The existing or newly created group.
      * @throws IllegalStateException If trying to create or join a new group while already in another group.
      */
+    //@@ author avrilgk
     public static Optional<Group> getOrCreateGroup(String groupName) {
 
         // Check if group name is empty
@@ -49,16 +50,13 @@ public class Group {
             return Optional.empty();
         }
 
-        // Check if user is accessing a group they are already in
-        getCurrentGroup().ifPresent(currentGroup -> {
-            if (currentGroup.getGroupName().equals(groupName)) {
-                System.out.println("You are already in " + groupName);
-            }
-        });
-
-
-
         Optional<Group> group = Optional.ofNullable(groups.get(groupName));
+
+        // Check if user is accessing a group they are already in
+        if (group.isPresent() && getCurrentGroup().isPresent() && getCurrentGroup().get().equals(group.get())) {
+            System.out.println("You are already in " + groupName);
+            return Optional.empty();
+        }
 
         // Create a new group if it doesn't exist
         if (group.isEmpty() && !groupNameChecker.doesGroupNameExist(groupName)) {
@@ -67,12 +65,11 @@ public class Group {
             System.out.println(groupName + " created.");
             currentGroupName = Optional.of(groupName);
             group = Optional.of(newGroup);
+            System.out.println("You are now in " + groupName);
         } else if (groupNameChecker.doesGroupNameExist(groupName)) {
             System.out.println("Group already exists. Use 'enter " + groupName + "' to enter the group.");
             return Optional.empty();
         }
-
-        System.out.println("You are now in " + groupName);
 
         assert group.isPresent() : "Group should be created and present";
         assert currentGroupName.isPresent() : "Current group name should be set";
@@ -106,7 +103,7 @@ public class Group {
                 }
                 // @@author hafizuddin-a
             } catch (GroupLoadException e) {
-                System.out.println("Error loading group: " + e.getMessage());
+                System.out.println("Group does not exist.");
                 return Optional.empty();
             }
         }
@@ -163,7 +160,7 @@ public class Group {
      */
     public static boolean isMember(String memberName) {
         for (User member : members) {
-            if (member.getName().equals(memberName)) {
+            if (member.getName().equalsIgnoreCase(memberName)) {
                 return true;
             }
         }
@@ -189,7 +186,9 @@ public class Group {
 
         User newMember = new User(memberName);
         members.add(newMember);
-        System.out.println(memberName + " has been added to " + groupName + ".");
+        if (!GroupStorage.isLoading) {
+            System.out.println(memberName + " has been added to " + groupName + ".");
+        }
         return newMember;
     }
 

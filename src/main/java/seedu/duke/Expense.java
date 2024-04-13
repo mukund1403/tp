@@ -3,6 +3,7 @@ package seedu.duke;
 
 
 import seedu.duke.exceptions.ExpensesException;
+import seedu.duke.storage.GroupStorage;
 
 import java.util.ArrayList;
 
@@ -81,12 +82,14 @@ public class Expense {
     }
 
     void printSuccessMessage() {
-        System.out.printf("Added new expense with description %s and amount %.2f paid by %s and split between:\n",
-                this.description, this.totalAmount, this.payerName);
-        for (Pair<String, Float> payee : payees) {
-            System.out.printf("%s who owes %.2f\n", payee.getKey(), payee.getValue());
+        if (!GroupStorage.isLoading) {
+            System.out.println("Added new expense with description " + description + " and amount " + totalAmount
+                    + " paid by " + payerName + " and split between:");
+            for (Pair<String, Float> payee : payees) {
+                System.out.println(payee.getKey() + " who owes " + String.format("%.2f", payee.getValue()));
+            }
+            System.out.println();
         }
-        System.out.println();
     }
 
     public String getPayer() {

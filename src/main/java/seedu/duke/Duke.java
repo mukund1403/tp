@@ -18,10 +18,10 @@ public class Duke {
                         "`------'`------'`------'`------'`------'`------'`------'`------'`------'`------'\n";
 
         System.out.println("Hello from\n" + logo);
-        System.out.println("What is your name?");
+        System.out.println("Start splitting your expenses now!");
 
         Scanner in = new Scanner(System.in);
-        System.out.println("Hello " + in.nextLine());
+
         Help.printHelp();
 
         while(in.hasNextLine()) {

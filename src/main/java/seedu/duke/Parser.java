@@ -129,7 +129,9 @@ public class Parser {
     public void handleUserInput() throws EndProgramException, ExpensesException {
         switch (command) {
         case "bye":
-            GroupCommand.exitGroup();
+            if (Group.isInGroup()) {
+                GroupCommand.exitGroup();
+            }
             throw new EndProgramException();
         case "help":
             // Help code here
