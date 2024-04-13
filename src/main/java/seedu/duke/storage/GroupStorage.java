@@ -136,7 +136,7 @@ public class GroupStorage {
             try {
                 loadMembers(reader, group);
                 loadExpenses(reader, group);
-            } catch (IOException e) {
+            } catch (IOException | GroupLoadException e) {
                 throw new GroupLoadException("Error loading group members or expenses: " + e.getMessage());
             }
 
@@ -173,11 +173,15 @@ public class GroupStorage {
      * @param group  the group to add the loaded members to
      * @throws IOException if an I/O error occurs while reading from the file
      */
-    private void loadMembers(BufferedReader reader, Group group) throws IOException {
+    private void loadMembers(BufferedReader reader, Group group) throws IOException, GroupLoadException {
+        String line = reader.readLine();
+        if (line == null || !line.equals(MEMBERS_HEADER)) {
+            throw new GroupLoadException("Invalid group data file. Missing or invalid 'Members:' header.");
+        }
+
         // Skip the "Members:" header
         reader.readLine();
 
-        String line;
         while ((line = reader.readLine()) != null && !line.equals(EXPENSES_HEADER)) {
             group.addMember(line);
         }
@@ -190,8 +194,11 @@ public class GroupStorage {
      * @param group  the group to add the loaded expenses to
      * @throws IOException if an I/O error occurs while reading from the file
      */
-    private void loadExpenses(BufferedReader reader, Group group) throws IOException {
-        String line;
+    private void loadExpenses(BufferedReader reader, Group group) throws IOException, GroupLoadException {
+        String line = reader.readLine();
+        if (line == null || !line.equals(EXPENSES_HEADER)) {
+            throw new GroupLoadException("Invalid group data file. Missing or invalid 'Expenses:' header.");
+        }
         while ((line = reader.readLine()) != null) {
             String[] expenseData = line.split(EXPENSE_DELIMITER, 4);
             float totalAmount = Float.parseFloat(expenseData[0]);
