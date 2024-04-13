@@ -8,7 +8,6 @@ import seedu.duke.storage.GroupNameChecker;
 import seedu.duke.storage.GroupStorage;
 import seedu.duke.storage.FileIOImpl;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
