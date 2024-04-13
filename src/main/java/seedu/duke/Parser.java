@@ -130,6 +130,7 @@ public class Parser {
         switch (command) {
         case "bye":
             if (Group.isInGroup()) {
+                argument = Group.getCurrentGroup().get().getGroupName();
                 GroupCommand.exitGroup(argument);
             }
             throw new EndProgramException();

@@ -1,10 +1,6 @@
 package seedu.duke.storage;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * Implements the FileIO interface.
@@ -33,5 +29,18 @@ public class FileIOImpl implements FileIO {
     @Override
     public BufferedWriter getFileWriter(String filePath) throws IOException {
         return new BufferedWriter(new FileWriter(filePath));
+    }
+
+    /**
+     * Deletes the file at the specified file path.
+     *
+     * @param filePath The path of the file to be deleted.
+     * @return true if the file was successfully deleted, false otherwise.
+     * @throws IOException If an I/O error occurs while deleting the file.
+     */
+    @Override
+    public boolean deleteFile(String filePath) throws IOException {
+        File file = new File(filePath);
+        return file.delete();
     }
 }

@@ -5,6 +5,7 @@ import seedu.duke.Expense;
 import seedu.duke.exceptions.ExpensesException;
 import seedu.duke.Group;
 import seedu.duke.User;
+import seedu.duke.exceptions.GroupDeleteException;
 import seedu.duke.exceptions.GroupLoadException;
 import seedu.duke.exceptions.GroupSaveException;
 
@@ -136,7 +137,7 @@ public class GroupStorage {
             try {
                 loadMembers(reader, group);
                 loadExpenses(reader, group);
-            } catch (IOException | GroupLoadException e) {
+            } catch (IOException e) {
                 throw new GroupLoadException("Error loading group members or expenses: " + e.getMessage());
             }
 
@@ -173,15 +174,13 @@ public class GroupStorage {
      * @param group  the group to add the loaded members to
      * @throws IOException if an I/O error occurs while reading from the file
      */
-    private void loadMembers(BufferedReader reader, Group group) throws IOException, GroupLoadException {
-        String line = reader.readLine();
-        if (line == null || !line.equals(MEMBERS_HEADER)) {
-            throw new GroupLoadException("Invalid group data file. Missing or invalid 'Members:' header.");
+    private void loadMembers(BufferedReader reader, Group group) throws IOException {
+        String header = reader.readLine();
+        if (header == null || !header.equals(MEMBERS_HEADER)) {
+            throw new IOException("Invalid group data file. Missing or invalid 'Members:' header.");
         }
 
-        // Skip the "Members:" header
-        reader.readLine();
-
+        String line;
         while ((line = reader.readLine()) != null && !line.equals(EXPENSES_HEADER)) {
             group.addMember(line);
         }
@@ -194,11 +193,8 @@ public class GroupStorage {
      * @param group  the group to add the loaded expenses to
      * @throws IOException if an I/O error occurs while reading from the file
      */
-    private void loadExpenses(BufferedReader reader, Group group) throws IOException, GroupLoadException {
-        String line = reader.readLine();
-        if (line == null || !line.equals(EXPENSES_HEADER)) {
-            throw new GroupLoadException("Invalid group data file. Missing or invalid 'Expenses:' header.");
-        }
+    private void loadExpenses(BufferedReader reader, Group group) throws IOException {
+        String line;
         while ((line = reader.readLine()) != null) {
             String[] expenseData = line.split(EXPENSE_DELIMITER, 4);
             float totalAmount = Float.parseFloat(expenseData[0]);
@@ -206,21 +202,38 @@ public class GroupStorage {
             String description = expenseData[2];
             String[] payeeData = expenseData[3].split(PAYEE_DATA_DELIMITER);
 
-            ArrayList<Pair<String,Float>> payeeList = new ArrayList<>();
+            ArrayList<Pair<String, Float>> payeeList = new ArrayList<>();
             for (String payee : payeeData) {
                 String[] payeeInfo = payee.split(PAYEE_DELIMITER);
                 String payeeName = payeeInfo[0];
                 float amountDue = Float.parseFloat(payeeInfo[1]);
-                payeeList.add(new Pair<>(payeeName,amountDue));
+                payeeList.add(new Pair<>(payeeName, amountDue));
             }
 
             try {
-                Expense expense = new Expense(false, payerName, description, totalAmount,
-                        payeeList);
+                Expense expense = new Expense(false, payerName, description, totalAmount, payeeList);
                 group.addExpense(expense);
             } catch (ExpensesException e) {
                 System.out.println("Error loading expense: " + e.getMessage());
             }
+        }
+    }
+
+    /**
+     * Deletes the group file for the specified group name.
+     *
+     * @param groupName the name of the group whose file needs to be deleted
+     * @throws GroupDeleteException if an error occurs while deleting the group file
+     */
+    public void deleteGroupFile(String groupName) throws GroupDeleteException {
+        try {
+            String filePath = GroupFilePath.getFilePath(groupName);
+            boolean deleted = fileIO.deleteFile(filePath);
+            if (!deleted) {
+                throw new GroupDeleteException("Failed to delete the group file.");
+            }
+        } catch (IOException e) {
+            throw new GroupDeleteException("An error occurred while deleting the group file: " + e.getMessage());
         }
     }
 }

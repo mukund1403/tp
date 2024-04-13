@@ -26,4 +26,13 @@ public interface FileIO {
      * @throws IOException If an I/O error occurs while creating the writer.
      */
     BufferedWriter getFileWriter(String filePath) throws IOException;
+
+    /**
+     * Deletes the file at the specified file path.
+     *
+     * @param filePath The path of the file to be deleted.
+     * @return true if the file was successfully deleted, false otherwise.
+     * @throws IOException If an I/O error occurs while deleting the file.
+     */
+    boolean deleteFile(String filePath) throws IOException;
 }
