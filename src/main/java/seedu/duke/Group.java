@@ -8,6 +8,7 @@ import seedu.duke.storage.GroupNameChecker;
 import seedu.duke.storage.GroupStorage;
 import seedu.duke.storage.FileIOImpl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -88,13 +89,20 @@ public class Group {
      */
     public static Optional<Group> enterGroup(String groupName) {
         if (currentGroupName.isPresent()) {
-            System.out.println("You are currently in " + currentGroupName.get() + ". Exit current group before entering another one.");
+            System.out.println("You are currently in " + currentGroupName.get() +
+                    ". Exit current group before entering another one.");
             return Optional.empty();
         }
 
         Optional<Group> group = Optional.ofNullable(groups.get(groupName));
         if (group.isEmpty()) {
             //@@author hafizuddin-a
+            GroupNameChecker groupNameChecker = new GroupNameChecker();
+            if (!groupNameChecker.doesGroupNameExist(groupName)) {
+                System.out.println("Group does not exist.");
+                return Optional.empty();
+            }
+
             try {
                 // If the group doesn't exist in memory, try loading it from file
                 Optional<Group> loadedGroup = Optional.ofNullable(groupStorage.loadGroupFromFile(groupName));
@@ -103,12 +111,16 @@ public class Group {
                     group = loadedGroup;
                 } else {
                     //@@ author avrilgk
-                    System.out.println("Group does not exist.");
+                    System.out.println("Unable to load group from file.");
                     return Optional.empty();
                 }
                 // @@author hafizuddin-a
             } catch (GroupLoadException e) {
-                System.out.println("Group does not exist.");
+                String errorMessage = e.getMessage();
+                if (errorMessage == null) {
+                    errorMessage = "Failed to load group from file.";
+                }
+                System.out.println(errorMessage);
                 return Optional.empty();
             }
         }
@@ -125,7 +137,8 @@ public class Group {
     public static void exitGroup(String groupName) {
         if (currentGroupName.isPresent()) {
             if (!currentGroupName.get().equals(groupName)) {
-                System.out.println("You are not currently in group " + groupName + ". Please enter the correct group name.");
+                System.out.println("You are not currently in group " + groupName
+                        + ". Please enter the correct group name.");
                 return;
             }
             //@@author hafizuddin-a

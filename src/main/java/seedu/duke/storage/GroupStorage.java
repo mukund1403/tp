@@ -23,7 +23,7 @@ public class GroupStorage {
 
     private static final String MEMBERS_HEADER = "Members:";
     private static final String EXPENSES_HEADER = "Expenses:";
-    private static final String EXPENSE_DELIMITER = ",";
+    private static final String EXPENSE_DELIMITER = "◇";
     private static final String PAYEE_DELIMITER = ":";
     private static final String PAYEE_DATA_DELIMITER = ",";
 
@@ -130,11 +130,15 @@ public class GroupStorage {
 
             Group group = loadGroupName(reader);
             if (group == null) {
-                throw new GroupLoadException("Failed to load group name from file.");
+                throw new GroupLoadException("Invalid group data file. Unable to load group name.");
             }
 
-            loadMembers(reader, group);
-            loadExpenses(reader, group);
+            try {
+                loadMembers(reader, group);
+                loadExpenses(reader, group);
+            } catch (IOException e) {
+                throw new GroupLoadException("Error loading group members or expenses: " + e.getMessage());
+            }
 
             reader.close();
             return group;
