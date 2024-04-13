@@ -87,7 +87,11 @@ Adds a new member to the group.
 
 Format: `member USER_NAME`
 
-`USER_NAME` is the name of the user to be added to the group.
+- `USER_NAME` is the name of the user to be added to the group.
+- `USER_NAME` must be unique. It cannot be the same as an existing member's name.
+- `USER_NAME` can contain whitespaces but cannot be empty.
+- `USER_NAME` is not case-sensitive.
+- `USER_NAME` can contain special characters.
 
 Example: `member Alice`
 
