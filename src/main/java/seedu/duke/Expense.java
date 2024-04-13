@@ -73,18 +73,18 @@ public class Expense {
     @Override
     public String toString() {
         String expensesDetails = "";
-        expensesDetails += "description " + description + " and amount " + totalAmount +
-                " paid by " + payerName + " and split between:\n";
+        expensesDetails += "description: " + description + "\n\tamount: " + String.format("%.2f",totalAmount) +
+                "\n\tpaid by: " + payerName + "\n\tThe split is:\n";
         for (Pair<String, Float> payee : payees) {
-            expensesDetails += payee.getKey() + " who owes " + String.format("%.2f", payee.getValue()) + "\n";
+            expensesDetails += "\t\t" + payee.getKey() + " : " + String.format("%.2f", payee.getValue()) + "\n";
         }
         return expensesDetails;
     }
 
     void printSuccessMessage() {
         if (!GroupStorage.isLoading) {
-            System.out.println("Added new expense with description " + description + " and amount " + totalAmount
-                    + " paid by " + payerName + " and split between:");
+            System.out.println("Added new expense with description " + description + " and amount " +
+                    String.format("%.2f",totalAmount) + " paid by " + payerName + " and split between:");
             for (Pair<String, Float> payee : payees) {
                 System.out.println(payee.getKey() + " who owes " + String.format("%.2f", payee.getValue()));
             }

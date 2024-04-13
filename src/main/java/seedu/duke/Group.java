@@ -201,6 +201,10 @@ public class Group {
         expenseList.add(expense);
     }
 
+    public void deleteExpense(int expenseIndex){
+        expenseList.remove(expenseIndex);
+    }
+
     /**
      * Retrieves the name of the group.
      *

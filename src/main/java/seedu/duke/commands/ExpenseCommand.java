@@ -7,6 +7,7 @@ import seedu.duke.Pair;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 public class ExpenseCommand {
@@ -26,25 +27,13 @@ public class ExpenseCommand {
             }
         }
 
-        float totalAmount = checkTotal(params);
-
-        // Obtain necessary information from 'params' and create new Expense
+        float totalAmount = getTotal(params);
         ArrayList<String> payeeList = params.get("user");
-
-        for(String payee : payeeList){
-            if(!Group.isMember(payee)){
-                throw new ExpensesException(payee + " is not a member of the group!");
-            }
-        }
-
         String payerName = params.get("paid").get(0);
-        if(!Group.isMember(payerName)){
-            throw new ExpensesException(payerName + " is not a member of the group!");
-        }
-        if(argument.isEmpty()){
-            System.out.println("Warning! Empty description");
-        }
 
+        checkDescription(argument);
+
+        //@@author mukund1403
         Expense newTransaction;
         ArrayList<Pair<String,Float>> payees = new ArrayList<>();
         if(userInput.contains("/unequal")){
@@ -55,22 +44,65 @@ public class ExpenseCommand {
         currentGroup.get().addExpense(newTransaction);
     }
 
-    public static void deleteExpense(String argument){
-
+    //@@author mukund1403
+    public static void deleteExpense(String argument) throws ExpensesException {
+        Optional<Group> currentGroup = Group.getCurrentGroup();
+        if (currentGroup.isEmpty()) {
+            String exceptionMessage = "Not signed in to a Group! Use 'create <name>' to create Group";
+            throw new ExpensesException(exceptionMessage);
+        }
+        List<Expense> expenseList = currentGroup.get().getExpenseList();
+        int listSize = expenseList.size();
+        int index = getListIndex(argument, listSize) - 1;
+        String deletedExpenseDescription = expenseList.get(index).toString();
+        currentGroup.get().deleteExpense(index);
+        System.out.println("Deleted expense:\n" + deletedExpenseDescription);
     }
 
+    private static void checkDescription(String argument) throws ExpensesException {
+        if(argument.isEmpty()){
+            System.out.println("Warning! Empty description");
+        } else if(argument.contains("◇")){
+            throw new ExpensesException("Special characters not allowed in description! " +
+                    "(Good try trynna catch a bug!)");
+        }
+    }
 
-    //@@author mukund1403
-    private static Float checkTotal(HashMap <String, ArrayList<String>> params) throws ExpensesException {
+    private static Float getTotal(HashMap <String, ArrayList<String>> params) throws ExpensesException {
         float totalAmount;
         try {
             totalAmount = Float.parseFloat(params.get("amount").get(0));
         } catch (NumberFormatException e) {
-            String exceptionMessage = "Re-enter expense with amount as a proper number.";
+            String exceptionMessage = "Re-enter expense with amount as a proper number. (Good bug to start with tbh!)";
+            throw new ExpensesException(exceptionMessage);
+        }
+        if(totalAmount <= 0){
+            String exceptionMessage = "Expense amount cannot be 0 or a negative number " +
+                    "(Can try using special characters. I have not handled that!)";
             throw new ExpensesException(exceptionMessage);
         }
         return totalAmount;
     }
+
+    private static int getListIndex(String listIndex, int listSize) throws ExpensesException {
+        int index;
+        try{
+            index = Integer.parseInt(listIndex);
+        } catch(NumberFormatException e){
+            String exceptionMessage = "Enter a list index that is an Integer";
+            throw new ExpensesException(exceptionMessage);
+        }
+
+        if(index > listSize){
+            String exceptionMessage = "List index is greater than list size";
+            throw new ExpensesException(exceptionMessage);
+        } else if (index <= 0){
+            String exceptionMessage = "List index cannot be negative";
+            throw new ExpensesException(exceptionMessage);
+        }
+        return index;
+    }
+
     private static Expense addUnequalExpense(ArrayList<String> payeeList,ArrayList<Pair<String,Float>> payees,
                                           float totalAmount,String payerName,String argument) throws ExpensesException{
         float amountDueByPayees = 0;
@@ -84,6 +116,7 @@ public class ExpenseCommand {
                 throw new ExpensesException(exceptionMessage);
             }
             String payeeName = mergeBack(payeeInfo);
+            checkPayeeInGroup(payeeName);
             try {
                 float amountDue = Float.parseFloat(payeeInfo[payeeInfo.length - 1]);
                 amountDueByPayees += amountDue;
@@ -103,13 +136,22 @@ public class ExpenseCommand {
     }
 
     private static Expense addEqualExpense(ArrayList<String> payeeList, ArrayList<Pair<String,Float>> payees,
-                                           float totalAmount, String payerName, String argument){
+                                           float totalAmount, String payerName, String argument) throws ExpensesException {
         Float amountDue = totalAmount / (payeeList.size() + 1);
         for (String payee : payeeList) {
+            checkPayeeInGroup(payee);
             payees.add(new Pair<>(payee, amountDue));
         }
+        checkPayeeInGroup(payerName);
         payees.add(new Pair<>(payerName, amountDue));
         return new Expense(payerName, argument, totalAmount, payees);
+    }
+
+    private static void checkPayeeInGroup(String payee)
+            throws ExpensesException {
+        if(!Group.isMember(payee)){
+            throw new ExpensesException(payee + " is not a member of the group!");
+        }
     }
 
     private static String mergeBack(String[] splitArray){
