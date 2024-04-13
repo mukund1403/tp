@@ -87,6 +87,11 @@ public class Group {
      * @return The existing group.
      */
     public static Optional<Group> enterGroup(String groupName) {
+        if (currentGroupName.isPresent()) {
+            System.out.println("You are currently in " + currentGroupName.get() + ". Exit current group before entering another one.");
+            return Optional.empty();
+        }
+
         Optional<Group> group = Optional.ofNullable(groups.get(groupName));
         if (group.isEmpty()) {
             //@@author hafizuddin-a
@@ -117,8 +122,12 @@ public class Group {
      * Exits the current group.
      * If the user is not in any group, it displays a message asking the user to try again.
      */
-    public static void exitGroup() {
+    public static void exitGroup(String groupName) {
         if (currentGroupName.isPresent()) {
+            if (!currentGroupName.get().equals(groupName)) {
+                System.out.println("You are not currently in group " + groupName + ". Please enter the correct group name.");
+                return;
+            }
             //@@author hafizuddin-a
             try {
                 groupStorage.saveGroupToFile(groups.get(currentGroupName.get()));
@@ -130,7 +139,7 @@ public class Group {
             System.out.println("You have exited " + currentGroupName.get() + ".");
             currentGroupName = Optional.empty();
         } else {
-            System.out.println("You are not currently in any group. Please try again.");
+            System.out.println("You are not currently in a group.");
         }
     }
 

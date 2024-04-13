@@ -130,7 +130,7 @@ public class Parser {
         switch (command) {
         case "bye":
             if (Group.isInGroup()) {
-                GroupCommand.exitGroup();
+                GroupCommand.exitGroup(argument);
             }
             throw new EndProgramException();
         case "help":
@@ -151,7 +151,7 @@ public class Parser {
             GroupCommand.enterGroup(argument);
             break;
         case "exit":
-            GroupCommand.exitGroup();
+            GroupCommand.exitGroup(argument);
             break;
         case "expense":
             ExpenseCommand.addExpense(params, argument, userInput);

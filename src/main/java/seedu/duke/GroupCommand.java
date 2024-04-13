@@ -71,8 +71,8 @@ public class GroupCommand {
      * Exits the current group.
      * If the user is not currently in a group, prints a message indicating so.
      */
-    public static void exitGroup() {
-        Group.exitGroup();
+    public static void exitGroup(String groupName) {
+        Group.exitGroup(groupName);
     }
 }
 
