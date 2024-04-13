@@ -5,6 +5,7 @@ import seedu.duke.Expense;
 import seedu.duke.exceptions.ExpensesException;
 import seedu.duke.Group;
 import seedu.duke.User;
+import seedu.duke.exceptions.GroupDeleteException;
 import seedu.duke.exceptions.GroupLoadException;
 import seedu.duke.exceptions.GroupSaveException;
 
@@ -215,6 +216,24 @@ public class GroupStorage {
             } catch (ExpensesException e) {
                 System.out.println("Error loading expense: " + e.getMessage());
             }
+        }
+    }
+
+    /**
+     * Deletes the group file for the specified group name.
+     *
+     * @param groupName the name of the group whose file needs to be deleted
+     * @throws GroupDeleteException if an error occurs while deleting the group file
+     */
+    public void deleteGroupFile(String groupName) throws GroupDeleteException {
+        try {
+            String filePath = GroupFilePath.getFilePath(groupName);
+            boolean deleted = fileIO.deleteFile(filePath);
+            if (!deleted) {
+                throw new GroupDeleteException("Failed to delete the group file.");
+            }
+        } catch (IOException e) {
+            throw new GroupDeleteException("An error occurred while deleting the group file: " + e.getMessage());
         }
     }
 }
