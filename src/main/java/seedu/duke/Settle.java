@@ -24,8 +24,8 @@ public class Settle extends Expense {
      * @param payee  The user who is receiving the payment
      * @param amount The amount of the payment
      */
-    public Settle(User payer, User payee, double amount) {
-        super(payer.getName(), "", (float) amount, new ArrayList<>());
+    public Settle(User payer, User payee, float amount) {
+        super(payer.getName(), "", new Money(amount , CurrencyConversions.SGD), new ArrayList<>());
         this.payer = payer;
         this.payee = payee;
         this.amount = amount;

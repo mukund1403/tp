@@ -25,9 +25,11 @@ public class SettleTest {
         User payee = new User("Bob");
         group.addMember(payer.getName());
         group.addMember(payee.getName());
-        ArrayList<Pair<String, Float>> payees = new ArrayList<>();
-        payees.add(new Pair<>(payee.getName(), 50.0f));
-        Expense expense = new Expense(false, payer.getName(), "Test Expense", 100.0f, payees);
+        ArrayList<Pair<String, Money>> payees = new ArrayList<>();
+        Money payeeAmount = new Money(50.0f,CurrencyConversions.SGD);
+        payees.add(new Pair<>(payee.getName(), payeeAmount));
+        Money totalAmount = new Money(100.0f,CurrencyConversions.SGD);
+        Expense expense = new Expense(false, payer.getName(), "Test Expense", totalAmount, payees);
         group.addExpense(expense);
     }
 
@@ -35,7 +37,7 @@ public class SettleTest {
     public void testSettleCreation() {
         User payer = new User("Alice");
         User payee = new User("Bob");
-        Settle settle = new Settle(payer, payee, 50.0);
+        Settle settle = new Settle(payer, payee, 50.0F);
         assertEquals("Alice", settle.getPayer());
         assertEquals("Alice paid Bob 50.0", settle.toString());
     }
@@ -44,7 +46,7 @@ public class SettleTest {
     public void testSettleCreationWithNegativeAmount() {
         User payer = new User("Alice");
         User payee = new User("Bob");
-        Settle settle = new Settle(payer, payee, -50.0);
+        Settle settle = new Settle(payer, payee, -50.0F);
         assertEquals("Alice", settle.getPayer());
         assertEquals("Alice paid Bob -50.0", settle.toString());
     }
@@ -53,7 +55,7 @@ public class SettleTest {
     public void testSettleCreationWithZeroAmount() {
         User payer = new User("Alice");
         User payee = new User("Bob");
-        Settle settle = new Settle(payer, payee, 0.0);
+        Settle settle = new Settle(payer, payee, 0.0F);
         assertEquals("Alice", settle.getPayer());
         assertEquals("Alice paid Bob 0.0", settle.toString());
     }

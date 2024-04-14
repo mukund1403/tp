@@ -1,59 +1,59 @@
 package seedu.duke;
 //@@author MonkeScripts
 public class Money {
-    private final double amount;
+    private final float amount;
     private final CurrencyConversions currency;
 
-    public Money(double amount, CurrencyConversions currency) {
+    public Money(float amount, CurrencyConversions currency) {
         this.amount = amount;
         this.currency = currency;
     }
 
     Money convertToSGD() {
-        double amountInSGD = this.amount * this.currency.getInverseRate();
+        float amountInSGD = this.amount * this.currency.getInverseRate();
         return new Money(amountInSGD, CurrencyConversions.SGD);
     }
 
     Money convertToOther(CurrencyConversions resultCurrency) {
-        double amountInSGD = this.amount * this.currency.getInverseRate();
-        double foreignAmount = amountInSGD * resultCurrency.getRate();
+        float amountInSGD = this.amount * this.currency.getInverseRate();
+        float foreignAmount = amountInSGD * resultCurrency.getRate();
         return new Money(foreignAmount, resultCurrency);
     }
 
     Money addition(Money other, CurrencyConversions resultCurrency) {
-        double amountInSGD = this.convertToSGD().getAmount();
-        double otherAmountInSGD = other.convertToSGD().getAmount();
-        double foreignAmount = (amountInSGD + otherAmountInSGD)
+        float amountInSGD = this.convertToSGD().getAmount();
+        float otherAmountInSGD = other.convertToSGD().getAmount();
+        float foreignAmount = (amountInSGD + otherAmountInSGD)
                 * resultCurrency.getRate();
         return new Money(foreignAmount, resultCurrency);
     }
 
     Money subtraction(Money other, CurrencyConversions resultCurrency) {
-        double amountInSGD = this.convertToSGD().getAmount();
-        double otherAmountInSGD = other.convertToSGD().getAmount();
-        double foreignAmount = (amountInSGD - otherAmountInSGD)
+        float amountInSGD = this.convertToSGD().getAmount();
+        float otherAmountInSGD = other.convertToSGD().getAmount();
+        float foreignAmount = (amountInSGD - otherAmountInSGD)
                 * resultCurrency.getRate();
         return new Money(foreignAmount, resultCurrency);
     }
 
-    Money multiplication(double constant, CurrencyConversions resultCurrency) {
-        double amountInSGD = this.convertToSGD().getAmount();
-        double foreignAmount = (amountInSGD * constant)
+    Money multiplication(float constant, CurrencyConversions resultCurrency) {
+        float amountInSGD = this.convertToSGD().getAmount();
+        float foreignAmount = (amountInSGD * constant)
                 * resultCurrency.getRate();
         return new Money(foreignAmount, resultCurrency);
     }
 
-    Money division(double constant, CurrencyConversions resultCurrency) {
-        double amountInSGD = this.convertToSGD().getAmount();
-        double foreignAmount = (amountInSGD / constant)
+    Money division(float constant, CurrencyConversions resultCurrency) {
+        float amountInSGD = this.convertToSGD().getAmount();
+        float foreignAmount = (amountInSGD / constant)
                 * resultCurrency.getRate();
         return new Money(foreignAmount, resultCurrency);
     }
 
-    double getAmount() {
+    public float getAmount() {
         return this.amount;
     }
-    CurrencyConversions getCurrency() {
+    public CurrencyConversions getCurrency() {
         return this.currency;
     }
     @Override

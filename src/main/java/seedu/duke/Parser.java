@@ -15,7 +15,7 @@ public class Parser {
      * For example, "/amount (amount)".
      * Add new Keys to extract additional user parameters for future functionality.
      */
-    private static final String[] paramKeys = {"amount", "paid", "user"};
+    private static final String[] paramKeys = {"amount", "paid", "user", "currency"};
 
     private final String userInput;
 
@@ -50,6 +50,7 @@ public class Parser {
         this.params.put("amount", new ArrayList<>(List.of(amount)));
         this.params.put("paid", new ArrayList<>(List.of(paid)));
         this.params.put("user", new ArrayList<>(List.of(user)));
+        this.params.put("currency", new ArrayList<>(List.of(user)));
     }
 
     public Parser(String userInput) {

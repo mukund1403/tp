@@ -308,7 +308,7 @@ public class Group {
 
         ArrayList<Expense> payerExpense = getPayerExpense(payerName);
 
-        int balance = calculateBalance(payerName, payeeName);
+        float balance = calculateBalance(payerName, payeeName);
 
         if (balance < 0) {
             return;
@@ -318,7 +318,7 @@ public class Group {
             expense.clear();
         }
 
-        if (payerExpense.size() != 0) {
+        if (!payerExpense.isEmpty()) {
             for (Expense expense : payerExpense) {
                 expense.clearPayeeValue(payeeName);
             }
@@ -332,24 +332,24 @@ public class Group {
      * @param payeeName The name of the user who will receive the outstanding amount.
      * @return The balance between the two users.
      */
-    private int calculateBalance(String payerName, String payeeName) {
+    private float calculateBalance(String payerName, String payeeName) {
         ArrayList<Expense> payeeExpense = getPayerExpense(payeeName);
         ArrayList<Expense> payerExpense = getPayerExpense(payerName);
 
-        int balance = 0;
+        float balance = 0;
 
         for (Expense expense : payeeExpense) {
-            for (Pair<String, Float> payee : expense.getPayees()) {
+            for (Pair<String, Money> payee : expense.getPayees()) {
                 if (payee.getKey().equals(payerName)) {
-                    balance += payee.getValue();
+                    balance += payee.getValue().getAmount();
                 }
             }
         }
 
         for (Expense expense : payerExpense) {
-            for (Pair<String, Float> payee : expense.getPayees()) {
+            for (Pair<String, Money> payee : expense.getPayees()) {
                 if (payee.getKey().equals(payeeName)) {
-                    balance -= payee.getValue();
+                    balance -= payee.getValue().getAmount();
                 }
             }
         }
@@ -407,7 +407,7 @@ public class Group {
             }
 
             // Process the relevant expense
-            for (Pair<String, Float> userExpense : expense.getPayees()) {
+            for (Pair<String, Money> userExpense : expense.getPayees()) {
                 totalAmount += calculateAdjustedAmount(expense, payer, payee, userExpense);
             }
         }
@@ -440,15 +440,15 @@ public class Group {
      * @return The adjusted amount for the user in the expense.
      */
 
-    private double calculateAdjustedAmount(Expense expense, User payer, User payee, Pair<String, Float> userExpense) {
+    private double calculateAdjustedAmount(Expense expense, User payer, User payee, Pair<String, Money> userExpense) {
         String payerName = payer.getName();
         String payeeName = payee.getName();
         String expensePayer = expense.getPayer();
 
         if (userExpense.getKey().equals(payeeName) && expensePayer.equals(payerName)) {
-            return userExpense.getValue();
+            return userExpense.getValue().getAmount();
         } else if (userExpense.getKey().equals(payerName) && expensePayer.equals(payeeName)) {
-            return -userExpense.getValue();
+            return -userExpense.getValue().getAmount();
         }
         return 0;
     }

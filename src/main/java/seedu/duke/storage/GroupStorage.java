@@ -1,13 +1,18 @@
 package seedu.duke.storage;
 
-import seedu.duke.Pair;
-import seedu.duke.Expense;
-import seedu.duke.exceptions.ExpensesException;
 import seedu.duke.Group;
+import seedu.duke.Money;
 import seedu.duke.User;
+import seedu.duke.Expense;
+import seedu.duke.Pair;
+import seedu.duke.CurrencyConversions;
+
+import seedu.duke.commands.ExpenseCommand;
+import seedu.duke.exceptions.ExpensesException;
 import seedu.duke.exceptions.GroupDeleteException;
 import seedu.duke.exceptions.GroupLoadException;
 import seedu.duke.exceptions.GroupSaveException;
+
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -102,12 +107,14 @@ public class GroupStorage {
         for (Expense expense : expenses) {
             StringBuilder expenseData = new StringBuilder();
             expenseData.append(expense.getTotalAmount()).append(EXPENSE_DELIMITER)
+                    .append(expense.getCurrency()).append(EXPENSE_DELIMITER)
                     .append(expense.getPayerName()).append(EXPENSE_DELIMITER)
                     .append(expense.getDescription()).append(EXPENSE_DELIMITER);
 
             List<String> payeeData = new ArrayList<>();
-            for (Pair<String, Float> payee : expense.getPayees()) {
-                payeeData.add(payee.getKey() + PAYEE_DELIMITER + payee.getValue());
+            for (Pair<String, Money> payee : expense.getPayees()) {
+                payeeData.add(payee.getKey() + PAYEE_DELIMITER + payee.getValue().getAmount()
+                        + PAYEE_DELIMITER + payee.getValue().getCurrency());
             }
             expenseData.append(String.join(PAYEE_DATA_DELIMITER, payeeData));
 
@@ -193,25 +200,30 @@ public class GroupStorage {
      * @param group  the group to add the loaded expenses to
      * @throws IOException if an I/O error occurs while reading from the file
      */
-    private void loadExpenses(BufferedReader reader, Group group) throws IOException {
+    private void loadExpenses(BufferedReader reader, Group group) throws IOException, ExpensesException {
         String line;
         while ((line = reader.readLine()) != null) {
-            String[] expenseData = line.split(EXPENSE_DELIMITER, 4);
+            String[] expenseData = line.split(EXPENSE_DELIMITER, 5);
             float totalAmount = Float.parseFloat(expenseData[0]);
-            String payerName = expenseData[1];
-            String description = expenseData[2];
-            String[] payeeData = expenseData[3].split(PAYEE_DATA_DELIMITER);
+            String currencyString = expenseData[1];
+            String payerName = expenseData[2];
+            String description = expenseData[3];
+            String[] payeeData = expenseData[4].split(PAYEE_DATA_DELIMITER);
 
-            ArrayList<Pair<String, Float>> payeeList = new ArrayList<>();
+            CurrencyConversions currency = ExpenseCommand.getCurrency(currencyString);
+            ArrayList<Pair<String, Money>> payeeList = new ArrayList<>();
             for (String payee : payeeData) {
                 String[] payeeInfo = payee.split(PAYEE_DELIMITER);
                 String payeeName = payeeInfo[0];
                 float amountDue = Float.parseFloat(payeeInfo[1]);
-                payeeList.add(new Pair<>(payeeName, amountDue));
+                Money amountAndCurrency = new Money(amountDue, currency);
+                payeeList.add(new Pair<>(payeeName, amountAndCurrency));
             }
 
             try {
-                Expense expense = new Expense(false, payerName, description, totalAmount, payeeList);
+
+                Money amountAndCurrency = new Money(totalAmount, currency);
+                Expense expense = new Expense(false, payerName, description, amountAndCurrency, payeeList);
                 group.addExpense(expense);
             } catch (ExpensesException e) {
                 System.out.println("Error loading expense: " + e.getMessage());

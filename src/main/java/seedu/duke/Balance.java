@@ -3,7 +3,7 @@ package seedu.duke;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+//@@author Cohii2
 public class Balance {
     protected String userName;
     protected Map<String, Float> balanceList;
@@ -35,12 +35,14 @@ public class Balance {
 
     private void addExpense(Expense expense) {
         String payerName = expense.getPayerName();
-        List<Pair<String, Float>> payees = expense.getPayees();
+        List<Pair<String, Money>> payees = expense.getPayees();
 
-        if (payerName.equals(userName)) {
-            for (Pair<String, Float> payee : payees) {
+
+        if(payerName.equals(userName)) {
+            for(Pair<String, Money> payee : payees) {
+
                 String payeeName = payee.getKey();
-                Float payeeAmount = payee.getValue();
+                Float payeeAmount = payee.getValue().getAmount();
 
                 if (payeeName.equals(userName)) {
                     continue;
@@ -52,9 +54,10 @@ public class Balance {
                 balanceList.put(payeeName, newOwed);
             }
         } else {
-            for (Pair<String, Float> payee : payees) {
+
+            for(Pair<String, Money> payee : payees) {
                 String payeeName = payee.getKey();
-                Float payeeAmount = payee.getValue();
+                Float payeeAmount = payee.getValue().getAmount();
 
                 if (!payeeName.equals(userName)) {
                     continue;
