@@ -11,13 +11,13 @@ original source as well}
 
 ### Group Storage
 
-The `GroupStorage` feature allows users to save group information to files when exiting groups or ending the program. It also enables users to load group information from files when entering groups. This feature ensures that changes made to a group are persisted across sessions and that users can resume their interactions with groups seamlessly.
+The Group Storage feature allows users to save group information to files when exiting groups or ending the program. It also enables users to load group information from files when entering groups. This feature ensures that changes made to a group are persisted across sessions and that users can resume their interactions with groups seamlessly.
 
 Below is the class diagram for the Group Storage feature:
 
 ![Class Diagram](images/GroupStorageClassDiagram.png)
 
-The `GroupStorage` feature:
+The Group Storage feature:
 - `GroupStorage` class: Responsible for saving and loading group information to and from files.
 - `FileIO` interface: Defines the contract for file input/output operations.
 - `FileIOImpl` class: Implements the `FileIO` interface for file input/output operations.
@@ -25,7 +25,7 @@ The `GroupStorage` feature:
 - `Group` class: Represents a group with members and expenses. It interacts with the `GroupStorage` class to save and load group information.
 - `GroupFilePaths` class: Contains constants for file paths used by the `GroupStorage` feature.
 
-The implementation of the `GroupStorage` feature is covered in the next section.
+The implementation of the Group Storage feature is covered in the next section.
 
 
 ## Implementation
