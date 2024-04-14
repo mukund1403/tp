@@ -97,7 +97,16 @@ public class Balance {
         printOutput.append(String.format("User %s's Balance List:", userName));
 
         for (Map.Entry<String, Float> entry : balanceList.entrySet()) {
-            printOutput.append(String.format("\n  %s : %.2f", entry.getKey(), entry.getValue()));
+            if (entry.getValue() > 0f) {
+                printOutput.append(String.format(
+                        "\n  %s owes %s : %.2f", entry.getKey(), userName, entry.getValue()
+                ));
+            }
+            else {
+                printOutput.append(String.format(
+                        "\n  %s owes %s : %.2f", userName, entry.getKey(), -entry.getValue()
+                ));
+            }
         }
 
         printOutput.append("\nEnd of Balance List");
