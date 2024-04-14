@@ -304,7 +304,7 @@ public class Group {
 
         ArrayList<Expense> payerExpense = getPayerExpense(payerName);
 
-        int balance = caluclateBalance(payerName, payeeName);
+        int balance = calulateBalance(payerName, payeeName);
 
         if (balance < 0) {
             return;
@@ -328,7 +328,7 @@ public class Group {
      * @param payeeName The name of the user who will receive the outstanding amount.
      * @return The balance between the two users.
      */
-    private int caluclateBalance(String payerName, String payeeName) {
+    private int calulateBalance(String payerName, String payeeName) {
         ArrayList<Expense> payeeExpense = getPayerExpense(payeeName);
         ArrayList<Expense> payerExpense = getPayerExpense(payerName);
 
