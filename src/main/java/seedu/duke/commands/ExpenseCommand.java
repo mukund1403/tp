@@ -45,7 +45,12 @@ public class ExpenseCommand {
     }
 
     //@@author mukund1403
-    public static void deleteExpense(String argument) throws ExpensesException {
+
+    /**
+     * The method deletes expense from the expenses list
+     * @param listIndex : The index from the list, the user wishes to delete (will be 1 indexed)
+     */
+    public static void deleteExpense(String listIndex) throws ExpensesException {
         Optional<Group> currentGroup = Group.getCurrentGroup();
         if (currentGroup.isEmpty()) {
             String exceptionMessage = "Not signed in to a Group! Use 'create <name>' to create Group";
@@ -53,22 +58,13 @@ public class ExpenseCommand {
         }
         List<Expense> expenseList = currentGroup.get().getExpenseList();
         int listSize = expenseList.size();
-        int index = getListIndex(argument, listSize) - 1;
+        int index = getListIndex(listIndex, listSize) - 1;
         String deletedExpenseDescription = expenseList.get(index).toString();
         currentGroup.get().deleteExpense(index);
         System.out.println("Deleted expense:\n" + deletedExpenseDescription);
     }
 
-    private static void checkDescription(String argument) throws ExpensesException {
-        if(argument.isEmpty()){
-            System.out.println("Warning! Empty description");
-        } else if(argument.contains("◇")){
-            throw new ExpensesException("Special characters not allowed in description! " +
-                    "(Good try trynna catch a bug!)");
-        }
-    }
-
-    private static Float getTotal(HashMap <String, ArrayList<String>> params) throws ExpensesException {
+    public static Float getTotal(HashMap<String, ArrayList<String>> params) throws ExpensesException {
         float totalAmount;
         try {
             totalAmount = Float.parseFloat(params.get("amount").get(0));
@@ -76,15 +72,20 @@ public class ExpenseCommand {
             String exceptionMessage = "Re-enter expense with amount as a proper number. (Good bug to start with tbh!)";
             throw new ExpensesException(exceptionMessage);
         }
+        int maxNumberHandled = 2000000000;
         if(totalAmount <= 0){
             String exceptionMessage = "Expense amount cannot be 0 or a negative number " +
                     "(Can try using special characters. I have not handled that!)";
+            throw new ExpensesException(exceptionMessage);
+        } else if(totalAmount > maxNumberHandled) {
+            String exceptionMessage = "This amount is too big for a small computer like me to handle :(. " +
+                    "Please use a smaller amount";
             throw new ExpensesException(exceptionMessage);
         }
         return totalAmount;
     }
 
-    private static int getListIndex(String listIndex, int listSize) throws ExpensesException {
+    public static int getListIndex(String listIndex, int listSize) throws ExpensesException {
         int index;
         try{
             index = Integer.parseInt(listIndex);
@@ -97,13 +98,13 @@ public class ExpenseCommand {
             String exceptionMessage = "List index is greater than list size";
             throw new ExpensesException(exceptionMessage);
         } else if (index <= 0){
-            String exceptionMessage = "List index cannot be negative";
+            String exceptionMessage = "List index cannot be 0 or negative";
             throw new ExpensesException(exceptionMessage);
         }
         return index;
     }
 
-    private static Expense addUnequalExpense(ArrayList<String> payeeList,ArrayList<Pair<String,Float>> payees,
+    public static Expense addUnequalExpense(ArrayList<String> payeeList,ArrayList<Pair<String,Float>> payees,
                                           float totalAmount,String payerName,String argument) throws ExpensesException{
         float amountDueByPayees = 0;
         int payeeInfoMinLength = 2;
@@ -135,8 +136,8 @@ public class ExpenseCommand {
         return new Expense(true, payerName, argument, totalAmount, payees);
     }
 
-    private static Expense addEqualExpense(ArrayList<String> payeeList, ArrayList<Pair<String,Float>> payees,
-                                           float totalAmount, String payerName, String argument) throws ExpensesException {
+    public static Expense addEqualExpense(ArrayList<String> payeeList, ArrayList<Pair<String,Float>> payees,
+                                           float totalAmount,String payerName,String argument)throws ExpensesException {
         Float amountDue = totalAmount / (payeeList.size() + 1);
         for (String payee : payeeList) {
             checkPayeeInGroup(payee);
@@ -145,6 +146,15 @@ public class ExpenseCommand {
         checkPayeeInGroup(payerName);
         payees.add(new Pair<>(payerName, amountDue));
         return new Expense(payerName, argument, totalAmount, payees);
+    }
+
+    private static void checkDescription(String argument) throws ExpensesException {
+        if(argument.isEmpty()){
+            System.out.println("Warning! Empty description");
+        } else if(argument.contains("◇")){
+            throw new ExpensesException("Special characters not allowed in description! " +
+                    "(Good try trynna catch a bug!)");
+        }
     }
 
     private static void checkPayeeInGroup(String payee)
