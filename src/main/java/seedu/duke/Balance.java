@@ -79,14 +79,14 @@ public class Balance {
     }
 
     public void printBalance() {
-        String firstLine = String.format("User %s's Balance List:", userName);
-        System.out.println(firstLine);
+        StringBuilder printOutput = new StringBuilder();
+        printOutput.append(String.format("User %s's Balance List:", userName));
 
         for (Map.Entry<String, Float> entry : balanceList.entrySet()) {
-            String balanceLine = String.format("  %s : %.2f", entry.getKey(), entry.getValue());
-            System.out.println(balanceLine);
+            printOutput.append(String.format("\n  %s : %.2f", entry.getKey(), entry.getValue()));
         }
 
-        System.out.println("End of Balance List");
+        printOutput.append("\nEnd of Balance List");
+        UserInterface.printMessage(printOutput.toString(), MessageType.SUCCESS);
     }
 }
