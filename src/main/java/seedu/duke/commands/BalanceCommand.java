@@ -25,7 +25,7 @@ public class BalanceCommand {
         assert currentGroup.isPresent()  : "Group should be created and present";
 
         // Checks if user specified is in Current Group
-        if (Group.isMember(argument)) {
+        if (!currentGroup.get().isMember(argument)) {
             String exceptionMessage = argument + " is not in current Group!";
             throw new ExpensesException(exceptionMessage);
         }
