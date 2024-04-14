@@ -5,9 +5,30 @@
 {list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the
 original source as well}
 
-## Design & implementation
+## Design 
 
-{Describe the design and implementation of the product. Use UML diagrams and short code snippets where applicable.}
+### Architecture
+
+### Group Storage
+
+The Group Storage feature allows users to save group information to files when exiting groups or ending the program. It also enables users to load group information from files when entering groups. This feature ensures that changes made to a group are persisted across sessions and that users can resume their interactions with groups seamlessly.
+
+Below is the class diagram for the Group Storage feature:
+
+![Class Diagram](images/GroupStorageClassDiagram.png)
+
+The Group Storage feature:
+- `GroupStorage` class: Responsible for saving and loading group information to and from files.
+- `FileIO` interface: Defines the contract for file input/output operations.
+- `FileIOImpl` class: Implements the `FileIO` interface for file input/output operations.
+- `GroupNameChecker` class: Provides methods to check if a group file exists and to generate the file name for a group.
+- `Group` class: Represents a group with members and expenses. It interacts with the `GroupStorage` class to save and load group information.
+- `GroupFilePaths` class: Contains constants for file paths used by the `GroupStorage` feature.
+
+The implementation of the Group Storage feature is covered in the next section.
+
+
+## Implementation
 
 ### Help menu feature
 
@@ -39,20 +60,31 @@ The `createGroup(String groupName)` method is responsible for creating a new gro
 
 #### Implementation
 
-The "Add Member to Group" feature is facilitated by the `Group` class. It provides methods to manage group membership
-and allows users to add new members to an existing group. The implementation of this feature is as follows:
+The "Add Member to Group" feature is facilitated by the `Group` class. It extends the `Group` class with methods to manage group membership and allows users to add new members to an existing group. Additionally, it implements the following operations:
 
-The Group class maintains a list of members as a `private List<User>` field called `members`.
+- `Group#addMember(String memberName)` — Adds a new member to the group with the given `memberName`.
+- `Group#isMember(String memberName)` — Checks if a user with the given `memberName` is already a member of the group.
 
-Users can add a new member to the group by using the command `member USER_NAME`. The `addMember(String memberName)` method is responsible for adding a new member to the group. It performs the following steps:
+These operations are exposed in the `GroupCommand` class as `GroupCommand#addMember(String memberName)`.
 
-1. Checks if a user with the given `memberName` is already a member of the group using the `isMember(String memberName)`
-   method.
-2. If the user is not a member, creates a new `User` object with the provided `memberName`.
-3. Adds the new `User` object to the `members` list.
-4. Prints a success message indicating that the member has been added to the group.
+Given below is an example usage scenario and how the "Add Member to Group" feature behaves at each step.
 
-![Sequence Diagram](AddMember.png)
+Step 1. The user launches the application and enters a group named "Project Team" using the `group Project Team` command. The `Group` object for "Project Team" will be initialized with an empty `members` list.
+
+Step 2. The user executes the `member John` command to add a new member named "John" to the "Project Team" group. The `member` command calls `GroupCommand#addMember("John")`, which in turn calls `Group#addMember("John")`. This operation checks if "John" is already a member of the group using `Group#isMember("John")`. Since "John" is not a member, a new `User` object with the name "John" is created and added to the `members` list of the "Project Team" group.
+
+![Sequence Diagram](images/addMember1.png)
+
+Step 3. The user executes the `member Emily` command to add another member named "Emily" to the "Project Team" group. Similar to step 2, the `member` command calls `GroupCommand#addMember("Emily")`, which then calls `Group#addMember("Emily")`. After checking that "Emily" is not already a member, a new `User` object with the name "Emily" is created and added to the `members` list of the "Project Team" group.
+
+Step 4. The user tries to add "John" again to the "Project Team" group by executing the `member John` command. However, since "John" is already a member of the group, the `Group#isMember("John")` check in `Group#addMember("John")` returns `true`. As a result, an error message is displayed to the user, indicating that "John" is already a member of the group, and no duplicate member is added.
+
+![Sequence Diagram](images/addMember2.png)
+
+The following sequence diagram illustrates the flow of the "Add Member to Group" feature:
+
+![Sequence Diagram](images/addMember3.png)
+
 
 ### Expenses feature
 
@@ -104,6 +136,51 @@ settle the debt.
 
 The method then prints out the amount that is owed by `userName1` to `userName2`, and the amount that is owed
 by `userName2` to `userName1` after the settlement.
+
+### Group Storage feature
+
+#### Implementation
+
+The "Group Storage" feature is facilitated by the `GroupStorage` class. It extends the functionality of the `Group` class by providing methods to save and load group information to and from files. The `GroupStorage` class interacts with the `FileIO` interface for file input/output operations. Additionally, it implements the following key operations:
+
+- `GroupStorage#saveGroupToFile(Group group)` — Saves the group information to a file when a user exits a group or ends the program.
+- `GroupStorage#loadGroupFromFile(String groupName)` — Loads the group information from a file when a user enters a group.
+
+These operations are invoked from the `Group` class when the user performs specific actions related to groups.
+
+Given below is an example usage scenario and how the "Group Storage" feature behaves at each step.
+
+Step 1. The user launches the application and tries to create a group named "Project Team" using the `create Project Team` command. The `Group#getOrCreateGroup(String groupName)` method is called to retrieve or create the group.
+
+Step 2. Inside the `Group#getOrCreateGroup(String groupName)` method, it checks if the group already exists in memory. If not, it uses the `GroupNameChecker` class to check if the group file exists. If the group file doesn't exist, a new `Group` object is created, and the user is placed in the newly created group.
+
+Step 3. The user executes various commands to add members and expenses to the "Project Team" group. These changes are made to the `Group` object in memory.
+
+Step 4. The user executes the `exit Project Team` command to exit the "Project Team" group. This command invokes the `Group#exitGroup(String groupName)` method, which in turn calls the `GroupStorage#saveGroupToFile(Group group)` method to save the current state of the "Project Team" group to a file. The saving process includes writing the group name, members, and expenses to the file in a structured format.
+
+![Sequence Diagram](images/groupStorage1.png)
+
+Step 5. Later, the user decides to enter the "Project Team" group again using the `enter Project Team` command. The `Group#enterGroup(String groupName)` method is called to enter the group.
+
+Step 6. Inside the `Group#enterGroup(String groupName)` method, it first checks if the group exists in memory. If not, it uses the `GroupNameChecker` class to check if the group file exists. If the group file exists, it invokes the `GroupStorage#loadGroupFromFile(String groupName)` method to load the group information from the file.
+
+![Sequence Diagram](images/groupStorage2.png)
+
+The `GroupStorage#loadGroupFromFile(String groupName)` method reads the group information from the file, creates a new `Group` object, and populates it with the loaded data. This includes the group name, members, and expenses. The loaded `Group` object is then returned to the `Group` class.
+
+Step 7. The user continues to interact with the "Project Team" group, making changes to its members and expenses. These changes are made to the loaded `Group` object in memory.
+
+Step 8. When the user ends the program using the `bye` command, the `GroupStorage#saveGroupToFile(Group group)` method is invoked again to save the current state of all loaded groups to their respective files. This ensures that any changes made during the session are persisted.
+
+**Design Considerations:**
+
+- **Alternative 1 (current choice):** Saving group information to files when exiting groups or ending the program, and loading group information when entering groups.
+  - Pros: Minimizes file I/O operations and reduces the overhead of constantly saving and loading group information. 
+  - Cons: Changes made to a group are not persisted until the user explicitly exits the group or ends the program.
+- **Alternative 2:** Saving group information after every command that modifies the group, and loading group information whenever a group is accessed. 
+  - Pros: Ensures that changes are immediately persisted and reduces the risk of data loss in case of unexpected program termination. 
+  - Cons: Increases file I/O operations and may impact performance, especially for frequent group modifications.
+
 
 ## Product scope
 

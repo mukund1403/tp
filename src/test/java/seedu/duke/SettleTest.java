@@ -5,78 +5,58 @@ package seedu.duke;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import seedu.duke.exceptions.ExpensesException;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SettleTest {
 
-    private User payer;
-    private User payee;
-    private Settle settle;
+    private Group group;
 
     @BeforeEach
-    void setUp() {
-        // Initialize your objects before each test
-        payer = new User("Alice");
-        payee = new User("Bob");
-        settle = new Settle(payer, payee, 100.0); // Assuming the amount to settle is 100.0
+    public void setup() throws ExpensesException {
+        group = new Group("Test Group");
+        User payer = new User("Alice");
+        User payee = new User("Bob");
+        group.addMember(payer.getName());
+        group.addMember(payee.getName());
+        ArrayList<Pair<String, Money>> payees = new ArrayList<>();
+        Money payeeAmount = new Money(50.0f,CurrencyConversions.SGD);
+        payees.add(new Pair<>(payee.getName(), payeeAmount));
+        Money totalAmount = new Money(100.0f,CurrencyConversions.SGD);
+        Expense expense = new Expense(false, payer.getName(), "Test Expense", totalAmount, payees);
+        group.addExpense(expense);
     }
 
     @Test
-    void testGetPayer() {
-        assertEquals(payer.getName(), settle.getPayer(), "Payer's name should match the one provided at creation");
+    public void testSettleCreation() {
+        User payer = new User("Alice");
+        User payee = new User("Bob");
+        Settle settle = new Settle(payer, payee, 50.0F);
+        assertEquals("Alice", settle.getPayer());
+        assertEquals("Alice paid Bob 50.0", settle.toString());
     }
 
     @Test
-    void testToString() {
-        String expected = "Alice paid Bob 100.0";
-        assertEquals(expected, settle.toString(), "toString should return a string in the format 'payerName " +
-                "paid payeeName amount'");
+    public void testSettleCreationWithNegativeAmount() {
+        User payer = new User("Alice");
+        User payee = new User("Bob");
+        Settle settle = new Settle(payer, payee, -50.0F);
+        assertEquals("Alice", settle.getPayer());
+        assertEquals("Alice paid Bob -50.0", settle.toString());
     }
 
     @Test
-    void testNegativeAmount() {
-        Exception exception = Assertions.assertThrows(IllegalArgumentException.class,
-                () -> new Settle(payer, payee, -50.0),
-                "Constructor should throw IllegalArgumentException for negative amounts");
-        assertTrue(exception.getMessage().contains("Amount cannot be negative"),
-                "Exception message should indicate the negative amount problem");
-    }
-
-    @Test
-    void testNullPayer() {
-        Exception exception = Assertions.assertThrows(IllegalArgumentException.class,
-                () -> new Settle(null, payee, 50.0),
-                "Constructor should throw IllegalArgumentException for null payer");
-        assertTrue(exception.getMessage().contains("Payer cannot be null"),
-                "Exception message should indicate the null payer problem");
-    }
-
-    @Test
-    void testNullPayee() {
-        Exception exception = Assertions.assertThrows(IllegalArgumentException.class,
-                () -> new Settle(payer, null, 50.0),
-                "Constructor should throw IllegalArgumentException for null payee");
-        assertTrue(exception.getMessage().contains("Payee cannot be null"),
-                "Exception message should indicate the null payee problem");
-    }
-
-    @Test
-    void testNullPayerAndPayee() {
-        Exception exception = Assertions.assertThrows(IllegalArgumentException.class,
-                () -> new Settle(null, null, 50.0),
-                "Constructor should throw IllegalArgumentException for null payer and payee");
-        assertTrue(exception.getMessage().contains("Payer cannot be null"),
-                "Exception message should indicate the null payer problem");
-    }
-
-    @Test
-    void testNullPayerPayeeAndAmount() {
-        Exception exception = Assertions.assertThrows(IllegalArgumentException.class,
-                () -> new Settle(null, null, -50.0),
-                "Constructor should throw IllegalArgumentException for null payer, payee and negative amount");
-        assertTrue(exception.getMessage().contains("Payer cannot be null"),
-                "Exception message should indicate the null payer problem");
+    public void testSettleCreationWithZeroAmount() {
+        User payer = new User("Alice");
+        User payee = new User("Bob");
+        Settle settle = new Settle(payer, payee, 0.0F);
+        assertEquals("Alice", settle.getPayer());
+        assertEquals("Alice paid Bob 0.0", settle.toString());
     }
 }

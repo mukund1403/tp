@@ -16,7 +16,7 @@ import java.util.Optional;
 
 public class Group {
     static Map<String, Group> groups = new HashMap<>();
-    private static Optional<String> currentGroupName = Optional.empty();
+    static Optional<String> currentGroupName = Optional.empty();
     private static final GroupStorage groupStorage = new GroupStorage(new FileIOImpl());
 
     private static GroupNameChecker groupNameChecker = new GroupNameChecker();
@@ -41,12 +41,19 @@ public class Group {
      * @return The existing or newly created group.
      * @throws IllegalStateException If trying to create or join a new group while already in another group.
      */
+
     //@@ author avrilgk
     public static Optional<Group> getOrCreateGroup(String groupName) {
 
         // Check if group name is empty
         if (groupName == null || groupName.trim().isEmpty()) {
             System.out.println("Group name cannot be empty. Please try again.");
+            return Optional.empty();
+        }
+
+        if (currentGroupName.isPresent()) {
+            System.out.println("You are currently in " + currentGroupName.get() +
+                    ". Exit current group before creating another one.");
             return Optional.empty();
         }
 
@@ -87,6 +94,12 @@ public class Group {
      * @return The existing group.
      */
     public static Optional<Group> enterGroup(String groupName) {
+
+        if (groupName == null || groupName.trim().isEmpty()) {
+            System.out.println("Group name cannot be empty. Please try again.");
+            return Optional.empty();
+        }
+
         if (currentGroupName.isPresent()) {
             System.out.println("You are currently in " + currentGroupName.get() +
                     ". Exit current group before entering another one.");
@@ -134,10 +147,10 @@ public class Group {
      * If the user is not in any group, it displays a message asking the user to try again.
      */
     public static void exitGroup(String groupName) {
+
         if (currentGroupName.isPresent()) {
             if (!currentGroupName.get().equals(groupName)) {
-                System.out.println("You are not currently in group " + groupName
-                        + ". Please enter the correct group name.");
+                System.out.println("Invalid group name. Please enter the correct group name.");
                 return;
             }
             //@@author hafizuddin-a
@@ -253,6 +266,12 @@ public class Group {
         return new ArrayList<>(expenseList);
     }
 
+    /**
+     * Settles the outstanding amount between two users.
+     *
+     * @param payerName The name of the user who will pay the outstanding amount.
+     * @param payeeName The name of the user who will receive the outstanding amount.
+     */
     public void settle(String payerName, String payeeName) {
         User payer = findUser(payerName);
         User payee = findUser(payeeName);
@@ -265,12 +284,95 @@ public class Group {
         double amount = calculateOutstandingAmount(payee, payer);
 
         if (amount > 0) {
-            Settle settle = new Settle(payer, payee, amount);
-            addExpense(settle);
             System.out.println(payerName + " should pay " + payeeName + " " + String.format("%.2f", amount));
-        } else {
-            System.out.println(payerName + " does not owe " + payeeName + " any money.");
         }
+
+        updateBalancesAfterSettlement(payerName, payeeName);
+        System.out.println(payerName + " has settled the full amount with " + payeeName);
+
+    }
+
+    /**
+     * Updates the balances of the users after a settlement.
+     *
+     * @param payerName The name of the user who will pay the outstanding amount.
+     * @param payeeName The name of the user who will receive the outstanding amount.
+     */
+    private void updateBalancesAfterSettlement(String payerName, String payeeName) {
+
+        ArrayList<Expense> payeeExpense = getPayerExpense(payeeName);
+
+        if (payeeExpense.size() == 0) {
+            return;
+        }
+
+        ArrayList<Expense> payerExpense = getPayerExpense(payerName);
+
+        float balance = calculateBalance(payerName, payeeName);
+
+        if (balance < 0) {
+            return;
+        }
+
+        for (Expense expense : payeeExpense) {
+            expense.clear();
+        }
+
+        if (!payerExpense.isEmpty()) {
+            for (Expense expense : payerExpense) {
+                expense.clearPayeeValue(payeeName);
+            }
+        }
+    }
+
+    /**
+     * Calculates the balance between two users.
+     *
+     * @param payerName The name of the user who will pay the outstanding amount.
+     * @param payeeName The name of the user who will receive the outstanding amount.
+     * @return The balance between the two users.
+     */
+    private float calculateBalance(String payerName, String payeeName) {
+        ArrayList<Expense> payeeExpense = getPayerExpense(payeeName);
+        ArrayList<Expense> payerExpense = getPayerExpense(payerName);
+
+        float balance = 0;
+
+        for (Expense expense : payeeExpense) {
+            for (Pair<String, Money> payee : expense.getPayees()) {
+                if (payee.getKey().equals(payerName)) {
+                    balance += payee.getValue().getAmount();
+                }
+            }
+        }
+
+        for (Expense expense : payerExpense) {
+            for (Pair<String, Money> payee : expense.getPayees()) {
+                if (payee.getKey().equals(payeeName)) {
+                    balance -= payee.getValue().getAmount();
+                }
+            }
+        }
+
+        return balance;
+    }
+
+    /**
+     * Retrieves the expenses paid by a user.
+     *
+     * @param payerName The name of the user to retrieve expenses for.
+     * @return The list of expenses paid by the user.
+     */
+    public ArrayList<Expense> getPayerExpense(String payerName) {
+        ArrayList<Expense> payerExpenses = new ArrayList<>();
+
+        for (Expense expense : expenseList) {
+            if (expense.getPayerName().equals(payerName)) {
+                payerExpenses.add(expense);
+            }
+        }
+
+        return payerExpenses;
     }
 
     /**
@@ -351,4 +453,3 @@ public class Group {
         return 0;
     }
 }
-
