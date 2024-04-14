@@ -5,9 +5,30 @@
 {list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the
 original source as well}
 
-## Design & implementation
+## Design 
 
-{Describe the design and implementation of the product. Use UML diagrams and short code snippets where applicable.}
+### Architecture
+
+### Group Storage
+
+The `GroupStorage` feature allows users to save group information to files when exiting groups or ending the program. It also enables users to load group information from files when entering groups. This feature ensures that changes made to a group are persisted across sessions and that users can resume their interactions with groups seamlessly.
+
+Below is the class diagram for the Group Storage feature:
+
+![Class Diagram](images/GroupStorageClassDiagram.png)
+
+The `GroupStorage` feature:
+- `GroupStorage` class: Responsible for saving and loading group information to and from files.
+- `FileIO` interface: Defines the contract for file input/output operations.
+- `FileIOImpl` class: Implements the `FileIO` interface for file input/output operations.
+- `GroupNameChecker` class: Provides methods to check if a group file exists and to generate the file name for a group.
+- `Group` class: Represents a group with members and expenses. It interacts with the `GroupStorage` class to save and load group information.
+- `GroupFilePaths` class: Contains constants for file paths used by the `GroupStorage` feature.
+
+The implementation of the `GroupStorage` feature is covered in the next section.
+
+
+## Implementation
 
 ### Help menu feature
 
