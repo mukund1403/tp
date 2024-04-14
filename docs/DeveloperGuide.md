@@ -52,70 +52,15 @@ Step 1. The user launches the application and enters a group named "Project Team
 
 Step 2. The user executes the `member John` command to add a new member named "John" to the "Project Team" group. The `member` command calls `GroupCommand#addMember("John")`, which in turn calls `Group#addMember("John")`. This operation checks if "John" is already a member of the group using `Group#isMember("John")`. Since "John" is not a member, a new `User` object with the name "John" is created and added to the `members` list of the "Project Team" group.
 
-```plantuml
-@startuml
-actor User
-participant GroupCommand
-participant Group
-participant User
-
-User -> GroupCommand: member John
-GroupCommand -> Group: addMember("John")
-Group -> Group: isMember("John")
-Group -> User: new User("John")
-Group -> Group: members.add(johnUser)
-@enduml
-```
-
 ![Sequence Diagram](images/addMember1.png)
 
 Step 3. The user executes the `member Emily` command to add another member named "Emily" to the "Project Team" group. Similar to step 2, the `member` command calls `GroupCommand#addMember("Emily")`, which then calls `Group#addMember("Emily")`. After checking that "Emily" is not already a member, a new `User` object with the name "Emily" is created and added to the `members` list of the "Project Team" group.
 
 Step 4. The user tries to add "John" again to the "Project Team" group by executing the `member John` command. However, since "John" is already a member of the group, the `Group#isMember("John")` check in `Group#addMember("John")` returns `true`. As a result, an error message is displayed to the user, indicating that "John" is already a member of the group, and no duplicate member is added.
 
-```plantuml
-@startuml
-actor User
-participant GroupCommand
-participant Group
-
-User -> GroupCommand: member John
-GroupCommand -> Group: addMember("John")
-Group -> Group: isMember("John")
-Group --> GroupCommand: "John is already a member"
-GroupCommand --> User: "John is already a member"
-@enduml
-```
-
 ![Sequence Diagram](images/addMember2.png)
 
 The following sequence diagram illustrates the flow of the "Add Member to Group" feature:
-
-```plantuml
-@startuml
-actor User
-participant GroupCommand
-participant Group
-participant User
-
-User -> GroupCommand: member USER_NAME
-GroupCommand -> Group: addMember(memberName)
-Group -> Group: isValidMemberName(memberName)
-alt is valid member name
-    Group -> Group: isMember(memberName)
-    alt is not a member
-        Group -> User: new User(memberName)
-        Group -> Group: members.add(newMember)
-        Group --> GroupCommand: success message
-    else is already a member
-        Group --> GroupCommand: failure message
-    end
-else is invalid member name
-    Group --> GroupCommand: failure message
-end
-GroupCommand --> User: command result
-@enduml
-```
 
 ![Sequence Diagram](images/addMember3.png)
 
@@ -192,61 +137,11 @@ Step 3. The user executes various commands to add members and expenses to the "P
 
 Step 4. The user executes the `exit Project Team` command to exit the "Project Team" group. This command invokes the `Group#exitGroup(String groupName)` method, which in turn calls the `GroupStorage#saveGroupToFile(Group group)` method to save the current state of the "Project Team" group to a file. The saving process includes writing the group name, members, and expenses to the file in a structured format.
 
-```plantuml
-@startuml
-actor User
-participant GroupCommand
-participant Group
-participant GroupStorage
-participant FileIO
-
-User -> GroupCommand: exit Project Team
-GroupCommand -> Group: exitGroup("Project Team")
-Group -> GroupStorage: saveGroupToFile(projectTeamGroup)
-GroupStorage -> FileIO: getFileWriter(filePath)
-GroupStorage -> GroupStorage: saveGroupName(writer, groupName)
-GroupStorage -> GroupStorage: saveMembers(writer, members)
-GroupStorage -> GroupStorage: saveExpenses(writer, expenses)
-GroupStorage -> FileIO: writer.close()
-@enduml
-```
-
 ![Sequence Diagram](images/groupStorage1.png)
 
 Step 5. Later, the user decides to enter the "Project Team" group again using the `enter Project Team` command. The `Group#enterGroup(String groupName)` method is called to enter the group.
 
 Step 6. Inside the `Group#enterGroup(String groupName)` method, it first checks if the group exists in memory. If not, it uses the `GroupNameChecker` class to check if the group file exists. If the group file exists, it invokes the `GroupStorage#loadGroupFromFile(String groupName)` method to load the group information from the file.
-
-```plantuml
-@startuml
-actor User
-participant GroupCommand
-participant Group
-participant GroupNameChecker
-participant GroupStorage
-participant FileIO
-
-User -> GroupCommand: enter Project Team
-GroupCommand -> Group: enterGroup("Project Team")
-Group -> Group: check if group exists in memory
-alt group does not exist in memory
-    Group -> GroupNameChecker: doesGroupNameExist("Project Team")
-    alt group file exists
-        Group -> GroupStorage: loadGroupFromFile("Project Team")
-        GroupStorage -> FileIO: getFileReader(filePath)
-        GroupStorage -> GroupStorage: loadGroupName(reader)
-        GroupStorage -> GroupStorage: loadMembers(reader, group)
-        GroupStorage -> GroupStorage: loadExpenses(reader, group)
-        GroupStorage -> FileIO: reader.close()
-        GroupStorage --> Group: loadedGroup
-    else group file does not exist
-        Group --> GroupCommand: group does not exist
-    end
-else group exists in memory
-    Group --> GroupCommand: group found in memory
-end
-@enduml
-```
 
 ![Sequence Diagram](images/groupStorage2.png)
 
