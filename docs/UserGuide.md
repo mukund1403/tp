@@ -61,11 +61,12 @@ Welcome, here is a list of commands:
 
 Creates a new group with the specified group name.
 
-Format: `create GROUP_NAME`
+Format: `create /group GROUP_NAME`
 
-`GROUP_NAME` is the name of the group.
+- `/group` is a keyword to indicate the start of the group name.
+- `GROUP_NAME` is the name of the group.
 
-Example: `create Friends`
+Example: `create /group Friends`
 
 This command will create a new group named 'Friends'.
 
@@ -73,11 +74,12 @@ This command will create a new group named 'Friends'.
 
 Enters an existing group with the specified group name.
 
-Format: `enter GROUP_NAME`
+Format: `enter /group GROUP_NAME`
 
-`GROUP_NAME` is the name of the group.
+- `/group` is a keyword to indicate the start of the group name.
+- `GROUP_NAME` is the name of the group.
 
-Example: `enter Friends`
+Example: `enter /group Friends`
 
 This command will enter the group named 'Friends'.
 
@@ -103,11 +105,14 @@ Output: `Alice has been added to group.`
 
 Exits the current group.
 
-Format: `exit GROUP_NAME`
+Format: `exit /group GROUP_NAME`
 
-Example: `exit Friends`
+- `/group` is a keyword to indicate the start of the group name.
+- `GROUP_NAME` is the name of the group.
 
-This command will exit the current group.
+Example: `exit /group Friends`
+
+This command will exit the group named 'Friends'.
 
 ### Show balance of user: `balance`
 
@@ -192,6 +197,7 @@ This command exits the application.
 
 ## Command Summary
 
+
 Action | Format, Examples
 --------|------------------
 Help | `help`
@@ -201,5 +207,4 @@ Add member | `member USER_NAME` <br> e.g. `member Alice`
 Exit group | `exit GROUP_NAME` <br> e.g. `exit Friends`
 Settle expenses | `settle USER_NAME1 /user USER_NAME2` <br> e.g. `settle Alice /user Bob`
 Exit application | `bye`
-
 

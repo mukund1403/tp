@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class Expense {
     private String payerName;
     private float totalAmount;
-    private ArrayList<Pair<String, Float>> payees = new ArrayList<>();
+    private ArrayList<Pair<String, Float>> payees;
 
     private String description;
 
@@ -24,11 +24,11 @@ public class Expense {
      * @param payerName   : The name of the user who paid for the Expense
      * @param description : Description of the expense
      * @param totalAmount : The total amount before being divided
-     * @param payees : ArrayList of pairs containing names of people who are involved in the transaction and
-     *               the amount they owe (Index 0 is the payer and will also be added to the payees but as last index)
+     * @param payees      : ArrayList of pairs containing names of people who are involved in the transaction and
+     *                    the amount they owe (Index 0 is the payer and will also be added to the payees but as last index)
      */
     public Expense(boolean isUnequal, String payerName, String description,
-                   float totalAmount, ArrayList<Pair<String,Float>> payees)
+                   float totalAmount, ArrayList<Pair<String, Float>> payees)
             throws ExpensesException {
         this.payees = payees;
         this.payerName = payerName;
@@ -37,7 +37,10 @@ public class Expense {
         printSuccessMessage();
     }
 
-    /**
+
+    public Expense(String payerName, String description, float totalAmount, ArrayList<Pair<String, Float>> payees){
+
+      /**
      * Constructor to create new Equal Expense
      * @param payerName : The name of the user who paid for the Expense
      * @param description : Description of the expense
@@ -45,15 +48,11 @@ public class Expense {
      * @param payees : ArrayList of pairs containing names of people who are involved in the transaction and
      *                the amount they owe (Index 0 is the payer and will also be added to the payees but as last index)
      */
-    public Expense(String payerName, String description, float totalAmount, ArrayList<Pair<String, Float>> payees){
         this.payees = payees;
         this.payerName = payerName;
         this.totalAmount = totalAmount;
         this.description = description;
         printSuccessMessage();
-    }
-
-    public Expense(User payer, double amount) {
     }
 
     //@@author Cohii2
@@ -77,7 +76,18 @@ public class Expense {
         return description;
     }
 
-    /**
+
+
+    public void clearPayeeValue(String payeeName) {
+        // replace the value of the payee with 0
+        for (int i = 0; i < payees.size(); i++) {
+            if (payees.get(i).getKey().equals(payeeName)) {
+                payees.set(i, new Pair<>(payeeName, 0f));
+            }
+        }
+    }
+  
+     /**
      * Converts the Expense to string form containing all the expense details
      * @return : A string containing expense details in a tabular format
      */
@@ -94,19 +104,26 @@ public class Expense {
 
     void printSuccessMessage() {
         if (!GroupStorage.isLoading) {
-            System.out.println("Added new expense with description " + description + " and amount " +
-                    String.format("%.2f",totalAmount) + " paid by " + payerName + " . The split is:");
-            for (Pair<String, Float> payee : payees) {
-                System.out.println(payee.getKey() + " : " + String.format("%.2f", payee.getValue()));
+            if (!(this instanceof Settle)) {
+                System.out.println("Added new expense with description " + description + " and amount " + totalAmount
+                        + " paid by " + payerName + " and split between:");
+                for (Pair<String, Float> payee : payees) {
+                    System.out.println(payee.getKey() + " who owes " + String.format("%.2f", payee.getValue()));
+                }
+                System.out.println();
+
             }
-            System.out.println();
         }
+    }
+
+    public void clear() {
+        totalAmount = 0;
+        payees = new ArrayList<>();
     }
 
     public String getPayer() {
         return payerName;
     }
 }
-
 
 

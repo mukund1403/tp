@@ -8,12 +8,7 @@ public class Balance {
     protected String userName;
     protected Map<String, Float> balanceList;
 
-    public Balance(String userName, Map<String, Float> userList) {
-        this.userName = userName;
-        this.balanceList = userList;
-    }
-
-    public Balance(String userName, Group group){
+    public Balance(String userName, Group group) {
         this(userName, group.getExpenseList(), group.getMembers());
     }
 
@@ -23,7 +18,7 @@ public class Balance {
 
         // Populate balanceList with other Users from Group
         for (User user : users) {
-            if(!user.getName().equals(userName)) {
+            if (!user.getName().equals(userName)) {
                 balanceList.put(user.getName(), 0f);
             }
         }
@@ -34,10 +29,6 @@ public class Balance {
         }
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
     public Map<String, Float> getBalanceList() {
         return balanceList;
     }
@@ -46,12 +37,12 @@ public class Balance {
         String payerName = expense.getPayerName();
         List<Pair<String, Float>> payees = expense.getPayees();
 
-        if(payerName.equals(userName)) {
-            for(Pair<String, Float> payee : payees) {
+        if (payerName.equals(userName)) {
+            for (Pair<String, Float> payee : payees) {
                 String payeeName = payee.getKey();
                 Float payeeAmount = payee.getValue();
 
-                if(payeeName.equals(userName)){
+                if (payeeName.equals(userName)) {
                     continue;
                 }
 
@@ -61,7 +52,7 @@ public class Balance {
                 balanceList.put(payeeName, newOwed);
             }
         } else {
-            for(Pair<String, Float> payee : payees) {
+            for (Pair<String, Float> payee : payees) {
                 String payeeName = payee.getKey();
                 Float payeeAmount = payee.getValue();
 
