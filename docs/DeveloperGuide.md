@@ -67,7 +67,7 @@ Group -> Group: members.add(johnUser)
 @enduml
 ```
 
-![Sequence Diagram](diagrams/addMember1.png)
+![Sequence Diagram](images/addMember1.png)
 
 Step 3. The user executes the `member Emily` command to add another member named "Emily" to the "Project Team" group. Similar to step 2, the `member` command calls `GroupCommand#addMember("Emily")`, which then calls `Group#addMember("Emily")`. After checking that "Emily" is not already a member, a new `User` object with the name "Emily" is created and added to the `members` list of the "Project Team" group.
 
@@ -87,7 +87,7 @@ GroupCommand --> User: "John is already a member"
 @enduml
 ```
 
-![Sequence Diagram](diagrams/addMember2.png)
+![Sequence Diagram](images/addMember2.png)
 
 The following sequence diagram illustrates the flow of the "Add Member to Group" feature:
 
@@ -117,7 +117,7 @@ GroupCommand --> User: command result
 @enduml
 ```
 
-![Sequence Diagram](diagrams/addMember3.png)
+![Sequence Diagram](images/addMember3.png)
 
 
 ### Expenses feature
@@ -211,7 +211,7 @@ GroupStorage -> FileIO: writer.close()
 @enduml
 ```
 
-![Sequence Diagram](diagrams/groupStorage1.png)
+![Sequence Diagram](images/groupStorage1.png)
 
 Step 5. Later, the user decides to enter the "Project Team" group again using the `enter Project Team` command. The `Group#enterGroup(String groupName)` method is called to enter the group.
 
@@ -248,7 +248,7 @@ end
 @enduml
 ```
 
-![Sequence Diagram](diagrams/groupStorage2.png)
+![Sequence Diagram](images/groupStorage2.png)
 
 The `GroupStorage#loadGroupFromFile(String groupName)` method reads the group information from the file, creates a new `Group` object, and populates it with the loaded data. This includes the group name, members, and expenses. The loaded `Group` object is then returned to the `Group` class.
 
