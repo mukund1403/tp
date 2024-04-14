@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class Expense {
     private String payerName;
     private float totalAmount;
-    private ArrayList<Pair<String, Float>> payees = new ArrayList<>();
+    private ArrayList<Pair<String, Float>> payees;
 
     private String description;
 
@@ -67,6 +67,16 @@ public class Expense {
         return description;
     }
 
+
+    public void clearPayeeValue(String payeeName) {
+        // replace the value of the payee with 0
+        for (int i = 0; i < payees.size(); i++) {
+            if (payees.get(i).getKey().equals(payeeName)) {
+                payees.set(i, new Pair<>(payeeName, 0f));
+            }
+        }
+    }
+
     @Override
     public String toString() {
         String expensesDetails = "";
@@ -91,10 +101,14 @@ public class Expense {
         }
     }
 
+    public void clear() {
+        totalAmount = 0;
+        payees = new ArrayList<>();
+    }
+
     public String getPayer() {
         return payerName;
     }
 }
-
 
 

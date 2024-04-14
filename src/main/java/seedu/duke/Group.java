@@ -262,6 +262,12 @@ public class Group {
         return new ArrayList<>(expenseList);
     }
 
+    /**
+     * Settles the outstanding amount between two users.
+     *
+     * @param payerName The name of the user who will pay the outstanding amount.
+     * @param payeeName The name of the user who will receive the outstanding amount.
+     */
     public void settle(String payerName, String payeeName) {
         User payer = findUser(payerName);
         User payee = findUser(payeeName);
@@ -282,25 +288,88 @@ public class Group {
 
     }
 
+    /**
+     * Updates the balances of the users after a settlement.
+     *
+     * @param payerName The name of the user who will pay the outstanding amount.
+     * @param payeeName The name of the user who will receive the outstanding amount.
+     */
     private void updateBalancesAfterSettlement(String payerName, String payeeName) {
-        Balance payerBalance = findOrCreateBalance(payerName);
-        Balance payeeBalance = findOrCreateBalance(payeeName);
 
-        if (payerBalance != null && payeeBalance != null) {
-            payerBalance.getBalanceList().put(payeeName, 0f);  // Reset payer's debt to payee
-            payeeBalance.getBalanceList().put(payerName, 0f);  // Reset payee's debt to payer
+        ArrayList<Expense> payeeExpense = getPayerExpense(payeeName);
+
+        if (payeeExpense.size() == 0) {
+            return;
+        }
+
+        ArrayList<Expense> payerExpense = getPayerExpense(payerName);
+
+        int balance = caluclateBalance(payerName, payeeName);
+
+        if (balance < 0) {
+            return;
+        }
+
+        for (Expense expense : payeeExpense) {
+            expense.clear();
+        }
+
+        if (payerExpense.size() != 0) {
+            for (Expense expense : payerExpense) {
+                expense.clearPayeeValue(payeeName);
+            }
         }
     }
 
+    /**
+     * Calculates the balance between two users.
+     *
+     * @param payerName The name of the user who will pay the outstanding amount.
+     * @param payeeName The name of the user who will receive the outstanding amount.
+     * @return The balance between the two users.
+     */
+    private int caluclateBalance(String payerName, String payeeName) {
+        ArrayList<Expense> payeeExpense = getPayerExpense(payeeName);
+        ArrayList<Expense> payerExpense = getPayerExpense(payerName);
 
-    private Map<String, Balance> userBalances = new HashMap<>();
+        int balance = 0;
 
-    private Balance findOrCreateBalance(String userName) {
-        Balance balance = userBalances.computeIfAbsent(userName, k -> new Balance(userName, new HashMap<>()));
-        System.out.println("Retrieving/Creating balance for " + userName + ": " + balance.getBalanceList());
+        for (Expense expense : payeeExpense) {
+            for (Pair<String, Float> payee : expense.getPayees()) {
+                if (payee.getKey().equals(payerName)) {
+                    balance += payee.getValue();
+                }
+            }
+        }
+
+        for (Expense expense : payerExpense) {
+            for (Pair<String, Float> payee : expense.getPayees()) {
+                if (payee.getKey().equals(payeeName)) {
+                    balance -= payee.getValue();
+                }
+            }
+        }
+
         return balance;
     }
 
+    /**
+     * Retrieves the expenses paid by a user.
+     *
+     * @param payerName The name of the user to retrieve expenses for.
+     * @return The list of expenses paid by the user.
+     */
+    public ArrayList<Expense> getPayerExpense(String payerName) {
+        ArrayList<Expense> payerExpenses = new ArrayList<>();
+
+        for (Expense expense : expenseList) {
+            if (expense.getPayerName().equals(payerName)) {
+                payerExpenses.add(expense);
+            }
+        }
+
+        return payerExpenses;
+    }
 
     /**
      * Finds a user by their name.
@@ -380,4 +449,3 @@ public class Group {
         return 0;
     }
 }
-

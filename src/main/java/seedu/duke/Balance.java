@@ -8,11 +8,6 @@ public class Balance {
     protected String userName;
     protected Map<String, Float> balanceList;
 
-    public Balance(String userName, Map<String, Float> userList) {
-        this.userName = userName;
-        this.balanceList = userList;
-    }
-
     public Balance(String userName, Group group) {
         this(userName, group.getExpenseList(), group.getMembers());
     }
@@ -32,10 +27,6 @@ public class Balance {
         for (Expense expense : expenses) {
             addExpense(expense);
         }
-    }
-
-    public String getUserName() {
-        return userName;
     }
 
     public Map<String, Float> getBalanceList() {
@@ -79,8 +70,6 @@ public class Balance {
     }
 
     public void printBalance() {
-        System.out.println("Debug - Current balances for " + userName + ": " + balanceList);
-
         String firstLine = String.format("User %s's Balance List:", userName);
         System.out.println(firstLine);
 
