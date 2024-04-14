@@ -2,6 +2,8 @@
 package seedu.duke;
 
 
+import java.util.ArrayList;
+
 /**
  * The Settle class represents a transaction between two users.
  * It extends the Expense class and has a payer, payee and amount.
@@ -23,31 +25,17 @@ public class Settle extends Expense {
      * @param amount The amount of the payment
      */
     public Settle(User payer, User payee, double amount) {
-        super(payer, amount);
-        assert payer != null : "Payer cannot be null";
-        assert payee != null : "Payee cannot be null";
-        assert amount >= 0 : "Amount cannot be negative";
+        super(payer.getName(), "", (float) amount, new ArrayList<>());
         this.payer = payer;
         this.payee = payee;
         this.amount = amount;
     }
 
-    /**
-     * Returns the user who is making the payment.
-     *
-     * @return The user who is making the payment
-     */
-
+    @Override
     public String getPayer() {
         return payer.getName();
     }
 
-    /**
-     * Returns a string representation of the Settle object.
-     * The returned string is in the format "payerName paid payeeName amount".
-     *
-     * @return A string representation of the Settle object
-     */
     @Override
     public String toString() {
         return payer.getName() + " paid " + payee.getName() + " " + amount;

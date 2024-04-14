@@ -16,7 +16,7 @@ import java.util.Optional;
 
 public class Group {
     static Map<String, Group> groups = new HashMap<>();
-    private static Optional<String> currentGroupName = Optional.empty();
+    static Optional<String> currentGroupName = Optional.empty();
     private static final GroupStorage groupStorage = new GroupStorage(new FileIOImpl());
 
     private static GroupNameChecker groupNameChecker = new GroupNameChecker();
@@ -41,12 +41,19 @@ public class Group {
      * @return The existing or newly created group.
      * @throws IllegalStateException If trying to create or join a new group while already in another group.
      */
+
     //@@ author avrilgk
     public static Optional<Group> getOrCreateGroup(String groupName) {
 
         // Check if group name is empty
         if (groupName == null || groupName.trim().isEmpty()) {
             System.out.println("Group name cannot be empty. Please try again.");
+            return Optional.empty();
+        }
+
+        if (currentGroupName.isPresent()) {
+            System.out.println("You are currently in " + currentGroupName.get() +
+                    ". Exit current group before creating another one.");
             return Optional.empty();
         }
 
@@ -87,6 +94,12 @@ public class Group {
      * @return The existing group.
      */
     public static Optional<Group> enterGroup(String groupName) {
+
+        if (groupName == null || groupName.trim().isEmpty()) {
+            System.out.println("Group name cannot be empty. Please try again.");
+            return Optional.empty();
+        }
+
         if (currentGroupName.isPresent()) {
             System.out.println("You are currently in " + currentGroupName.get() +
                     ". Exit current group before entering another one.");
@@ -134,10 +147,10 @@ public class Group {
      * If the user is not in any group, it displays a message asking the user to try again.
      */
     public static void exitGroup(String groupName) {
+
         if (currentGroupName.isPresent()) {
             if (!currentGroupName.get().equals(groupName)) {
-                System.out.println("You are not currently in group " + groupName
-                        + ". Please enter the correct group name.");
+                System.out.println("Invalid group name. Please enter the correct group name.");
                 return;
             }
             //@@author hafizuddin-a
@@ -261,13 +274,33 @@ public class Group {
         double amount = calculateOutstandingAmount(payee, payer);
 
         if (amount > 0) {
-            Settle settle = new Settle(payer, payee, amount);
-            addExpense(settle);
             System.out.println(payerName + " should pay " + payeeName + " " + String.format("%.2f", amount));
-        } else {
-            System.out.println(payerName + " does not owe " + payeeName + " any money.");
+        }
+
+        updateBalancesAfterSettlement(payerName, payeeName);
+        System.out.println(payerName + " has settled the full amount with " + payeeName);
+
+    }
+
+    private void updateBalancesAfterSettlement(String payerName, String payeeName) {
+        Balance payerBalance = findOrCreateBalance(payerName);
+        Balance payeeBalance = findOrCreateBalance(payeeName);
+
+        if (payerBalance != null && payeeBalance != null) {
+            payerBalance.getBalanceList().put(payeeName, 0f);  // Reset payer's debt to payee
+            payeeBalance.getBalanceList().put(payerName, 0f);  // Reset payee's debt to payer
         }
     }
+
+
+    private Map<String, Balance> userBalances = new HashMap<>();
+
+    private Balance findOrCreateBalance(String userName) {
+        Balance balance = userBalances.computeIfAbsent(userName, k -> new Balance(userName, new HashMap<>()));
+        System.out.println("Retrieving/Creating balance for " + userName + ": " + balance.getBalanceList());
+        return balance;
+    }
+
 
     /**
      * Finds a user by their name.

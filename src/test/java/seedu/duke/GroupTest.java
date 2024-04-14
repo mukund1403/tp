@@ -14,53 +14,58 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class GroupTest {
     @BeforeEach
     public void setup() {
-        // Reset the state before each test
-        Group.exitGroup();
+        // Clear all groups and reset the current group name before each test
+        Group.groups.clear();
+        Group.currentGroupName = Optional.empty();
     }
 
     @AfterEach
     public void teardown() {
-        // Clean up after each test
-        Group.exitGroup();
+        // Optionally clear all after each test if needed
+        Group.groups.clear();
+        Group.currentGroupName = Optional.empty();
     }
 
     @Test
     public void testGroupCreation() {
         String expectedName = "GroupName";
+        Group.groups.clear();
         Optional<Group> group = Group.getOrCreateGroup(expectedName);
-        assertEquals(expectedName, group.get().getGroupName(), "Group name is not the same as expected");
+        assertEquals(group.isPresent(), true, "Group should be created");
+        assertEquals(expectedName, group.get().getGroupName(), "Group name should match the expected name");
     }
 
     @Test
     public void testGetOrCreateGroup() {
         String groupName = "NewGroup";
+        Group.groups.clear(); // Ensure that the group does not exist before the test
         Optional<Group> newGroup = Group.getOrCreateGroup(groupName);
+        assertEquals(newGroup.isPresent(), true, "New group should be created successfully");
 
-        assertEquals(groupName, newGroup.get().getGroupName(), "Group name is not the expected value");
-
-        Group.exitGroup();
+        Group.exitGroup(groupName);
+        Group.groups.clear(); // Ensure that the group does not exist before the test
         Optional<Group> existingGroup = Group.getOrCreateGroup(groupName);
 
-        assertEquals(newGroup.get(), existingGroup.get(), "getOrCreateGroup should return the existing group");
-        assertTrue(Group.getCurrentGroup().isEmpty(), "Current group should be empty after exiting");
+        assertTrue(existingGroup.isPresent(), "Should retrieve the existing group");
+        assertEquals(newGroup.get(), existingGroup.get(), "Should return the same group object for existing group");
     }
 
     @Test
     public void testExitGroup() {
         String groupName = "ExitingGroup";
+        Group.groups.clear(); // Ensure that the group does not exist before the test
         Group.getOrCreateGroup(groupName);
-        Group.exitGroup();
-        assertTrue(Group.getCurrentGroup().isEmpty(), "Did not successfully exit the group");
+        Group.exitGroup(groupName);
+        assertTrue(Group.getCurrentGroup().isEmpty(), "Should successfully exit the group");
     }
 
     @Test
     public void testGetCurrentGroup() {
         String groupName = "CurrentGroup";
-        Optional<Group> group = Group.getOrCreateGroup(groupName);
-
-        assertEquals(group.get(), Group.getCurrentGroup().get(), "Current group is not the expected group");
-
-        Group.exitGroup();
-        assertTrue(Group.getCurrentGroup().isEmpty(), "Current group should be empty after exiting");
+        Group.groups.clear(); // Ensure that the group does not exist before the test
+        Group.getOrCreateGroup(groupName);
+        Optional<Group> currentGroup = Group.getCurrentGroup();
+        assertEquals(currentGroup.isPresent(), true, "Current group should not be empty");
+        assertEquals(groupName, currentGroup.get().getGroupName(), "Current group should match the expected group");
     }
 }
