@@ -1,0 +1,29 @@
+@startuml
+actor User
+participant ":GroupCommand" as GroupCommand
+participant ":Group" as Group
+participant ":User" as JohnUser
+
+User -> GroupCommand: member John
+activate GroupCommand
+GroupCommand -> Group: addMember("John")
+activate Group
+
+Group -> Group: isMember("John")
+activate Group
+deactivate Group
+
+Group -> JohnUser: new User("John")
+activate JohnUser
+JohnUser --> Group: johnUser
+deactivate JohnUser
+
+Group -> Group: members.add(johnUser)
+activate Group
+deactivate Group
+
+Group --> GroupCommand
+deactivate Group
+GroupCommand --> User
+deactivate GroupCommand
+@enduml

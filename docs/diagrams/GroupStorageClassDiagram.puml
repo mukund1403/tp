@@ -1,0 +1,42 @@
+@startuml
+hide circle
+hide empty members
+skinparam classAttributeIconSize 0
+
+class GroupStorage {
+  + isLoading: boolean {static}
+  - fileIO: FileIO
+  + saveGroupToFile(group: Group): void
+  + loadGroupFromFile(groupName: String): Group
+  + deleteGroupFile(groupName: String): void
+}
+
+interface FileIO<<interface>> {
+  + getFileReader(filePath: String): BufferedReader
+  + getFileWriter(filePath: String): BufferedWriter
+  + deleteFile(filePath: String): boolean
+}
+
+class FileIOImpl implements FileIO {
+}
+
+class Group {
+  - groupName: String
+  - expenseList: List<Expense>
+  + addMember(memberName: String): User
+  + addExpense(expense: Expense): void
+  + getGroupName(): String
+  + getMembers(): List<User>
+  + getExpenseList(): List<Expense>
+}
+
+class GroupNameChecker {
+  + doesGroupNameExist(groupNameToCheck: String): boolean
+}
+
+GroupStorage --> FileIO
+GroupStorage --> Group
+Group --> GroupNameChecker
+Group --> GroupStorage
+GroupNameChecker --> GroupFilePath
+@enduml
