@@ -1,14 +1,13 @@
 package seedu.duke;
 
-import seedu.duke.exceptions.ExpensesException;
-
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 //@@author Cohii2
 public class Balance {
     protected String userName;
-    protected Map<String, Float> balanceList;
+    protected Map<String, List<Money>> balanceList;
 
     public Balance(String userName, Group group) {
         this(userName, group.getExpenseList(), group.getMembers());
@@ -28,7 +27,7 @@ public class Balance {
         // Populate balanceList with other Users from Group
         for (User user : users) {
             if (!user.getName().equals(userName)) {
-                balanceList.put(user.getName(), 0f);
+                balanceList.put(user.getName(), new ArrayList<Money>());
             }
         }
 
@@ -38,7 +37,7 @@ public class Balance {
         }
     }
 
-    public Map<String, Float> getBalanceList() {
+    public Map<String, List<Money>> getBalanceList() {
         return balanceList;
     }
 
@@ -51,55 +50,97 @@ public class Balance {
         String payerName = expense.getPayerName();
         List<Pair<String, Money>> payees = expense.getPayees();
 
-
         if(payerName.equals(userName)) {
             for(Pair<String, Money> payee : payees) {
 
                 String payeeName = payee.getKey();
-                Float payeeAmount = payee.getValue().getAmount();
+                Money payeeMoney = payee.getValue();
 
                 if (payeeName.equals(userName)) {
                     continue;
                 }
 
-                Float currentOwed = balanceList.get(payeeName);
-                Float newOwed = currentOwed + payeeAmount;
-
-                balanceList.put(payeeName, newOwed);
+                List<Money> moneyList = balanceList.get(payeeName);
+                addMoney(moneyList, payeeMoney);
             }
         } else {
-
             for(Pair<String, Money> payee : payees) {
                 String payeeName = payee.getKey();
-                Float payeeAmount = payee.getValue().getAmount();
+                Money payeeMoney = payee.getValue();
 
                 if (!payeeName.equals(userName)) {
                     continue;
                 }
 
-                Float currentOwed = balanceList.get(payerName);
-                Float newOwed = currentOwed - payeeAmount;
-
-                balanceList.put(payerName, newOwed);
+                List<Money> moneyList = balanceList.get(payerName);
+                subtractMoney(moneyList, payeeMoney);
                 break;
             }
         }
+    }
+
+    /**
+     * Adds a Money object to a List of Money.
+     * If money shares a currency with an entry in moneyList, perform addition with the existing entry.
+     * Else, append Money as a new entry to the List.
+     *
+     * @param moneyList The current List of Money.
+     * @param money The Money object to be added.
+     */
+    public void addMoney(List<Money> moneyList, Money money){
+        for(int i = 0; i < moneyList.size(); i++){
+            CurrencyConversions currency = moneyList.get(i).getCurrency();
+            boolean isSameCurrency = currency.equals(money.getCurrency());
+
+            if(!isSameCurrency){
+                continue;
+            }
+
+            Money oldItem = moneyList.get(i);
+            Money newItem= oldItem.addition(money, currency);
+            moneyList.set(i, newItem);
+            return;
+        }
+
+        // no matching currency in moneyList
+        moneyList.add(money);
+    }
+
+    /**
+     * Subtracts a Money object from a List of Money.
+     * If money shares a currency with an entry in moneyList, perform subtraction with the existing entry.
+     * Else, append -Money as a new entry to the List.
+     *
+     * @param moneyList The current List of Money.
+     * @param money The Money object to be subtracted.
+     */
+    public void subtractMoney(List<Money> moneyList, Money money){
+        for(int i = 0; i < moneyList.size(); i++){
+            CurrencyConversions currency = moneyList.get(i).getCurrency();
+            boolean isSameCurrency = currency.equals(money.getCurrency());
+
+            if(!isSameCurrency){
+                continue;
+            }
+
+            Money oldItem = moneyList.get(i);
+            Money newItem= oldItem.subtraction(money, currency);
+            moneyList.set(i, newItem);
+            return;
+        }
+
+        // no matching currency in moneyList
+        moneyList.add(money.multiplication(-1f, money.getCurrency()));
     }
 
     public void printBalance() {
         StringBuilder printOutput = new StringBuilder();
         printOutput.append(String.format("User %s's Balance List:", userName));
 
-        for (Map.Entry<String, Float> entry : balanceList.entrySet()) {
-            if (entry.getValue() > 0f) {
-                printOutput.append(String.format(
-                        "\n  %s owes %s : %.2f", entry.getKey(), userName, entry.getValue()
-                ));
-            }
-            else {
-                printOutput.append(String.format(
-                        "\n  %s owes %s : %.2f", userName, entry.getKey(), -entry.getValue()
-                ));
+        for (Map.Entry<String, List<Money>> entry : balanceList.entrySet()) {
+            String user = entry.getKey();
+            for(Money money : entry.getValue()){
+                printOutput.append(String.format("\n  %s : %s", user, money));
             }
         }
 
