@@ -46,6 +46,7 @@ alt group does not exist in memory
 
         GroupStorage -> FileIO: reader.close()
         activate FileIO
+        FileIO --> GroupStorage
         deactivate FileIO
 
         GroupStorage --> Group: loadedGroup
