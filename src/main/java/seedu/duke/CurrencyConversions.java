@@ -2,20 +2,20 @@ package seedu.duke;
 //@@author MonkeScripts
 //all rates are relative to 1 SGD
 public enum CurrencyConversions {
-    USD("USD", 0.74),
-    RMB("RMB", 5.35),
-    EUR("EUR", 0.687),
-    JPY("JPY", 112.12),
-    AUD("AUD", 1.12),
-    MYR("MYR", 3.50),
-    SGD("SGD", 1.00),
+    USD("USD", 0.74F),
+    RMB("RMB", 5.35F),
+    EUR("EUR", 0.687F),
+    JPY("JPY", 112.12F),
+    AUD("AUD", 1.12F),
+    MYR("MYR", 3.50F),
+    SGD("SGD", 1.00F),
 
     ;
 
     private final String name;
-    private final double rate;
+    private final float rate;
 
-    CurrencyConversions(String name, double rate) {
+    CurrencyConversions(String name, float rate) {
         this.name = name;
         this.rate = rate;
     }
@@ -24,12 +24,12 @@ public enum CurrencyConversions {
         return this.name;
     }
 
-    double getRate() {
+    float getRate() {
         return this.rate;
     }
 
-    double getInverseRate() {
-        return 1.00 / this.rate;
+    float getInverseRate() {
+        return (1.00f / this.rate);
     }
 
     @Override

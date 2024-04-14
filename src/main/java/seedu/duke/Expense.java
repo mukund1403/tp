@@ -13,8 +13,8 @@ import java.util.ArrayList;
  */
 public class Expense {
     private String payerName;
-    private float totalAmount;
-    private ArrayList<Pair<String, Float>> payees = new ArrayList<>();
+    private Money totalAmount;
+    private ArrayList<Pair<String, Money>> payees = new ArrayList<>();
 
     private String description;
 
@@ -28,7 +28,7 @@ public class Expense {
      *               the amount they owe (Index 0 is the payer and will also be added to the payees but as last index)
      */
     public Expense(boolean isUnequal, String payerName, String description,
-                   float totalAmount, ArrayList<Pair<String,Float>> payees)
+                   Money totalAmount, ArrayList<Pair<String,Money>> payees)
             throws ExpensesException {
         this.payees = payees;
         this.payerName = payerName;
@@ -36,6 +36,7 @@ public class Expense {
         this.description = description;
         printSuccessMessage();
     }
+
 
     /**
      * Constructor to create new Equal Expense
@@ -45,7 +46,8 @@ public class Expense {
      * @param payees : ArrayList of pairs containing names of people who are involved in the transaction and
      *                the amount they owe (Index 0 is the payer and will also be added to the payees but as last index)
      */
-    public Expense(String payerName, String description, float totalAmount, ArrayList<Pair<String, Float>> payees){
+
+    public Expense(String payerName, String description, Money totalAmount, ArrayList<Pair<String, Money>> payees){
         this.payees = payees;
         this.payerName = payerName;
         this.totalAmount = totalAmount;
@@ -65,10 +67,10 @@ public class Expense {
      * @return : float showing the total amount before division
      */
     public float getTotalAmount() {
-        return totalAmount;
+        return totalAmount.getAmount();
     }
 
-    public ArrayList<Pair<String, Float>> getPayees() {
+    public ArrayList<Pair<String, Money>> getPayees() {
         return payees;
     }
 
@@ -77,27 +79,38 @@ public class Expense {
         return description;
     }
 
+    public CurrencyConversions getCurrency() {
+        return totalAmount.getCurrency();
+    }
+
     /**
      * Converts the Expense to string form containing all the expense details
      * @return : A string containing expense details in a tabular format
      */
     @Override
     public String toString() {
-        String expensesDetails = "";
-        expensesDetails += "description: " + description + "\n\tamount: " + String.format("%.2f",totalAmount) +
-                "\n\tpaid by: " + payerName + "\n\tThe split is:\n";
-        for (Pair<String, Float> payee : payees) {
-            expensesDetails += "\t\t" + payee.getKey() + " : " + String.format("%.2f", payee.getValue()) + "\n";
+        StringBuilder expensesDetails = new StringBuilder();
+        expensesDetails.append("description: ").append(description).append("\n\tamount: ")
+                .append(totalAmount.getCurrency())
+                .append(String.format(" %.2f", totalAmount.getAmount())).append("\n\tpaid by: ")
+                .append(payerName).append("\n\tThe split is:\n");
+        for (Pair<String, Money> payee : payees) {
+            expensesDetails.append("\t\t").append(payee.getKey()).append(" : ")
+                    .append(payee.getValue().getCurrency())
+                    .append(String.format(" %.2f", payee.getValue().getAmount())).append("\n");
         }
-        return expensesDetails;
+        return expensesDetails.toString();
     }
 
     void printSuccessMessage() {
         if (!GroupStorage.isLoading) {
-            System.out.println("Added new expense with description " + description + " and amount " +
-                    String.format("%.2f",totalAmount) + " paid by " + payerName + " . The split is:");
-            for (Pair<String, Float> payee : payees) {
-                System.out.println(payee.getKey() + " : " + String.format("%.2f", payee.getValue()));
+            System.out.println("Added new expense with description " + description + " and amount "
+                    + String.format(totalAmount.getCurrency() + " %.2f",totalAmount.getAmount()) +
+                    " paid by " + payerName + ". The split is:");
+
+            for (Pair<String, Money> payee : payees) {
+                System.out.println(payee.getKey() + " : " + String.format(payee.getValue().getCurrency() +
+                        " %.2f", payee.getValue().getAmount()));
             }
             System.out.println();
         }

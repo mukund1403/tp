@@ -1,13 +1,16 @@
 package seedu.duke.commands;
+//@@author mukund1403
 
-import seedu.duke.Expense;
-import seedu.duke.exceptions.ExpensesException;
 import seedu.duke.Group;
 import seedu.duke.Pair;
+import seedu.duke.CurrencyConversions;
+import seedu.duke.Money;
+import seedu.duke.Expense;
+import seedu.duke.exceptions.ExpensesException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.HashMap;
 import java.util.Optional;
 
 public class ExpenseCommand {
@@ -26,20 +29,29 @@ public class ExpenseCommand {
                 throw new ExpensesException("No " + expenseParam + " for expenses! Add /" + expenseParam);
             }
         }
-
+        //@@author mukund1403
         float totalAmount = getTotal(params);
+        String currencyString;
+        if(params.get("currency").isEmpty()){
+            currencyString = "";
+        } else {
+            currencyString = params.get("currency").get(0);
+        }
+
+        CurrencyConversions currency = getCurrency(currencyString);
+
+        Money amountAndCurrency = new Money(totalAmount, currency);
         ArrayList<String> payeeList = params.get("user");
         String payerName = params.get("paid").get(0);
 
         checkDescription(argument);
 
-        //@@author mukund1403
         Expense newTransaction;
-        ArrayList<Pair<String,Float>> payees = new ArrayList<>();
+        ArrayList<Pair<String, Money>> payees = new ArrayList<>();
         if(userInput.contains("/unequal")){
-            newTransaction = addUnequalExpense(payeeList, payees, totalAmount, payerName, argument);
+            newTransaction = addUnequalExpense(payeeList, payees, amountAndCurrency, payerName, argument);
         } else {
-            newTransaction = addEqualExpense(payeeList, payees, totalAmount, payerName, argument);
+            newTransaction = addEqualExpense(payeeList, payees, amountAndCurrency, payerName, argument);
         }
         currentGroup.get().addExpense(newTransaction);
     }
@@ -66,8 +78,9 @@ public class ExpenseCommand {
 
     public static Float getTotal(HashMap<String, ArrayList<String>> params) throws ExpensesException {
         float totalAmount;
+        String amount = params.get("amount").get(0);
         try {
-            totalAmount = Float.parseFloat(params.get("amount").get(0));
+            totalAmount = Float.parseFloat(amount);
         } catch (NumberFormatException e) {
             String exceptionMessage = "Re-enter expense with amount as a proper number. (Good bug to start with tbh!)";
             throw new ExpensesException(exceptionMessage);
@@ -83,6 +96,33 @@ public class ExpenseCommand {
             throw new ExpensesException(exceptionMessage);
         }
         return totalAmount;
+    }
+
+    public static CurrencyConversions getCurrency(String currencyString)
+            throws ExpensesException {
+        if(currencyString.isEmpty()){
+            return CurrencyConversions.SGD;
+        } else {
+            switch(currencyString.toUpperCase()) {
+            case "USD":
+                return CurrencyConversions.USD;
+            case "RMB":
+                return CurrencyConversions.RMB;
+            case "EUR":
+                return CurrencyConversions.EUR;
+            case "JPY":
+                return CurrencyConversions.JPY;
+            case "AUD":
+                return CurrencyConversions.AUD;
+            case "MYR":
+                return CurrencyConversions.MYR;
+            case "SGD":
+                return CurrencyConversions.SGD;
+            default:
+                throw new ExpensesException("Sorry! Either you have entered the currency name incorrectly or" +
+                        " the app does not currently support this currency :(");
+            }
+        }
     }
 
     public static int getListIndex(String listIndex, int listSize) throws ExpensesException {
@@ -104,10 +144,13 @@ public class ExpenseCommand {
         return index;
     }
 
-    public static Expense addUnequalExpense(ArrayList<String> payeeList,ArrayList<Pair<String,Float>> payees,
-                                          float totalAmount,String payerName,String argument) throws ExpensesException{
+    public static Expense addUnequalExpense(ArrayList<String> payeeList, ArrayList<Pair<String, Money>> payees,
+                                            Money totalAmountAndCurrency,
+                                            String payerName, String argument) throws ExpensesException{
+        float totalAmount = totalAmountAndCurrency.getAmount();
         float amountDueByPayees = 0;
         int payeeInfoMinLength = 2;
+        CurrencyConversions currency = totalAmountAndCurrency.getCurrency();
         for (String payee : payeeList) {
             String[] payeeInfo = payee.split(" ");
 
@@ -121,7 +164,8 @@ public class ExpenseCommand {
             try {
                 float amountDue = Float.parseFloat(payeeInfo[payeeInfo.length - 1]);
                 amountDueByPayees += amountDue;
-                payees.add(new Pair<>(payeeName, amountDue));
+                Money amountDueAndCurrency = new Money(amountDue, currency);
+                payees.add(new Pair<>(payeeName, amountDueAndCurrency));
             } catch (NumberFormatException e) {
                 String exceptionMessage = "Re-enter amount due for payee with name "
                         + payeeName + " as a proper number.";
@@ -132,20 +176,27 @@ public class ExpenseCommand {
             String exceptionMessage = "The amount split between users is greater than total amount. Try again.";
             throw new ExpensesException(exceptionMessage);
         }
-        payees.add(new Pair<>(payerName, totalAmount - amountDueByPayees));
-        return new Expense(true, payerName, argument, totalAmount, payees);
+        float amountDueForPayer = totalAmount - amountDueByPayees;
+        Money amountDueAndCurrency = new Money(amountDueForPayer, currency);
+        payees.add(new Pair<>(payerName, amountDueAndCurrency));
+        return new Expense(true, payerName, argument, totalAmountAndCurrency, payees);
     }
 
-    public static Expense addEqualExpense(ArrayList<String> payeeList, ArrayList<Pair<String,Float>> payees,
-                                           float totalAmount,String payerName,String argument)throws ExpensesException {
-        Float amountDue = totalAmount / (payeeList.size() + 1);
+
+    public static Expense addEqualExpense(ArrayList<String> payeeList, ArrayList<Pair<String, Money>> payees,
+                                           Money totalAmountAndCurrency,
+                                          String payerName,String argument)throws ExpensesException {
+        float totalAmount = totalAmountAndCurrency.getAmount();
+        CurrencyConversions currency = totalAmountAndCurrency.getCurrency();
+        float amountDue = totalAmount / (payeeList.size() + 1);
+        Money amountDueAndCurrency = new Money(amountDue, currency);
         for (String payee : payeeList) {
             checkPayeeInGroup(payee);
-            payees.add(new Pair<>(payee, amountDue));
+            payees.add(new Pair<>(payee, amountDueAndCurrency));
         }
         checkPayeeInGroup(payerName);
-        payees.add(new Pair<>(payerName, amountDue));
-        return new Expense(payerName, argument, totalAmount, payees);
+        payees.add(new Pair<>(payerName, amountDueAndCurrency));
+        return new Expense(payerName, argument, totalAmountAndCurrency, payees);
     }
 
     private static void checkDescription(String argument) throws ExpensesException {

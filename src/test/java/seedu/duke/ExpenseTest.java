@@ -1,5 +1,6 @@
 package seedu.duke;
 //@@author mukund1403
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import seedu.duke.commands.ExpenseCommand;
@@ -14,16 +15,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ExpenseTest{
     @Test
-    public void newExpenseTest() throws ExpensesException {
-        ArrayList<Pair<String, Float>> payees = new ArrayList<>(Arrays.asList(
-                new Pair<>("cohii", 2.0f),
-                new Pair<>("shao", 3.20f),
-                new Pair<>("avril", 1.0f),
-                new Pair<>("hafiz", 2.0f),
-                new Pair<>("mukund", 1.8f)
+    void newExpenseTest() throws ExpensesException {
+        ArrayList<Pair<String, Money>> payees = new ArrayList<>(Arrays.asList(
+                new Pair<>("cohii", new Money(2.0f, CurrencyConversions.SGD)),
+                new Pair<>("shao",  new Money(3.2f, CurrencyConversions.SGD)),
+                new Pair<>("avril", new Money(1.0f, CurrencyConversions.SGD)),
+                new Pair<>("hafiz", new Money(2.0f, CurrencyConversions.SGD)),
+                new Pair<>("mukund", new Money(1.8f, CurrencyConversions.SGD))
         ));
+
+        Money totalAmountAndCurrency = new Money(10,CurrencyConversions.SGD);
         Expense testExpense1 = new Expense(true,"mukund","disneyland",
-                10, payees);
+                totalAmountAndCurrency, payees);
 
         assertEquals(testExpense1.getPayees(),payees);
     }
@@ -92,8 +95,8 @@ class ExpenseTest{
                 ("hafiz"),
                 ("mukund 2")
         ));
-        ArrayList<Pair<String, Float>> payees = new ArrayList<>();
-        float totalAmount = 10;
+        ArrayList<Pair<String, Money>> payees = new ArrayList<>();
+        Money totalAmount = new Money(10,CurrencyConversions.SGD);
         String payerName = "mukund";
         String argument = "disneyland";
         Exception e = Assertions.assertThrows(ExpensesException.class,

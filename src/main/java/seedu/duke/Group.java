@@ -87,9 +87,21 @@ public class Group {
      * @return The existing group.
      */
     public static Optional<Group> enterGroup(String groupName) {
+        if (currentGroupName.isPresent()) {
+            System.out.println("You are currently in " + currentGroupName.get() +
+                    ". Exit current group before entering another one.");
+            return Optional.empty();
+        }
+
         Optional<Group> group = Optional.ofNullable(groups.get(groupName));
         if (group.isEmpty()) {
             //@@author hafizuddin-a
+            GroupNameChecker groupNameChecker = new GroupNameChecker();
+            if (!groupNameChecker.doesGroupNameExist(groupName)) {
+                System.out.println("Group does not exist.");
+                return Optional.empty();
+            }
+
             try {
                 // If the group doesn't exist in memory, try loading it from file
                 Optional<Group> loadedGroup = Optional.ofNullable(groupStorage.loadGroupFromFile(groupName));
@@ -98,12 +110,16 @@ public class Group {
                     group = loadedGroup;
                 } else {
                     //@@ author avrilgk
-                    System.out.println("Group does not exist.");
+                    System.out.println("Unable to load group from file.");
                     return Optional.empty();
                 }
                 // @@author hafizuddin-a
             } catch (GroupLoadException e) {
-                System.out.println("Group does not exist.");
+                String errorMessage = e.getMessage();
+                if (errorMessage == null) {
+                    errorMessage = "Failed to load group from file.";
+                }
+                System.out.println(errorMessage);
                 return Optional.empty();
             }
         }
@@ -117,8 +133,13 @@ public class Group {
      * Exits the current group.
      * If the user is not in any group, it displays a message asking the user to try again.
      */
-    public static void exitGroup() {
+    public static void exitGroup(String groupName) {
         if (currentGroupName.isPresent()) {
+            if (!currentGroupName.get().equals(groupName)) {
+                System.out.println("You are not currently in group " + groupName
+                        + ". Please enter the correct group name.");
+                return;
+            }
             //@@author hafizuddin-a
             try {
                 groupStorage.saveGroupToFile(groups.get(currentGroupName.get()));
@@ -130,7 +151,7 @@ public class Group {
             System.out.println("You have exited " + currentGroupName.get() + ".");
             currentGroupName = Optional.empty();
         } else {
-            System.out.println("You are not currently in any group. Please try again.");
+            System.out.println("You are not currently in a group.");
         }
     }
 
@@ -284,7 +305,7 @@ public class Group {
             }
 
             // Process the relevant expense
-            for (Pair<String, Float> userExpense : expense.getPayees()) {
+            for (Pair<String, Money> userExpense : expense.getPayees()) {
                 totalAmount += calculateAdjustedAmount(expense, payer, payee, userExpense);
             }
         }
@@ -317,15 +338,15 @@ public class Group {
      * @return The adjusted amount for the user in the expense.
      */
 
-    private double calculateAdjustedAmount(Expense expense, User payer, User payee, Pair<String, Float> userExpense) {
+    private double calculateAdjustedAmount(Expense expense, User payer, User payee, Pair<String, Money> userExpense) {
         String payerName = payer.getName();
         String payeeName = payee.getName();
         String expensePayer = expense.getPayer();
 
         if (userExpense.getKey().equals(payeeName) && expensePayer.equals(payerName)) {
-            return userExpense.getValue();
+            return userExpense.getValue().getAmount();
         } else if (userExpense.getKey().equals(payerName) && expensePayer.equals(payeeName)) {
-            return -userExpense.getValue();
+            return -userExpense.getValue().getAmount();
         }
         return 0;
     }
