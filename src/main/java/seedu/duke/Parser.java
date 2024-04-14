@@ -143,7 +143,24 @@ public class Parser {
             GroupCommand.createGroup(argument);
             break;
         case "delete":
-            GroupCommand.deleteGroup(argument);
+            String[] deleteTypeAndValue = argument.split(" ");
+            String deleteType = deleteTypeAndValue[0];
+            String deleteValue;
+            try{
+                deleteValue = deleteTypeAndValue[1];
+            } catch (ArrayIndexOutOfBoundsException e){
+                throw new ExpensesException("Mention if you want to delete an expense or group" +
+                        " and which group or expense you want to delete.");
+            }
+
+            if(deleteType.equals("group")){
+                GroupCommand.deleteGroup(deleteValue);
+            } else if(deleteType.equals("expense")){
+                ExpenseCommand.deleteExpense(deleteValue);
+            } else {
+                throw new ExpensesException("Mention if you want to delete an expense or group.");
+            }
+
             break;
         case "member":
             GroupCommand.addMember(argument);

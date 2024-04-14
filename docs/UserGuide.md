@@ -2,12 +2,32 @@
 
 ## Introduction
 
-Split-liang is an application that helps you split expenses with friends in a fun way!
+Split-liang is an application that helps you split expenses with friends in a fun way! If you are tired of keeping track and calculating who owes who, Split-liang is here to help you. With Split-liang, you can create groups, add members, add expenses, and settle debts between members. Split-liang will automatically calculate the amount each member owes or is owed. You can also play slots to remove your debts!
+
+## Content Page
+1. [Quick Start](#quick-start)
+2. [Features](#features)
+    - [Viewing help: `help`](#viewing-help-help)
+    - [Creating a group: `create`](#creating-a-group-create)
+    - [Entering a group: `enter`](#entering-a-group-enter)
+    - [Add members to group: `member`](#add-members-to-group-member)
+    - [Exiting a group: `exit`](#exiting-a-group-exit)
+    - [Show balance of user: `balance`](#show-balance-of-user-balance)
+    - [Settle expenses: `settle`](#settle-expenses-settle)
+    - [Trying your luck: `luck`](#trying-your-luck-luck)
+    - [Create expenses: `expense`](#create-expenses-expense)
+    - [Saving the data](#saving-the-data)
+    - [Saying goodbye: `bye`](#saying-goodbye-bye)
+
+--------------------------------------------------------------------------------------------------------------------
+
 
 ## Quick Start
 
-1. Ensure that you have Java 11 or above installed.
-2. Download the latest version of `Duke` [here](http://link.to/duke).
+1. Ensure that you have Java 11 or above installed in your computer.
+2. Download the latest version of `Split-liang` from [here](https://github.com/AY2324S2-CS2113-T15-3/tp/releases).
+3. Copy the file to the folder you want to use as the home folder for your Split-liang.
+4. Open a command terminal, `cd` to the folder where the jar file is located. Run the command `java -jar Split-liang.jar`. The application should start and display the welcome message.
 
 ## Features
 
@@ -35,6 +55,7 @@ Welcome, here is a list of commands:
 - `balance <user_name>`: Show user's balance.
 - `settle <payer_name> /user <payee_name>`: Settle the amount between two users.
 - `luck`: Luck is in the air tonight.
+
 
 ### Creating a group: `create`
 
@@ -68,7 +89,11 @@ Adds a new member to the group.
 
 Format: `member USER_NAME`
 
-`USER_NAME` is the name of the user to be added to the group.
+- `USER_NAME` is the name of the user to be added to the group.
+- `USER_NAME` must be unique. It cannot be the same as an existing member's name.
+- `USER_NAME` can contain whitespaces but cannot be empty.
+- `USER_NAME` is not case-sensitive.
+- `USER_NAME` can contain special characters.
 
 Example: `member Alice`
 
@@ -172,10 +197,14 @@ This command exits the application.
 
 ## Command Summary
 
-- `help`: Shows a message explaining how to use the application.
-- `create GROUP_NAME`: Creates a new group with the specified group name.
-- `enter GROUP_NAME`: Enters an existing group with the specified group name.
-- `member USER_NAME`: Adds a new member to the group.
-- `exit`: Exits the current group.
-- `settle USER_NAME1 /user USER_NAME2`: Settles the expenses between two users in the group.
-- `bye`: Exits the application.
+
+Action | Format, Examples
+--------|------------------
+Help | `help`
+Create group | `create GROUP_NAME` <br> e.g. `create Friends`
+Enter group | `enter GROUP_NAME` <br> e.g. `enter Friends`
+Add member | `member USER_NAME` <br> e.g. `member Alice`
+Exit group | `exit GROUP_NAME` <br> e.g. `exit Friends`
+Settle expenses | `settle USER_NAME1 /user USER_NAME2` <br> e.g. `settle Alice /user Bob`
+Exit application | `bye`
+
