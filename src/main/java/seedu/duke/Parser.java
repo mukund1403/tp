@@ -178,6 +178,12 @@ public class Parser {
             break;
         case "settle":
             //@@author avrilgk
+            Optional<Group> currentGroup = Group.getCurrentGroup();
+            if (currentGroup.isEmpty()) {
+                String exceptionMessage = "Not signed in to a Group! Use 'create <name>' to create Group";
+                throw new ExpensesException(exceptionMessage);
+            }
+
             if(params.get("user").isEmpty() || params.get("user").size() > 1){
                 System.out.println("Invalid command. Syntax: settle payerName /user payeeName");
                 return;
