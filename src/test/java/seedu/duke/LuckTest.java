@@ -39,6 +39,7 @@ public class LuckTest {
                     "10 USD Per round, given to random user in your group!!!\n" +
                     "Win if all 3 MIDDLE slots are the same and clear your debts!!!\n";
 
+    @Test
     void testLuck() {
         Group newGroup = new Group("lmao");
         String username = "heehee";
