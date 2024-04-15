@@ -150,6 +150,7 @@ settle the debt.
 
 The method then prints out the amount that is owed by `userName1` to `userName2`, and the amount that is owed
 by `userName2` to `userName1` after the settlement.
+
 ![Sequence Diagram](images/settle.png)
 
 ### Group Storage feature
@@ -209,9 +210,12 @@ For every new `/reroll`, an additional Expense of 10USD would be created and all
 For a win, the user clears all his debts within the group.
 
 Following structural diagram shows the dependency of Luck class
+
 ![Luck Structure](images/LuckStructure.png)
+
 Following sequence diagram shows user calls `startGambling()` within Luck class and a new SlotMachine class is instantiated
 For every reroll, fillSlots() is called which fills individual slots in the 3 x 3 slot machine with a randomised character
+
 ![Sequence Diagram](images/luckGambling.png)
 
 
