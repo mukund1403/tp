@@ -180,6 +180,22 @@ Step 8. When the user ends the program using the `bye` command, the `GroupStorag
   - Pros: Ensures that changes are immediately persisted and reduces the risk of data loss in case of unexpected program termination. 
   - Cons: Increases file I/O operations and may impact performance, especially for frequent group modifications.
 
+### Luck feature
+
+#### Implementation
+
+The Luck features offers users the unique opportunity to clear their debts by playing with a slot machine.
+User enters the command `luck` in the parser to enter the slot machine game. 
+Parser checks whether the user is in a group and also whether the said group has more than one user. 
+To win in the slot machine, all three slots in the MIDDLE row must show the same character
+The user can either key in `/reroll` or `/exit` to either roll the slot machine or leave the game.
+For every new `/reroll`, an additional Expense of 10USD would be created and allocated to a random member in the group 
+For a win, the user clears all his debts within the group.
+Following sequence diagram shows user calls `startGambling()` within Luck class and a new SlotMachine class is instantiated
+For every reroll, fillSlots() is called which fills individual slots in the 3 x 3 slot machine with a randomised character
+![Sequence Diagram](images/luckGambling.png)
+
+
 
 ## Product scope
 
