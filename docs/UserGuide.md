@@ -312,16 +312,17 @@ This command enable users play slots to remove their debts
 --------------------------------------------------------------------------------------------------------------------
 ### Saving the data
 
-Split-liang automatically saves the data in each group to `GROUP_NAME.txt` in the `data\groups` folder after the application
-exits. There is no need to save manually.
+Split-liang automatically saves the data in each group to `GROUP_NAME.txt` in the `data\groups` folder after the user exits the group using the `exit GROUP_NAME` command or exits the application using the `bye` command. There is no need to save manually.
 
-The data is loaded automatically when the application starts.
+The group data is loaded automatically when the user enters the group using the `enter GROUP_NAME` command.
 
+- The data won't be saved if the application is closed using the `X` button on the window. It will also not be saved when the application is closed using the `Ctrl + C` command in the terminal.
 - The data folder is located in the same directory as the jar file.
 - The data folder contains the data for each group in a separate text file.
 - The data folder is created automatically if it does not exist.
 - The data folder can be deleted to clear all data.
 - Corrupted data files will be ignored and not loaded.
+- The data is saved in a human-readable format.
 
 --------------------------------------------------------------------------------------------------------------------
 ### Exiting the Application 
