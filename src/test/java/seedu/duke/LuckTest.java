@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LuckTest {
     private static final String testOutput =
+
                     "                   .=*+::.                          \n" +
                     "                   =*=-:::.                         \n" +
                     "             .:=+**#***####*+=-:.                   \n" +
