@@ -87,6 +87,10 @@ public class Parser {
         }
 
         String[] arguments = tokens[1].split("/");
+        if(arguments.length < 1) {
+            return;
+        }
+
         this.argument = arguments[0].trim();
 
         for (int i = 1; i < arguments.length; i++) {
