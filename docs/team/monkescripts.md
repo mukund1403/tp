@@ -35,9 +35,9 @@ Split-liang is a CLI application that helps you split expenses with friends in a
 
 * **Review/mentoring contributions**
     * PRs reviewed (with non-trivial review comments):
-    * https://github.com/AY2324S2-CS2113-T15-3/tp/pull/30
-    * https://github.com/AY2324S2-CS2113-T15-3/tp/pull/31
-    * https://github.com/AY2324S2-CS2113-T15-3/tp/pull/155
+    * [comment1](https://github.com/AY2324S2-CS2113-T15-3/tp/pull/30)
+    * [comment2](https://github.com/AY2324S2-CS2113-T15-3/tp/pull/31)
+    * [comment3](https://github.com/AY2324S2-CS2113-T15-3/tp/pull/155)
 
 * **Contributions beyond the project team**
-* https://github.com/MonkeScripts/ped
+* [other repo](https://github.com/MonkeScripts/ped)
