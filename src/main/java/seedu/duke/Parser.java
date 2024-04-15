@@ -44,14 +44,14 @@ public class Parser {
      * Constructor for Test purposes.
      */
     public Parser(String userInput, String command, String argument,
-                  String[] amount, String[] paid, String[] user) {
+                  String[] amount, String[] paid, String[] user, String[] currency) {
         this.userInput = userInput;
         this.command = command;
         this.argument = argument;
         this.params.put("amount", new ArrayList<>(List.of(amount)));
         this.params.put("paid", new ArrayList<>(List.of(paid)));
         this.params.put("user", new ArrayList<>(List.of(user)));
-        this.params.put("currency", new ArrayList<>(List.of(user)));
+        this.params.put("currency", new ArrayList<>(List.of(currency)));
     }
 
     public Parser(String userInput) {
