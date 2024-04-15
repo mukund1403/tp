@@ -6,7 +6,9 @@ import seedu.duke.Pair;
 import seedu.duke.CurrencyConversions;
 import seedu.duke.Money;
 import seedu.duke.Expense;
+import seedu.duke.UserInterface;
 import seedu.duke.exceptions.ExpensesException;
+import seedu.duke.MessageType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +55,7 @@ public class ExpenseCommand {
         } else {
             newTransaction = addEqualExpense(payeeList, payees, amountAndCurrency, payerName, argument);
         }
-        newTransaction.printSuccessMessage();
+        UserInterface.printMessage(newTransaction.successMessageString(),MessageType.SUCCESS);
         currentGroup.get().addExpense(newTransaction);
     }
 
@@ -74,7 +76,8 @@ public class ExpenseCommand {
         int index = getListIndex(listIndex, listSize) - 1;
         String deletedExpenseDescription = expenseList.get(index).toString();
         currentGroup.get().deleteExpense(index);
-        System.out.println("Deleted expense:\n" + deletedExpenseDescription);
+        UserInterface.printMessage("Deleted expense:\n" + deletedExpenseDescription,MessageType.SUCCESS);
+        //System.out.println("Deleted expense:\n" + deletedExpenseDescription);
     }
 
     public static Float getTotal(HashMap<String, ArrayList<String>> params) throws ExpensesException {
