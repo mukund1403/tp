@@ -29,6 +29,13 @@ Split-liang is an application that helps you split expenses with friends in a fu
 3. Copy the file to the folder you want to use as the home folder for your Split-liang.
 4. Open a command terminal, `cd` to the folder where the jar file is located. Run the command `java -jar Split-liang.jar`. The application should start and display the welcome message.
 
+## Command Structure
+
+A command has the general format:
+```
+COMMAND ARGUMENT /param PARAM1 /param PARAM2 ...
+```
+
 ## Features
 
 ### Viewing help: `help`
@@ -120,9 +127,26 @@ Shows list of members the user owes money to.
 
 Format: `balance USER_NAME`
 
-Example: `balance Shaoliang`
+Example: 
+```
+balance Alice
 
-This command will display the balance of the user named Shaoliang.
+  /\_/\
+ ( ^.^ )
+  > ^ <
+<----------SUCCESS----------->
+User Alice's Balance List:
+  Bob : 5.00SGD
+  Eve : 10.00SGD
+  Eve : -10.00AUD
+End of Balance List
+<---------------------------->
+```
+
+This command will display the balance of the user named Alice.
+In this case, Bob owes Alice `5.00SGD`, 
+Eve owes Alice `10.00SGD` 
+and Alice owes Eve `10.00AUD`
 
 ### Settle expenses: `settle`
 
@@ -205,6 +229,7 @@ Create group | `create GROUP_NAME` <br> e.g. `create Friends`
 Enter group | `enter GROUP_NAME` <br> e.g. `enter Friends`
 Add member | `member USER_NAME` <br> e.g. `member Alice`
 Exit group | `exit GROUP_NAME` <br> e.g. `exit Friends`
+Show balance | `balance USER_NAME` <br> e.g. `balance Alice`
 Settle expenses | `settle USER_NAME1 /user USER_NAME2` <br> e.g. `settle Alice /user Bob`
 Exit application | `bye`
 
