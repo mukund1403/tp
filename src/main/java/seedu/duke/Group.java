@@ -310,7 +310,21 @@ public class Group {
 
         Expense repaymentExpense = new Expense(payer.getName(), "Settlement", total, repaymentList);
         expenseList.add(repaymentExpense);
-        UserInterface.printMessage(payerName + " has settled the full amount with " + payeeName);
+        System.out.println(payerName + " has settled the full amount with " + payeeName);
+    }
+
+    public void settleAll(String payerName) {
+        User payer = findUser(payerName);
+        if (payer == null) {
+            System.out.println("User not found.");
+            return;
+        }
+        for (User member : members) {
+            if (member.getName().equals(payerName)) {
+                continue;
+            }
+            settle(payerName, member.getName());
+        }
     }
 
     /**

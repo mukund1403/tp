@@ -6,16 +6,28 @@ Hello from
 | '--'S|| '--'P|| '--'L|| '--'I|| '--'T|| '--'L|| '--'I|| '--'A|| '--'N|| '--'G|
 `------'`------'`------'`------'`------'`------'`------'`------'`------'`------'
 
-What is your name?
-Hello James Gosling
+Start splitting your expenses now!
 Welcome, here is a list of commands:
 help: Access help menu.
 create <name>: Create a group.
 exit <name>: Exit current group.
 member <name> : Add a member to the group.
-expense <description> /amount <amount> /paid <paid_by> /user <user_1> /user <user_2> ...: Add an expense SPLIT EQUALLY.
-expense <description> /unequal /amount <amount> /paid <paid_by> /user <user_1> <amount_owed> /user <user_2> <amount owed> ...: Add an expense SPLIT UNEQUALLY.
+expense <description> /amount <amount> /currency <currency> /paid <paid_by> /user <user_1> /user <user_2> ...: Add an expense SPLIT EQUALLY.
+expense <description> /unequal /amount <amount> /currency <currency> /paid <paid_by> /user <user_1> <amount_owed> /user <user_2> <amount owed> ...: Add an expense SPLIT UNEQUALLY.
 list: List all expenses in the group.
 balance <user_name>: Show user's balance.
-luck : luck is in the air tonight
+settle <payer_name> /user <payee_name>: Settle the amount between two users.
+luck <payer_name>: luck is in the air tonight
+That is not a command. Please use one of the commands given here
+Welcome, here is a list of commands:
+help: Access help menu.
+create <name>: Create a group.
+exit <name>: Exit current group.
+member <name> : Add a member to the group.
+expense <description> /amount <amount> /currency <currency> /paid <paid_by> /user <user_1> /user <user_2> ...: Add an expense SPLIT EQUALLY.
+expense <description> /unequal /amount <amount> /currency <currency> /paid <paid_by> /user <user_1> <amount_owed> /user <user_2> <amount owed> ...: Add an expense SPLIT UNEQUALLY.
+list: List all expenses in the group.
+balance <user_name>: Show user's balance.
+settle <payer_name> /user <payee_name>: Settle the amount between two users.
+luck <payer_name>: luck is in the air tonight
 Goodbye!
