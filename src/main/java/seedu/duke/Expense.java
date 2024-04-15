@@ -2,9 +2,8 @@
 package seedu.duke;
 
 
-import seedu.duke.exceptions.ExpensesException;
-import seedu.duke.storage.GroupStorage;
 
+import seedu.duke.storage.GroupStorage;
 import java.util.ArrayList;
 
 
@@ -12,33 +11,12 @@ import java.util.ArrayList;
  * A class to add a new expense
  */
 public class Expense {
-    private String payerName;
+    private final String payerName;
     private Money totalAmount;
     private ArrayList<Pair<String, Money>> payees = new ArrayList<>();
 
 
-    private String description;
-
-    /**
-     * Constructor to create new Unequal Expense
-     * @param isUnequal : Boolean showing whether expense is split unequally or not
-     * @param payerName   : The name of the user who paid for the Expense
-     * @param description : Description of the expense
-     * @param totalAmount : The total amount before being divided
-     * @param payees      : ArrayList of pairs containing names of people who are involved in the transaction and
-     *                    the amount they owe
-     *                    (Index 0 is the payer and will also be added to the payees but as last index)
-     */
-    public Expense(boolean isUnequal, String payerName, String description,
-                   Money totalAmount, ArrayList<Pair<String,Money>> payees) throws ExpensesException {
-        this.payees = payees;
-        this.payerName = payerName;
-        this.totalAmount = totalAmount;
-        this.description = description;
-        printSuccessMessage();
-    }
-
-
+    private final String description;
 
     /**
      * Constructor to create new Equal Expense
@@ -53,7 +31,6 @@ public class Expense {
         this.payerName = payerName;
         this.totalAmount = totalAmount;
         this.description = description;
-        printSuccessMessage();
     }
 
     //@@author Cohii2
@@ -110,7 +87,7 @@ public class Expense {
         return expensesDetails.toString();
     }
 
-    void printSuccessMessage() {
+    public void printSuccessMessage() {
         if (!(GroupStorage.isLoading) && !(this instanceof Settle)) {
             System.out.println("Added new expense with description " + description + " and amount "
                     + String.format(totalAmount.getCurrency() + " %.2f",totalAmount.getAmount()) +

@@ -25,7 +25,7 @@ class ExpenseTest{
         ));
 
         Money totalAmountAndCurrency = new Money(10,CurrencyConversions.SGD);
-        Expense testExpense1 = new Expense(true,"mukund","disneyland",
+        Expense testExpense1 = new Expense("mukund","disneyland",
                 totalAmountAndCurrency, payees);
 
         assertEquals(testExpense1.getPayees(),payees);
