@@ -77,7 +77,7 @@ Format: `create GROUP_NAME`
 - `GROUP_NAME` can contain whitespaces but cannot be empty.
 - `GROUP_NAME` must be unique. It cannot be the same as an existing group name.
 - `GROUP_NAME` is not case-sensitive.
-- `GROUP_NAME` can contain special characters.
+- `GROUP_NAME` cannot contain special characters.
 - User must not be in a group to create a new group.
 
 Example: `create Friends`
