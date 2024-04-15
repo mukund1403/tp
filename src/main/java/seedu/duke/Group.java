@@ -19,8 +19,6 @@ public class Group {
     static Optional<String> currentGroupName = Optional.empty();
     private static final GroupStorage groupStorage = new GroupStorage(new FileIOImpl());
 
-    private static GroupNameChecker groupNameChecker = new GroupNameChecker();
-
     private static List<User> members = null;
 
     private final String groupName;
@@ -235,7 +233,7 @@ public class Group {
         expenseList.add(expense);
     }
 
-    public void deleteExpense(int expenseIndex){
+    public void deleteExpense(int expenseIndex) {
         expenseList.remove(expenseIndex);
     }
 
@@ -391,29 +389,5 @@ public class Group {
             }
         }
         return null;
-    }
-
-    /**
-     * Calculates the outstanding amount between two users.
-     *
-     * @param payer The user who paid the expense.
-     * @param payee The user who owes money for the expense.
-     * @return The outstanding amount between the two users.
-     */
-    //@@author avrilgk
-    private Money calculateOutstandingAmount(User payer, User payee) {
-        Balance balance = new Balance(payer.getName(), expenseList, members);
-        List<Money> moneyList = balance.getBalanceList().get(payee.getName());
-
-        Money total = new Money(0f, CurrencyConversions.SGD);
-        for (Money money : moneyList) {
-            total.addition(money, CurrencyConversions.SGD);
-        }
-
-        return total;
-    }
-
-    public static void removeGroup(String groupName) {
-        groups.remove(groupName);
     }
 }
