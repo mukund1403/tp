@@ -10,6 +10,7 @@ Split-liang is an application that helps you split expenses with friends in a fu
     - [Viewing help: `help`](#viewing-help-help)
     - [Creating a group: `create`](#creating-a-group-create)
     - [Entering a group: `enter`](#entering-a-group-enter)
+   -  [Deleting a group: `delete group`](#deleting-a-group-delete)
     - [Add members to group: `member`](#add-members-to-group-member)
     - [Exiting a group: `exit`](#exiting-a-group-exit)
     - [Create a new expense: `expense`](#create-a-new-expense-expense)
@@ -55,11 +56,13 @@ Welcome, here is a list of commands:
 - `help`: Access help menu.
 - `create <name>`: Create a group.
 - `exit <name>`: Exit current group.
+- `delete group <name>`: Delete a group.
 - `member <name>`: Add a member to the group.
 - `expense <description> /amount <amount> /paid <paid_by> /user <user_1> /user <user_2> ...`: Add an expense SPLIT
   EQUALLY.
 - `expense <description> /unequal /amount <amount> /paid <paid_by> /user <user_1> <amount_owed> /user <user_2> <amount owed> ...`:
   Add an expense SPLIT UNEQUALLY.
+- `delete expense <index>`: Delete an expense.
 - `list`: List all expenses in the group.
 - `balance <user_name>`: Show user's balance.
 - `settle <payer_name> /user <payee_name>`: Settle the amount between two users.
@@ -72,12 +75,13 @@ Welcome, here is a list of commands:
 
 Creates a new group with the specified group name.
 
-Format: `create /group GROUP_NAME`
+Format: `create GROUP_NAME`
 
-- `/group` is a keyword to indicate the start of the group name.
 - `GROUP_NAME` is the name of the group.
+- `GROUP_NAME` must be unique. It cannot be the same as an existing group name.
+- `GROUP_NAME` can contain whitespaces but cannot be empty.
 
-Example: `create /group Friends`
+Example: `create Friends`
 
 This command will create a new group named 'Friends'.
 
@@ -85,14 +89,25 @@ This command will create a new group named 'Friends'.
 
 Enters an existing group with the specified group name.
 
-Format: `enter /group GROUP_NAME`
+Format: `enter GROUP_NAME`
 
-- `/group` is a keyword to indicate the start of the group name.
 - `GROUP_NAME` is the name of the group.
+- `GROUP_NAME` must be an existing group name.
 
-Example: `enter /group Friends`
+Example: `enter Friends`
 
 This command will enter the group named 'Friends'.
+
+#### Deleting a group: `delete group GROUP_NAME`
+
+Deletes an existing group with the specified group name.
+
+Format: `delete group GROUP_NAME`
+
+- `GROUP_NAME` is the name of the group to be deleted.
+- `GROUP_NAME` must be an existing group name.
+
+Example: `delete group Friends`
 
 #### Add members to group: `member`
 
@@ -116,12 +131,13 @@ Output: `Alice has been added to group.`
 
 Exits the current group.
 
-Format: `exit /group GROUP_NAME`
+Format: `exit GROUP_NAME`
 
-- `/group` is a keyword to indicate the start of the group name.
 - `GROUP_NAME` is the name of the group.
+- `GROUP_NAME` must be an existing group name.
+- If the user is not in any group, an exception will be thrown.
 
-Example: `exit /group Friends`
+Example: `exit Friends`
 
 This command will exit the group named 'Friends'.
 
@@ -340,6 +356,7 @@ This command exits the application.
 | Help             | `help`                                                                                                                                     |
 | Create group     | `create GROUP_NAME` <br> e.g. `create Friends`                                                                                             |
 | Enter group      | `enter GROUP_NAME` <br> e.g. `enter Friends`                                                                                               |
+| Delete group      | `delete group GROUP_NAME` <br> e.g. `delete group Friends`                                                                                               |
 | Add member       | `member USER_NAME` <br> e.g. `member Alice`                                                                                                |
 | Exit group       | `exit GROUP_NAME` <br> e.g. `exit Friends`                                                                                                 |
 | Add expense      | `expense DESCRIPTION /amount AMOUNT /paid USER_NAME /user USER_NAME GROUP_NAME` <br> e.g. `expense lunch /amount 20 /paid Alice /user Bob` |
