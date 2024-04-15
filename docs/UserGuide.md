@@ -49,21 +49,25 @@ Format: `help`
 Example: `help`
 
 Output:
-
+```
 Welcome, here is a list of commands:
 
 - `help`: Access help menu.
 - `create <name>`: Create a group.
 - `exit <name>`: Exit current group.
 - `member <name>`: Add a member to the group.
+- `enter <name>`: Enter a group.
+- `delete group <name>`: Delete a group.
 - `expense <description> /amount <amount> /paid <paid_by> /user <user_1> /user <user_2> ...`: Add an expense SPLIT
   EQUALLY.
 - `expense <description> /unequal /amount <amount> /paid <paid_by> /user <user_1> <amount_owed> /user <user_2> <amount owed> ...`:
   Add an expense SPLIT UNEQUALLY.
 - `list`: List all expenses in the group.
+- `delete expense <index>`: Delete an expense.
 - `balance <user_name>`: Show user's balance.
 - `settle <payer_name> /user <payee_name>`: Settle the amount between two users.
 - `luck`: Luck is in the air tonight.
+```
 
 --------------------------------------------------------------------------------------------------------------------
 ### GROUP COMMANDS

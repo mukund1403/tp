@@ -12,7 +12,7 @@ public class Help {
                     "Add an expense SPLIT EQUALLY.\n" +
                     "expense <description> /unequal /amount <amount> /paid <paid_by> " +
                     "/user <user_1> <amount_owed> /user <user_2> <amount owed> ...: Add an expense SPLIT UNEQUALLY.\n" +
-                    "delete expense EXPENSE_INDEX: Delete an expense.\n" +
+                    "delete expense <index>: Delete an expense.\n" +
                     "list: List all expenses in the group.\n" +
                     "balance <user_name>: Show user's balance.\n" +
                     "settle <payer_name> /user <payee_name>: Settle the amount between two users.\n" +
