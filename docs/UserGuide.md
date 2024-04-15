@@ -12,10 +12,10 @@ Split-liang is an application that helps you split expenses with friends in a fu
     - [Entering a group: `enter`](#entering-a-group-enter)
     - [Add members to group: `member`](#add-members-to-group-member)
     - [Exiting a group: `exit`](#exiting-a-group-exit)
+    - [Create expenses: `expense`](#create-expenses-expense)
     - [Show balance of user: `balance`](#show-balance-of-user-balance)
     - [Settle expenses: `settle`](#settle-expenses-settle)
     - [Trying your luck: `luck`](#trying-your-luck-luck)
-    - [Create expenses: `expense`](#create-expenses-expense)
     - [Saving the data](#saving-the-data)
     - [Saying goodbye: `bye`](#saying-goodbye-bye)
 
@@ -28,6 +28,13 @@ Split-liang is an application that helps you split expenses with friends in a fu
 2. Download the latest version of `Split-liang` from [here](https://github.com/AY2324S2-CS2113-T15-3/tp/releases).
 3. Copy the file to the folder you want to use as the home folder for your Split-liang.
 4. Open a command terminal, `cd` to the folder where the jar file is located. Run the command `java -jar Split-liang.jar`. The application should start and display the welcome message.
+
+## Command Structure
+
+A command has the general format:
+```
+COMMAND ARGUMENT /param PARAM1 /param PARAM2 ...
+```
 
 ## Features
 
@@ -56,8 +63,10 @@ Welcome, here is a list of commands:
 - `settle <payer_name> /user <payee_name>`: Settle the amount between two users.
 - `luck`: Luck is in the air tonight.
 
+--------------------------------------------------------------------------------------------------------------------
+### GROUP COMMANDS
 
-### Creating a group: `create`
+#### Creating a group: `create`
 
 Creates a new group with the specified group name.
 
@@ -70,7 +79,7 @@ Example: `create /group Friends`
 
 This command will create a new group named 'Friends'.
 
-### Entering a group: `enter`
+#### Entering a group: `enter`
 
 Enters an existing group with the specified group name.
 
@@ -83,7 +92,7 @@ Example: `enter /group Friends`
 
 This command will enter the group named 'Friends'.
 
-### Add members to group: `member`
+#### Add members to group: `member`
 
 Adds a new member to the group.
 
@@ -101,7 +110,7 @@ This command will add a new member named 'Alice' to the group.
 
 Output: `Alice has been added to group.`
 
-### Exiting a group: `exit`
+#### Exiting a group: `exit`
 
 Exits the current group.
 
@@ -114,17 +123,100 @@ Example: `exit /group Friends`
 
 This command will exit the group named 'Friends'.
 
-### Show balance of user: `balance`
+--------------------------------------------------------------------------------------------------------------------
+### EXPENSE COMMANDS
+
+#### Create a new expense: `expense`
+
+Create a new expense for a given group.
+
+##### 1. Create expense split equally
+
+Format:`expense DESCRIPITON /amount AMOUNT /paid PAYER_USER_NAME /user USER_NAME /user USER_NAME`
+
+- `PAYER_USER_NAME` is the username of the person who paid for the transaction.
+- `USER_NAME` is the username of payees. Each expense can have multiple payees but only one payer.
+- `AMOUNT` has to be a valid float value.It will be split equally between all members including the payer.
+- The payer name (`PAYER_USER_NAME`) and all payees (`USER_NAME`) must be existing members of the group. 
+Otherwise, exception will be thrown.
+- Once the expense is created, the success 
+- The expense will be added to a list of expenses.
+
+Examples:
+- `expense dinner /amount 9.00 /paid Alice /user Bob /user Charlie`   
+    This command will create a new expense with total amount of SGD 9.00 with a split of:  
+        Alice: SGD 3.00, Bob: SGD 3.00, and Charlie: SGD 3.00.
+
+
+- `expense lunch /amount 10.00 /paid Alice /user Bob /user Charlie`  
+    This command will create a new expense with total amount of SGD 10 with a split of:     
+        Alice: SGD 3.33, Bob: SGD 3.33, and Charlie: SGD 3.33.
+
+Expenses with unequal split and Expense with different currencies take in the base parameters of Expenses split equally 
+plus one additional parameter. All the rules mentioned for equally split expenses still apply.
+
+##### 2. Create expense split unequally
+
+Format:`expense DESCRIPITON /unequal /amount TOTAL_AMOUNT
+/paid PAYER_USER_NAME /user USER_NAME AMOUNT_OWED /user USER_NAME AMOUNT_OWED`
+
+- `/unequal` indicates that the expense will be split according to the `AMOUNT_OWED` by each user.
+- The payer's amount owed will be automatically calculated by the program and does not have to be inputted.
+
+Examples:
+- `expense dinner /unequal /amount 9.00 /paid Alice /user Bob 3 /user Charlie 4`  
+  This command will create a new expense with total amount of SGD 9.00 with a split of:  
+    Alice: SGD 2.00, Bob: SGD 3.00, and Charlie: SGD 4.00. (Alice's split is automatically calculated)
+
+
+- `expense dinner /unequal /amount 14.00 /paid Alice /user Bob 5 /user Charlie 6`  
+  This command will create a new expense with total amount of SGD 14 with a split of:  
+    Alice: SGD 3.00, Bob: SGD 5.00, and Charlie: SGD 6.00. (Alice's split is automatically calculated)
+
+##### 3. Create expense with different currency
+
+Format: `expense DESCRIPTION /currency CURRENCY /amount TOTAL_AMOUNT
+/paid PAYER_USER_NAME /user USER_NAME AMOUNT_OWED /user USER_NAME AMOUNT_OWED`
+
+- `/currency` indicates the currency of the transaction.
+- The currency has to be from the currency list mentioned here. Otherwise, the app will throw an error.
+- If no `/currency` is present, the program will use SGD as the default currency.
+- The `/currency` feature can be used with expenses split equally or unequally.
+
+--------------------------------------------------------------------------------------------------------------------
+### BALANCE COMMAND
+
+#### Show balance of user: `balance`
 
 Shows list of members the user owes money to.
 
 Format: `balance USER_NAME`
 
-Example: `balance Shaoliang`
+Example: 
+```
+balance Alice
 
-This command will display the balance of the user named Shaoliang.
+  /\_/\
+ ( ^.^ )
+  > ^ <
+<----------SUCCESS----------->
+User Alice's Balance List:
+  Bob : 5.00SGD
+  Eve : 10.00SGD
+  Eve : -10.00AUD
+End of Balance List
+<---------------------------->
+```
 
-### Settle expenses: `settle`
+This command will display the balance of the user named Alice.
+In this case, Bob owes Alice `5.00SGD`, 
+Eve owes Alice `10.00SGD` 
+and Alice owes Eve `10.00AUD`
+
+--------------------------------------------------------------------------------------------------------------------
+### SETTLE COMMAND
+
+#### Settle expenses: `settle`
 
 Settles the expenses between two users in the group.
 
@@ -138,7 +230,10 @@ Example: `settle Alice /user Bob`
 
 This command will settle the expenses between Alice and Bob, showing what Alice owes Bob.
 
-### Trying your luck: `luck`
+--------------------------------------------------------------------------------------------------------------------
+### LUCK COMMAND
+
+#### Trying your luck: `luck`
 
 Play slots to remove debts
 
@@ -151,32 +246,7 @@ Format: `luck` (Coming soon feature)
 
 This command enable users play slots to remove their debts
 
-### Create expenses: `expense`
-
-Create a new expense for a given group.
-
-#### Create expense split equally
-
-Format:`expense DESCRIPITON /amount AMOUNT /paid PAYER_USER_NAME /user USER_NAME /user USER_NAME`
-
-`PAYER_USER_NAME` is the username of the person who paid for the transaction.
-`USER_NAME` is the username of the payee.
-
-- The amount will be split equally between all members including the payer.
-- The expense will be added to a list of expenses.
-
-#### Create expense split unequally
-
-Format:`expense DESCRIPITON /unequal /amount TOTAL_AMOUNT
-/paid PAYER_USER_NAME /user USER_NAME AMOUNT_OWED /user USER_NAME AMOUNT_OWED`
-
-`PAYER_USER_NAME` is the username of the person who paid for the transaction.
-`USER_NAME` is the username of the payee.
-`AMOUNT_OWED` is the amount owed by the
-
-- The amount will be split unequally between all members including the payer based on the `AMOUNT_OWED`.
-- The expense will be added to a list of expenses.
-
+--------------------------------------------------------------------------------------------------------------------
 ### Saving the data
 
 Split-liang automatically saves the data in each group to `GROUP_NAME.txt` in the `data` folder after the application
@@ -184,9 +254,13 @@ exits. There is no need to save manually.
 
 The data is loaded automatically when the application starts.
 
-### Saying goodbye: `bye`
+--------------------------------------------------------------------------------------------------------------------
+### Exiting the Application 
+#### Saying goodbye: `bye`
 
 This command exits the application.
+
+--------------------------------------------------------------------------------------------------------------------
 
 ## FAQ
 
@@ -205,6 +279,7 @@ Create group | `create GROUP_NAME` <br> e.g. `create Friends`
 Enter group | `enter GROUP_NAME` <br> e.g. `enter Friends`
 Add member | `member USER_NAME` <br> e.g. `member Alice`
 Exit group | `exit GROUP_NAME` <br> e.g. `exit Friends`
+Show balance | `balance USER_NAME` <br> e.g. `balance Alice`
 Settle expenses | `settle USER_NAME1 /user USER_NAME2` <br> e.g. `settle Alice /user Bob`
 Exit application | `bye`
 

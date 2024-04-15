@@ -53,6 +53,7 @@ public class ExpenseCommand {
         } else {
             newTransaction = addEqualExpense(payeeList, payees, amountAndCurrency, payerName, argument);
         }
+        newTransaction.printSuccessMessage();
         currentGroup.get().addExpense(newTransaction);
     }
 
@@ -179,7 +180,7 @@ public class ExpenseCommand {
         float amountDueForPayer = totalAmount - amountDueByPayees;
         Money amountDueAndCurrency = new Money(amountDueForPayer, currency);
         payees.add(new Pair<>(payerName, amountDueAndCurrency));
-        return new Expense(true, payerName, argument, totalAmountAndCurrency, payees);
+        return new Expense(payerName, argument, totalAmountAndCurrency, payees);
     }
 
 

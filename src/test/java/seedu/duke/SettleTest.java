@@ -25,7 +25,7 @@ public class SettleTest {
         Money payeeAmount = new Money(50.0f,CurrencyConversions.SGD);
         payees.add(new Pair<>(payee.getName(), payeeAmount));
         Money totalAmount = new Money(100.0f,CurrencyConversions.SGD);
-        Expense expense = new Expense(false, payer.getName(), "Test Expense", totalAmount, payees);
+        Expense expense = new Expense(payer.getName(), "Test Expense", totalAmount, payees);
         group.addExpense(expense);
     }
 

@@ -221,15 +221,9 @@ public class GroupStorage {
                 Money amountAndCurrency = new Money(amountDue, currency);
                 payeeList.add(new Pair<>(payeeName, amountAndCurrency));
             }
-
-            try {
-
-                Money amountAndCurrency = new Money(totalAmount, currency);
-                Expense expense = new Expense(false, payerName, description, amountAndCurrency, payeeList);
-                group.addExpense(expense);
-            } catch (ExpensesException e) {
-                UserInterface.printMessage("Error loading expense: " + e.getMessage(), MessageType.ERROR);
-            }
+            Money amountAndCurrency = new Money(totalAmount, currency);
+            Expense expense = new Expense(payerName, description, amountAndCurrency, payeeList);
+            group.addExpense(expense);
         }
     }
 
