@@ -131,7 +131,9 @@ To print a user's Balance List, perform the following steps:
 1. Create a `Balance` object with the params String `userName` and the current Group `group`.
 2. From the `members` and `expenseList` List items in `group`, the Map `balanceList` is populated.
 3. Call method `printBalance()` to print the contents of the Map `balanceList`.
-4. ![Sequence Diagram](images/balance.png)
+
+Below is the Sequence Diagram for the Balance Feature:
+![Sequence Diagram](images/balance.png)
 
 ### Settle feature
 
