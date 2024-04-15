@@ -88,7 +88,7 @@ public class Luck {
                         "Win if all 3 MIDDLE slots are the same");
                 //add expenses to random user
                 Expense buyInDebt = calculateDebt();
-                buyInDebt.printSuccessMessage();
+                System.out.println(buyInDebt.successMessageString());
                 this.currentGroup.addExpense(buyInDebt);
                 break;
             default:
