@@ -278,19 +278,17 @@ Important note: The provided test cases are independent of each other and can be
 Expected outcome: The help menu is displayed with a list of available commands and their descriptions as shown below:
 
 ```
-            "Welcome, here is a list of commands:\n" +
-                    "help: Access help menu.\n" +
-                    "create <name>: Create a group.\n" +
-                    "exit <name>: Exit current group.\n" +
-                    "member <name> : Add a member to the group.\n" +
-                    "expense <description> /amount <amount> /paid <paid_by> /user <user_1> /user <user_2> ...: " +
-                    "Add an expense SPLIT EQUALLY.\n" +
-                    "expense <description> /unequal /amount <amount> /paid <paid_by> " +
-                    "/user <user_1> <amount_owed> /user <user_2> <amount owed> ...: Add an expense SPLIT UNEQUALLY.\n" +
-                    "list: List all expenses in the group.\n" +
-                    "balance <user_name>: Show user's balance.\n" +
-                    "settle <payer_name> /user <payee_name>: Settle the amount between two users.\n" +
-                    "luck : luck is in the air tonight";
+Welcome, here is a list of commands:
+help: Access help menu.
+create <name>: Create a group.
+exit <name>: Exit current group.
+member <name> : Add a member to the group.
+expense <description> /amount <amount> /currency <currency> /paid <paid_by> /user <user_1> /user <user_2> ...: Add an expense SPLIT EQUALLY.
+expense <description> /unequal /amount <amount> /currency <currency> /paid <paid_by> /user <user_1> <amount_owed> /user <user_2> <amount owed> ...: Add an expense SPLIT UNEQUALLY.
+list: List all expenses in the group.
+balance <user_name>: Show user's balance.
+settle <payer_name> /user <payee_name>: Settle the amount between two users.
+luck <payer_name>: luck is in the air tonight
 ```
 
 ### Test Case: Group Creation

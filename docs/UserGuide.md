@@ -77,7 +77,7 @@ Format: `create GROUP_NAME`
 - `GROUP_NAME` can contain whitespaces but cannot be empty.
 - `GROUP_NAME` must be unique. It cannot be the same as an existing group name.
 - `GROUP_NAME` is not case-sensitive.
-- `GROUP_NAME` can contain special characters.
+- `GROUP_NAME` cannot contain special characters.
 - User must not be in a group to create a new group.
 
 Example: `create Friends`
@@ -158,6 +158,7 @@ Format:`expense DESCRIPITON /amount AMOUNT /paid PAYER_USER_NAME /user USER_NAME
 - `USER_NAME` is the username of payees. Each expense can have multiple payees but only one payer.
 - `AMOUNT` has to be a valid float value. It will be split equally between all members including the payer.
 - If `AMOUNT` value entered is greater than 2 decimal places, it will round off to 2 decimal places before calculating split.
+- Range of `AMOUNT` is from 0.01 to 999999.99.
 - The payer name (`PAYER_USER_NAME`) and all payees (`USER_NAME`) must be existing members of the group. 
 Otherwise, exception will be thrown.
 - Once the expense is created, the success message will be displayed.
@@ -312,16 +313,17 @@ This command enable users play slots to remove their debts
 --------------------------------------------------------------------------------------------------------------------
 ### Saving the data
 
-Split-liang automatically saves the data in each group to `GROUP_NAME.txt` in the `data\groups` folder after the application
-exits. There is no need to save manually.
+Split-liang automatically saves the data in each group to `GROUP_NAME.txt` in the `data\groups` folder after the user exits the group using the `exit GROUP_NAME` command or exits the application using the `bye` command. There is no need to save manually.
 
-The data is loaded automatically when the application starts.
+The group data is loaded automatically when the user enters the group using the `enter GROUP_NAME` command.
 
+- The data won't be saved if the application is closed using the `X` button on the window. It will also not be saved when the application is closed using the `Ctrl + C` command in the terminal.
 - The data folder is located in the same directory as the jar file.
 - The data folder contains the data for each group in a separate text file.
 - The data folder is created automatically if it does not exist.
 - The data folder can be deleted to clear all data.
 - Corrupted data files will be ignored and not loaded.
+- The data is saved in a human-readable format.
 
 --------------------------------------------------------------------------------------------------------------------
 ### Exiting the Application 

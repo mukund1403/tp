@@ -64,14 +64,14 @@ public class Group {
         }
 
         // Create a new group if it doesn't exist
-        if (group.isEmpty()) {
+        if (group.isEmpty() && !groupNameChecker.doesGroupNameExist(groupName)) {
             Group newGroup = new Group(groupName);
             groups.put(groupName, newGroup);
             System.out.println(groupName + " created.");
             currentGroupName = Optional.of(groupName);
             group = Optional.of(newGroup);
             System.out.println("You are now in " + groupName);
-        } else {
+        } else if (groupNameChecker.doesGroupNameExist(groupName)) {
             System.out.println("Group already exists. Use 'enter " + groupName + "' to enter the group.");
             return Optional.empty();
         }
