@@ -1,12 +1,13 @@
 package seedu.duke.storage;
 
-import seedu.duke.Group;
-import seedu.duke.Money;
-import seedu.duke.User;
-import seedu.duke.Expense;
-import seedu.duke.Pair;
 import seedu.duke.CurrencyConversions;
-
+import seedu.duke.Expense;
+import seedu.duke.Group;
+import seedu.duke.MessageType;
+import seedu.duke.Money;
+import seedu.duke.Pair;
+import seedu.duke.User;
+import seedu.duke.UserInterface;
 import seedu.duke.commands.ExpenseCommand;
 import seedu.duke.exceptions.ExpensesException;
 import seedu.duke.exceptions.GroupDeleteException;
@@ -156,7 +157,7 @@ public class GroupStorage {
             throw new GroupLoadException("An unexpected error occurred while loading the group: " + e.getMessage());
         } finally {
             isLoading = false;
-            System.out.println("Group loaded successfully.");
+            UserInterface.printMessage("Group loaded successfully.", MessageType.SUCCESS);
         }
     }
 
@@ -227,7 +228,7 @@ public class GroupStorage {
                 Expense expense = new Expense(false, payerName, description, amountAndCurrency, payeeList);
                 group.addExpense(expense);
             } catch (ExpensesException e) {
-                System.out.println("Error loading expense: " + e.getMessage());
+                UserInterface.printMessage("Error loading expense: " + e.getMessage(), MessageType.ERROR);
             }
         }
     }
