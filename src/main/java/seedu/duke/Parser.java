@@ -4,7 +4,9 @@ import seedu.duke.commands.BalanceCommand;
 import seedu.duke.commands.ExpenseCommand;
 import seedu.duke.commands.GroupCommand;
 import seedu.duke.commands.ListCommand;
+import seedu.duke.commands.LuckCommand;
 import seedu.duke.exceptions.ExpensesException;
+import seedu.duke.exceptions.LuckException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -133,7 +135,7 @@ public class Parser {
         return parser.toString();
     }
 
-    public void handleUserInput() throws EndProgramException, ExpensesException {
+    public void handleUserInput() throws EndProgramException, ExpensesException, LuckException {
         switch (command) {
         case "bye":
             if (Group.isInGroup()) {
@@ -206,8 +208,7 @@ public class Parser {
             break;
             //@@author
         case "luck":
-            Luck.printWelcome();
-            Luck.startGambling();
+            LuckCommand.handleLuck(argument);
             break;
         case "list":
             ListCommand.printList();
