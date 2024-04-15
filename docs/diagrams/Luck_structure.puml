@@ -1,0 +1,45 @@
+@startuml
+digraph g {
+    rankdir="TB"
+    splines=polyline
+
+'nodes
+Luck1407063755[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >Luck</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   currentGroup: Group</TD></TR>
+<TR><TD ALIGN="LEFT" >-   username: String</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- calculateDebt(): Expense</TD></TR>
+<TR><TD ALIGN="LEFT" >+ printWelcome()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ startGambling()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+SlotMachine1407063755[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >SlotMachine</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   slotMachine: List&lt;List&lt;Character&gt;&gt;</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- fillSlot(startRow: int, startCol: int, character: char)</TD></TR>
+<TR><TD ALIGN="LEFT" >- fillSlots()</TD></TR>
+<TR><TD ALIGN="LEFT" ># reroll()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+'edges
+Luck1407063755 -> SlotMachine1407063755[label="startGambling() -> reroll()"];
+
+
+}
+@enduml

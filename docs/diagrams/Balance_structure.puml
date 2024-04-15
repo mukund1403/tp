@@ -1,0 +1,41 @@
+@startuml
+digraph g {
+    rankdir="TB"
+    splines=polyline
+    
+
+'nodes 
+
+   Balance1407063755[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >Balance</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#  balanceList: Map&lt;String, List&lt;Money&gt;&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >#  userName: String</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- addExpense(expense: Expense)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addMoney(moneyList: List&lt;Money&gt;, money: Money)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ printBalance()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+   
+   BalanceCommand1418370849[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >BalanceCommand</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ handleBalance(argument: String)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+BalanceCommand1418370849 -> Balance1407063755[label="handleBalance() -> printBalance()"];
+
+}
+@enduml
