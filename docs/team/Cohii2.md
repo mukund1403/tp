@@ -32,12 +32,12 @@ Split-liang can help you manage your expenses faster than traditional GUI apps
   
 
 * **Contributions to UG**
-    * Added documentation relating to Balance function
+    * Added documentation relating to Balance function [#88](https://github.com/AY2324S2-CS2113-T15-3/tp/pull/88)
 
 
 * **Contributions to DG**
     * Added Architecture Diagram. [#175](https://github.com/AY2324S2-CS2113-T15-3/tp/pull/175)
-    * Added the implementation for the Balance Class [#88](https://github.com/AY2324S2-CS2113-T15-3/tp/pull/88)
+    * Added the implementation for the Balance Class 
 
 
 * **Contributions to team-based tasks**

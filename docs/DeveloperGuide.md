@@ -113,12 +113,16 @@ functions respectively.
 
 #### Implementation
 
+
+Below is a Class Diagram for the Balance Feature:
+![Balance Structure](images/BalanceStructure.png)
+
 The Balance feature is facilitated through the Balance class.
 It allows a user to view a printed list of other users in the Group, and the amount that is owed by/to each user.
 
 Each `Balance` object contains a String of a user `userName`,
 and a Map `balanceList`. This Map uses String of other users' usernames as Key, and
-a Float of the amount that is owed by/to each user.
+a list of Money objects owed by/to the user.
 
 To print a user's Balance List, perform the following steps:
 
