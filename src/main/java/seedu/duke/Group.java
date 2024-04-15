@@ -138,7 +138,7 @@ public class Group {
         }
         //@@author avrilgk
         currentGroupName = Optional.of(groupName);
-        System.out.println("You are now in " + groupName);
+        System.out.println("You are now in " + groupName); // don't change this to cat
         return group;
     }
 
@@ -209,19 +209,19 @@ public class Group {
      */
     public User addMember(String memberName) {
         if (memberName == null || memberName.isEmpty()) {
-            System.out.println("Please provide a valid member name.");
+            UserInterface.printMessage("Please provide a valid member name.", MessageType.ERROR);
             return null;
         }
 
         if (isMember(memberName)) {
-            System.out.println(memberName + " is already a member of " + groupName + ".");
+            UserInterface.printMessage(memberName + " is already a member of " + groupName + ".", MessageType.ERROR);
             return null;
         }
 
         User newMember = new User(memberName);
         members.add(newMember);
         if (!GroupStorage.isLoading) {
-            System.out.println(memberName + " has been added to " + groupName + ".");
+            UserInterface.printMessage(memberName + " has been added to " + groupName + ".", MessageType.SUCCESS);
         }
         return newMember;
     }

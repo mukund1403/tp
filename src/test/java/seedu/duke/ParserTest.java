@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 
 public class ParserTest {
 
-
     public void testParser(String userInput, String command, String argument,
                            String[] amount, String[] paid, String[] user, String[] currency){
         Parser parserFromInput = new Parser(userInput);
