@@ -122,12 +122,5 @@ public class Luck {
         return new Expense(false, randomLuckyUser.getName(),
                 buyInDescription, buyIn, payee);
     }
-    public static void main(String[] args) {
-        Group newGroup = new Group("lmao");
-        String username = "heehee";
-        Luck newLuck = new Luck(newGroup, username);
-        newLuck.printWelcome();
-
-    }
 
 }
