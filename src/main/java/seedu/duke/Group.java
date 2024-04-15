@@ -312,6 +312,20 @@ public class Group {
         expenseList.add(repaymentExpense);
         System.out.println(payerName + " has settled the full amount with " + payeeName);
     }
+
+    public void settleAll(String payerName) {
+        User payer = findUser(payerName);
+        if (payer == null) {
+            System.out.println("User not found.");
+            return;
+        }
+        for (User member : members) {
+            if (member.getName().equals(payerName)) {
+                continue;
+            }
+            settle(payerName, member.getName());
+        }
+    }
     //@@author
 
     /**
