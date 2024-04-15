@@ -100,7 +100,7 @@ Adds a new member to the group.
 
 Format: `member USER_NAME`
 
-- `USER_NAME` is the name of the user to be added to the group.
+- `USER_NAME` is the name of the user to be added to the group. It is in alphanumeric format.
 - `USER_NAME` must be unique. It cannot be the same as an existing member's name.
 - `USER_NAME` can contain whitespaces but cannot be empty.
 - `USER_NAME` is not case-sensitive.
@@ -287,10 +287,16 @@ This command enable users play slots to remove their debts
 --------------------------------------------------------------------------------------------------------------------
 ### Saving the data
 
-Split-liang automatically saves the data in each group to `GROUP_NAME.txt` in the `data` folder after the application
+Split-liang automatically saves the data in each group to `GROUP_NAME.txt` in the `data\groups` folder after the application
 exits. There is no need to save manually.
 
 The data is loaded automatically when the application starts.
+
+- The data folder is located in the same directory as the jar file.
+- The data folder contains the data for each group in a separate text file.
+- The data folder is created automatically if it does not exist.
+- The data folder can be deleted to clear all data.
+- Corrupted data files will be ignored and not loaded.
 
 --------------------------------------------------------------------------------------------------------------------
 ### Exiting the Application 
