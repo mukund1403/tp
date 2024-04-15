@@ -199,7 +199,7 @@ public class Parser {
             break;
             //@@author
         case "luck":
-            LuckCommand.handleLuck();
+            LuckCommand.handleLuck(argument);
             break;
         case "list":
             ListCommand.printList();

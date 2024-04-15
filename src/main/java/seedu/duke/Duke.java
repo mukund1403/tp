@@ -1,6 +1,7 @@
 package seedu.duke;
 
 import seedu.duke.exceptions.ExpensesException;
+import seedu.duke.exceptions.LuckException;
 
 import java.util.Scanner;
 
@@ -32,7 +33,7 @@ public class Duke {
                 parser.handleUserInput();
             } catch (Parser.EndProgramException e) {
                 break;
-            } catch (ExpensesException e) {
+            } catch (ExpensesException | LuckException e) {
                 System.out.println(e.getMessage());
             }
         }
