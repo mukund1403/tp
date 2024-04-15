@@ -74,7 +74,6 @@ public class Balance {
 
                 List<Money> moneyList = balanceList.get(payerName);
                 subtractMoney(moneyList, payeeMoney);
-                break;
             }
         }
     }
@@ -140,6 +139,10 @@ public class Balance {
         for (Map.Entry<String, List<Money>> entry : balanceList.entrySet()) {
             String user = entry.getKey();
             for(Money money : entry.getValue()){
+                // if entry is less than $0.001 don't print it
+                if(money.getAmount() <= 0.001f && money.getAmount() >= -0.001f){
+                    continue;
+                }
                 printOutput.append(String.format("\n  %s : %s", user, money));
             }
         }

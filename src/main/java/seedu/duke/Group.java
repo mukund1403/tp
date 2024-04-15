@@ -272,6 +272,7 @@ public class Group {
      * @param payerName The name of the user who will pay the outstanding amount.
      * @param payeeName The name of the user who will receive the outstanding amount.
      */
+    //@@author avrilgk
     public void settle(String payerName, String payeeName) {
         User payer = findUser(payerName);
         User payee = findUser(payeeName);
@@ -281,16 +282,37 @@ public class Group {
             return;
         }
 
-        double amount = calculateOutstandingAmount(payee, payer);
+        Balance balance = new Balance(payee.getName(), expenseList, members);
+        List<Money> moneyList = balance.getBalanceList().get(payer.getName());
 
-        if (amount > 0) {
-            System.out.println(payerName + " should pay " + payeeName + " " + String.format("%.2f", amount));
+        Money total = new Money(0f, CurrencyConversions.SGD);
+        for (Money money : moneyList) {
+            total = total.addition(money, CurrencyConversions.SGD);
         }
 
-        updateBalancesAfterSettlement(payerName, payeeName);
-        System.out.println(payerName + " has settled the full amount with " + payeeName);
+        if (total.getAmount() <= 0f) {
+            System.out.println(
+                    payerName + " has no outstanding balance with " + payeeName
+            );
+            return;
+        }
 
+        if (total.getAmount() > 0f) {
+            System.out.println(
+                    payerName + " should pay " + payeeName + " " + String.format("SGD %.2f", total.getAmount())
+            );
+        }
+
+        ArrayList<Pair<String, Money>> repaymentList = new ArrayList<>();
+        for (Money money : moneyList) {
+            repaymentList.add(new Pair<>(payee.getName(), money));
+        }
+
+        Expense repaymentExpense = new Expense(payer.getName(), "Settlement", total, repaymentList);
+        expenseList.add(repaymentExpense);
+        System.out.println(payerName + " has settled the full amount with " + payeeName);
     }
+    //@@author
 
     /**
      * Updates the balances of the users after a settlement.
@@ -398,21 +420,19 @@ public class Group {
      * @param payee The user who owes money for the expense.
      * @return The outstanding amount between the two users.
      */
+    //@@author avrilgk
+    private Money calculateOutstandingAmount(User payer, User payee) {
+        Balance balance = new Balance(payer.getName(), expenseList, members);
+        List<Money> moneyList = balance.getBalanceList().get(payee.getName());
 
-    private double calculateOutstandingAmount(User payer, User payee) {
-        double totalAmount = 0;
-        for (Expense expense : expenseList) {
-            if (!isRelevantExpense(expense, payer, payee)) {
-                continue;
-            }
-
-            // Process the relevant expense
-            for (Pair<String, Money> userExpense : expense.getPayees()) {
-                totalAmount += calculateAdjustedAmount(expense, payer, payee, userExpense);
-            }
+        Money total = new Money(0f, CurrencyConversions.SGD);
+        for (Money money : moneyList) {
+            total.addition(money, CurrencyConversions.SGD);
         }
-        return totalAmount;
+
+        return total;
     }
+    //@@author
 
     /**
      * Checks if an expense is relevant to the payer and payee.
