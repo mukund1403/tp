@@ -117,6 +117,7 @@ functions respectively.
 
 
 Below is a Class Diagram for the Balance Feature:
+
 ![Balance Structure](images/BalanceStructure.png)
 
 The Balance feature is facilitated through the Balance class.
@@ -133,6 +134,7 @@ To print a user's Balance List, perform the following steps:
 3. Call method `printBalance()` to print the contents of the Map `balanceList`.
 
 Below is the Sequence Diagram for the Balance Feature:
+
 ![Sequence Diagram](images/balance.png)
 
 ### Settle feature
@@ -211,6 +213,7 @@ For every new `/reroll`, an additional Expense of 10USD would be created and all
 For a win, the user clears all his debts within the group.
 Following sequence diagram shows user calls `startGambling()` within Luck class and a new SlotMachine class is instantiated
 For every reroll, fillSlots() is called which fills individual slots in the 3 x 3 slot machine with a randomised character
+
 ![Sequence Diagram](images/luckGambling.png)
 
 
