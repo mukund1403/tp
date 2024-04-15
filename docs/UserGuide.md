@@ -74,13 +74,11 @@ Creates a new group with the specified group name.
 Format: `create GROUP_NAME`
 
 - `GROUP_NAME` is the name of the group.
-
 - `GROUP_NAME` can contain whitespaces but cannot be empty.
+- `GROUP_NAME` must be unique. It cannot be the same as an existing group name.
 - `GROUP_NAME` is not case-sensitive.
 - `GROUP_NAME` can contain special characters.
 - User must not be in a group to create a new group.
-- `GROUP_NAME` must be unique. It cannot be the same as an existing group name.
-
 
 Example: `create Friends`
 
@@ -93,9 +91,8 @@ Enters an existing group with the specified group name.
 Format: `enter GROUP_NAME`
 
 - `GROUP_NAME` is the name of the group.
-- `GROUP_NAME` must be an existing group.
+- `GROUP_NAME` must be an existing group name.
 - User must not be in a group to enter a new group.
-
 
 Example: `enter Friends`
 
@@ -137,6 +134,7 @@ Exits the current group.
 Format: `exit GROUP_NAME`
 
 - `GROUP_NAME` is the name of the group.
+<<<<<<< HEAD
 - `GROUP_NAME` must be an existing group.
 - User must be in a group to exit the group.
 - If the user is not in any group, an exception will be thrown.
