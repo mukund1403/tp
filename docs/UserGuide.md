@@ -158,6 +158,7 @@ Format:`expense DESCRIPITON /amount AMOUNT /paid PAYER_USER_NAME /user USER_NAME
 - `USER_NAME` is the username of payees. Each expense can have multiple payees but only one payer.
 - `AMOUNT` has to be a valid float value. It will be split equally between all members including the payer.
 - If `AMOUNT` value entered is greater than 2 decimal places, it will round off to 2 decimal places before calculating split.
+- Range of `AMOUNT` is from 0.01 to 999999.99.
 - The payer name (`PAYER_USER_NAME`) and all payees (`USER_NAME`) must be existing members of the group. 
 Otherwise, exception will be thrown.
 - Once the expense is created, the success message will be displayed.
