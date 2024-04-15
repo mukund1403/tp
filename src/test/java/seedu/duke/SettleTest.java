@@ -55,4 +55,13 @@ public class SettleTest {
         assertEquals("Alice", settle.getPayer());
         assertEquals("Alice paid Bob 0.0", settle.toString());
     }
+
+    @Test
+    public void testSettleCreationWithZeroAmountAndNegativeAmount() {
+        User payer = new User("Alice");
+        User payee = new User("Bob");
+        Settle settle = new Settle(payer, payee, 0.0F);
+        assertEquals("Alice", settle.getPayer());
+        assertEquals("Alice paid Bob 0.0", settle.toString());
+    }
 }
