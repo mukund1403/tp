@@ -76,6 +76,11 @@ Format: `create /group GROUP_NAME`
 
 - `/group` is a keyword to indicate the start of the group name.
 - `GROUP_NAME` is the name of the group.
+- `GROUP_NAME` are not unique. You can have multiple groups with the same name.
+- `GROUP_NAME` can contain whitespaces but cannot be empty.
+- `GROUP_NAME` is not case-sensitive.
+- `GROUP_NAME` can contain special characters.
+- User must not be in a group to create a new group.
 
 Example: `create /group Friends`
 
@@ -89,6 +94,8 @@ Format: `enter /group GROUP_NAME`
 
 - `/group` is a keyword to indicate the start of the group name.
 - `GROUP_NAME` is the name of the group.
+- `GROUP_NAME` must be an existing group.
+- User must not be in a group to enter a new group.
 
 Example: `enter /group Friends`
 
@@ -120,6 +127,8 @@ Format: `exit /group GROUP_NAME`
 
 - `/group` is a keyword to indicate the start of the group name.
 - `GROUP_NAME` is the name of the group.
+- `GROUP_NAME` must be an existing group.
+- User must be in a group to exit the group.
 
 Example: `exit /group Friends`
 
@@ -142,7 +151,7 @@ Format:`expense DESCRIPITON /amount AMOUNT /paid PAYER_USER_NAME /user USER_NAME
 - If `AMOUNT` value entered is greater than 2 decimal places, it will round off to 2 decimal places before calculating split.
 - The payer name (`PAYER_USER_NAME`) and all payees (`USER_NAME`) must be existing members of the group. 
 Otherwise, exception will be thrown.
-- Once the expense is created, the success 
+- Once the expense is created, the success message will be displayed.
 - The expense will be added to a list of expenses.
 
 Examples:
@@ -217,6 +226,8 @@ Format: `delete expense LIST_INDEX`
 - The `LIST_INDEX` needs to be a valid index from the Expenses list. To check expenses list use the `list` command 
 (see above).
 - If the `LIST_INDEX` does not exist, an exception will be thrown.
+- The `LIST_INDEX` starts from 1. 
+- The `LIST_INDEX` has to be an integer value.
 
 Example: 
 - `delete expense 3`  
@@ -229,6 +240,10 @@ This command deletes the expense at index 3 on the expense list.
 Shows list of members the user owes money to.
 
 Format: `balance USER_NAME`
+
+- `USER_NAME` is the name of the user whose balance is to be displayed.
+- The balance list will show the user's name and the amount they owe to each member.
+- `USER_NAME` must be an existing member of the group.
 
 Example: 
 ```
@@ -263,6 +278,7 @@ Format: `settle USER_NAME1 /user USER_NAME2`
 - `USER_NAME1` is the name of the first user.
 - `USER_NAME2` is the name of the second user.
 - `/user` is a keyword to indicate the start of the second user's name.
+- The two users must be existing members of the group.
 
 Example: `settle Alice /user Bob`
 
@@ -348,7 +364,3 @@ This command exits the application.
 | Balance          | `balance USER_NAME` <br> e.g. `balance Alice`                                                                                              |
 | Settle expenses  | `settle USER_NAME1 /user USER_NAME2` <br> e.g. `settle Alice /user Bob`                                                                    |
 | Exit application | `bye`                                                                                                                                      |
-=======
-
-
-
