@@ -1,0 +1,52 @@
+@startuml
+Actor User
+User -> ":ExpenseCommand" : addEqualExpense
+activate ":ExpenseCommand"
+create ":Money"
+":ExpenseCommand" -> ":Money" : new
+activate ":Money"
+":Money" --> ":ExpenseCommand"
+deactivate ":Money"
+":ExpenseCommand" -> ":ExpenseCommand" : checkPayeeInGroup
+activate ":ExpenseCommand"
+":ExpenseCommand" -> ":Group" : isMember
+activate ":Group"
+":Group" --> ":ExpenseCommand"
+deactivate ":Group"
+create ":ExpensesException"
+":ExpenseCommand" -> ":ExpensesException" : new
+activate ":ExpensesException"
+":ExpensesException" --> ":ExpenseCommand"
+deactivate ":ExpensesException"
+":ExpenseCommand" --> ":ExpenseCommand"
+deactivate ":ExpenseCommand"
+create ":Pair"
+":ExpenseCommand" -> ":Pair" : new
+activate ":Pair"
+":Pair" --> ":ExpenseCommand"
+deactivate ":Pair"
+":ExpenseCommand" -> ":ExpenseCommand" : checkPayeeInGroup
+activate ":ExpenseCommand"
+":ExpenseCommand" -> ":Group" : isMember
+activate ":Group"
+":Group" --> ":ExpenseCommand"
+deactivate ":Group"
+create ":ExpensesException"
+":ExpenseCommand" -> ":ExpensesException" : new
+activate ":ExpensesException"
+":ExpensesException" --> ":ExpenseCommand"
+deactivate ":ExpensesException"
+":ExpenseCommand" --> ":ExpenseCommand"
+deactivate ":ExpenseCommand"
+create ":Pair"
+":ExpenseCommand" -> ":Pair" : new
+activate ":Pair"
+":Pair" --> ":ExpenseCommand"
+deactivate ":Pair"
+create ":Expense"
+":ExpenseCommand" -> ":Expense" : new
+activate ":Expense"
+":Expense" --> ":ExpenseCommand"
+deactivate ":Expense"
+return
+@enduml

@@ -52,24 +52,16 @@ Example: `help`
 Output:
 ```
 Welcome, here is a list of commands:
-
-- `help`: Access help menu.
-- `create <name>`: Create a group.
-- `exit <name>`: Exit current group.
-- `delete group <name>`: Delete a group.
-- `member <name>`: Add a member to the group.
-- `enter <name>`: Enter a group.
-- `delete group <name>`: Delete a group.
-- `expense <description> /amount <amount> /paid <paid_by> /user <user_1> /user <user_2> ...`: Add an expense SPLIT
-  EQUALLY.
-- `expense <description> /unequal /amount <amount> /paid <paid_by> /user <user_1> <amount_owed> /user <user_2> <amount owed> ...`:
-  Add an expense SPLIT UNEQUALLY.
-- `delete expense <index>`: Delete an expense.
-- `list`: List all expenses in the group.
-- `delete expense <index>`: Delete an expense.
-- `balance <user_name>`: Show user's balance.
-- `settle <payer_name> /user <payee_name>`: Settle the amount between two users.
-- `luck`: Luck is in the air tonight.
+help: Access help menu.
+create <name>: Create a group.
+exit <name>: Exit current group.
+member <name> : Add a member to the group.
+expense <description> /amount <amount> /currency <currency> /paid <paid_by> /user <user_1> /user <user_2> ...: Add an expense SPLIT EQUALLY.
+expense <description> /unequal /amount <amount> /currency <currency> /paid <paid_by> /user <user_1> <amount_owed> /user <user_2> <amount owed> ...: Add an expense SPLIT UNEQUALLY.
+list: List all expenses in the group.
+balance <user_name>: Show user's balance.
+settle <payer_name> /user <payee_name>: Settle the amount between two users.
+luck <payer_name>: luck is in the air tonight
 ```
 
 --------------------------------------------------------------------------------------------------------------------
@@ -82,6 +74,8 @@ Creates a new group with the specified group name.
 Format: `create GROUP_NAME`
 
 - `GROUP_NAME` is the name of the group.
+- `GROUP_NAME` can contain whitespaces but cannot be empty.
+- `GROUP_NAME` must be unique. It cannot be the same as an existing group name.
 - `GROUP_NAME` is not case-sensitive.
 - `GROUP_NAME` can contain special characters.
 - User must not be in a group to create a new group.
@@ -140,7 +134,9 @@ Exits the current group.
 Format: `exit GROUP_NAME`
 
 - `GROUP_NAME` is the name of the group.
-- `GROUP_NAME` must be an existing group name.
+<<<<<<< HEAD
+- `GROUP_NAME` must be an existing group.
+- User must be in a group to exit the group.
 - If the user is not in any group, an exception will be thrown.
 
 Example: `exit Friends`
@@ -300,11 +296,11 @@ This command will settle the expenses between Alice and Bob, showing what Alice 
 --------------------------------------------------------------------------------------------------------------------
 ### LUCK COMMAND
 
-#### Trying your luck: `luck`
+#### Trying your luck: `luck USER_NAME1`
 
 Play slots to remove debts
 
-Format: `luck` (Coming soon feature)
+Format: `luck USER_NAME1`` 
 
 - Enters the slot machine
     - `/reroll` to reroll the slots
@@ -369,7 +365,7 @@ This command exits the application.
 | Help             | `help`                                                                                                                                     |
 | Create group     | `create GROUP_NAME` <br> e.g. `create Friends`                                                                                             |
 | Enter group      | `enter GROUP_NAME` <br> e.g. `enter Friends`                                                                                               |
-| Delete group      | `delete group GROUP_NAME` <br> e.g. `delete group Friends`                                                                                               |
+| Delete group     | `delete group GROUP_NAME` <br> e.g. `delete group Friends`                                                                                               |
 | Add member       | `member USER_NAME` <br> e.g. `member Alice`                                                                                                |
 | Exit group       | `exit GROUP_NAME` <br> e.g. `exit Friends`                                                                                                 |
 | Add expense      | `expense DESCRIPTION /amount AMOUNT /paid USER_NAME /user USER_NAME GROUP_NAME` <br> e.g. `expense lunch /amount 20 /paid Alice /user Bob` |
@@ -377,4 +373,5 @@ This command exits the application.
 | Delete expense   | `delete expense LIST_INDEX` <br> e.g. `delete expense 3`                                                                                   |
 | Balance          | `balance USER_NAME` <br> e.g. `balance Alice`                                                                                              |
 | Settle expenses  | `settle USER_NAME1 /user USER_NAME2` <br> e.g. `settle Alice /user Bob`                                                                    |
-| Exit application | `bye`                                                                                                                                      |
+| Luck             | `luck USER_NAME1` <br> e.g. `luck Alice`                                                                    
+| Exit application | `bye`    <br/>                                                                                                                                  |
