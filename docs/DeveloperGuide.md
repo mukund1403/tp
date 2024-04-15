@@ -207,9 +207,13 @@ To win in the slot machine, all three slots in the MIDDLE row must show the same
 The user can either key in `/reroll` or `/exit` to either roll the slot machine or leave the game.
 For every new `/reroll`, an additional Expense of 10USD would be created and allocated to a random member in the group 
 For a win, the user clears all his debts within the group.
+
+Following structural diagram shows the dependency of Luck class
+![Luck Structure](images/LuckStructure.png)
 Following sequence diagram shows user calls `startGambling()` within Luck class and a new SlotMachine class is instantiated
 For every reroll, fillSlots() is called which fills individual slots in the 3 x 3 slot machine with a randomised character
 ![Sequence Diagram](images/luckGambling.png)
+
 
 
 
