@@ -21,9 +21,8 @@ public class GroupTest {
     @Test
     public void testGetOrCreateGroup() {
         String groupName = "TestGroup";
-        Optional<Group> group = Group.getOrCreateGroup(groupName);
-        assertTrue(group.isPresent(), "Group should be created");
-        assertEquals(groupName, group.get().getGroupName(), "Group name should match the expected name");
+        Group.getOrCreateGroup(groupName);
+        assertTrue(Group.groups.containsKey(groupName), "Group should be created");
     }
 
     @Test
