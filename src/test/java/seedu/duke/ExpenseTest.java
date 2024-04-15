@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ExpenseTest{
     @Test
-    void newExpenseTest() throws ExpensesException {
+    void newExpenseTest() {
         ArrayList<Pair<String, Money>> payees = new ArrayList<>(Arrays.asList(
                 new Pair<>("cohii", new Money(2.0f, CurrencyConversions.SGD)),
                 new Pair<>("shao",  new Money(3.2f, CurrencyConversions.SGD)),
@@ -87,7 +87,7 @@ class ExpenseTest{
     }
 
     @Test
-    public void unequalExpenseTest() throws ExpensesException {
+    public void unequalExpenseTest() {
         ArrayList<String> payeeList = new ArrayList<>(Arrays.asList(
                 ("cohii"),
                 ("shao 1"),

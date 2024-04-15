@@ -12,7 +12,9 @@ Split-liang is an application that helps you split expenses with friends in a fu
     - [Entering a group: `enter`](#entering-a-group-enter)
     - [Add members to group: `member`](#add-members-to-group-member)
     - [Exiting a group: `exit`](#exiting-a-group-exit)
-    - [Create expenses: `expense`](#create-expenses-expense)
+    - [Create a new expense: `expense`](#create-a-new-expense-expense)
+    - [List all expenses for a group: `list`](#list-expenses-list)
+    - [Delete an expense: `delete expense`](#delete-an-expense-delete-expense)
     - [Show balance of user: `balance`](#show-balance-of-user-balance)
     - [Settle expenses: `settle`](#settle-expenses-settle)
     - [Trying your luck: `luck`](#trying-your-luck-luck)
@@ -98,7 +100,7 @@ Adds a new member to the group.
 
 Format: `member USER_NAME`
 
-- `USER_NAME` is the name of the user to be added to the group.
+- `USER_NAME` is the name of the user to be added to the group. It is in alphanumeric format.
 - `USER_NAME` must be unique. It cannot be the same as an existing member's name.
 - `USER_NAME` can contain whitespaces but cannot be empty.
 - `USER_NAME` is not case-sensitive.
@@ -136,7 +138,8 @@ Format:`expense DESCRIPITON /amount AMOUNT /paid PAYER_USER_NAME /user USER_NAME
 
 - `PAYER_USER_NAME` is the username of the person who paid for the transaction.
 - `USER_NAME` is the username of payees. Each expense can have multiple payees but only one payer.
-- `AMOUNT` has to be a valid float value.It will be split equally between all members including the payer.
+- `AMOUNT` has to be a valid float value. It will be split equally between all members including the payer.
+- If `AMOUNT` value entered is greater than 2 decimal places, it will round off to 2 decimal places before calculating split.
 - The payer name (`PAYER_USER_NAME`) and all payees (`USER_NAME`) must be existing members of the group. 
 Otherwise, exception will be thrown.
 - Once the expense is created, the success 
@@ -166,12 +169,12 @@ Format:`expense DESCRIPITON /unequal /amount TOTAL_AMOUNT
 Examples:
 - `expense dinner /unequal /amount 9.00 /paid Alice /user Bob 3 /user Charlie 4`  
   This command will create a new expense with total amount of SGD 9.00 with a split of:  
-    Alice: SGD 2.00, Bob: SGD 3.00, and Charlie: SGD 4.00. (Alice's split is automatically calculated)
+    Alice: SGD 2.00, Bob: SGD 3.00, and Charlie: SGD 4.00 (Alice's split is automatically calculated)
 
 
 - `expense dinner /unequal /amount 14.00 /paid Alice /user Bob 5 /user Charlie 6`  
   This command will create a new expense with total amount of SGD 14 with a split of:  
-    Alice: SGD 3.00, Bob: SGD 5.00, and Charlie: SGD 6.00. (Alice's split is automatically calculated)
+    Alice: SGD 3.00, Bob: SGD 5.00, and Charlie: SGD 6.00 (Alice's split is automatically calculated)
 
 ##### 3. Create expense with different currency
 
@@ -179,10 +182,45 @@ Format: `expense DESCRIPTION /currency CURRENCY /amount TOTAL_AMOUNT
 /paid PAYER_USER_NAME /user USER_NAME AMOUNT_OWED /user USER_NAME AMOUNT_OWED`
 
 - `/currency` indicates the currency of the transaction.
-- The currency has to be from the currency list mentioned here. Otherwise, the app will throw an error.
-- If no `/currency` is present, the program will use SGD as the default currency.
-- The `/currency` feature can be used with expenses split equally or unequally.
+- The currency has to be from the currency list mentioned [here](#list-of-currencies). 
+Otherwise, the app will throw an error.
+- If no `/currency` is present in the command, the program will use SGD as the default currency.
+- The currency feature can be used with expenses split equally or unequally.
+- Only one currency can be entered per transaction.
 
+Examples:
+- `expense dinner /currency USD /unequal /amount 9.00 /paid Alice /user Bob 3 /user Charlie 4`  
+  This command will create a new expense with total amount of USD 9.00 with a split of:  
+  Alice: USD 2.00, Bob: USD 3.00, and Charlie: USD 4.00 (Alice's split is automatically calculated)
+
+
+- `expense dinner /amount 9.00 /paid Alice /user Bob /user Charlie`  
+  This command will create a new expense with total amount of USD 9.00 with a split of:  
+  Alice: USD 3.00, Bob: USD 3.00, and Charlie: USD 3.00
+
+<br>
+
+#### List expenses: `list`
+
+Lists all expenses for the current group
+
+Format: `list`
+- The indexes shown in front of each expense can be used with `delete expense` to delete an expense (see below).  
+
+<br>
+
+#### Delete an expense: `delete expense`
+
+Deletes an expense based on index specified from list command.
+
+Format: `delete expense LIST_INDEX`
+- The `LIST_INDEX` needs to be a valid index from the Expenses list. To check expenses list use the `list` command 
+(see above).
+- If the `LIST_INDEX` does not exist, an exception will be thrown.
+
+Example: 
+- `delete expense 3`  
+This command deletes the expense at index 3 on the expense list.
 --------------------------------------------------------------------------------------------------------------------
 ### BALANCE COMMAND
 
@@ -249,16 +287,37 @@ This command enable users play slots to remove their debts
 --------------------------------------------------------------------------------------------------------------------
 ### Saving the data
 
-Split-liang automatically saves the data in each group to `GROUP_NAME.txt` in the `data` folder after the application
+Split-liang automatically saves the data in each group to `GROUP_NAME.txt` in the `data\groups` folder after the application
 exits. There is no need to save manually.
 
 The data is loaded automatically when the application starts.
+
+- The data folder is located in the same directory as the jar file.
+- The data folder contains the data for each group in a separate text file.
+- The data folder is created automatically if it does not exist.
+- The data folder can be deleted to clear all data.
+- Corrupted data files will be ignored and not loaded.
 
 --------------------------------------------------------------------------------------------------------------------
 ### Exiting the Application 
 #### Saying goodbye: `bye`
 
 This command exits the application.
+
+--------------------------------------------------------------------------------------------------------------------
+## List of currencies
+
+### The currencies currently supported by the Expenses feature:
+
+| Currency          | Tag to Enter (This is what should be entered after `/currency`) when creating new expense |
+|-------------------|-------------------------------------------------------------------------------------------|
+| US Dollar         | USD e.g. `/currency USD`                                                                  |
+| Singapore Dollar  | SGD e.g. `/currency SGD`                                                                  |
+| Chinese Yuan      | RMB e.g. `/currency RMB`                                                                  |
+| Euro              | EUR e.g. `/currency EUR`                                                                  |
+| Japanese Yen      | JPY e.g. `/currency JPY`                                                                  |
+| Australian Dollar | AUD e.g. `/currency AUD`                                                                  |
+| Malaysian Ringgit | MYR e.g. `/currency MYR`                                                                  |
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -268,18 +327,28 @@ This command exits the application.
     - A: To create a new group, use the `create group` command followed by the group name.
 2. **Q: How do I transfer my data to another device?**
     - A: You can copy the `data` folder to the new device to transfer your data.
+3. **Q: Can I enter a new expense or add a new member without being in a group?**
+    - A: No you need to first create a new group or enter an existing one after which you can carry out those actions.
+
+--------------------------------------------------------------------------------------------------------------------
 
 ## Command Summary
+<br>
+
+| Action           | Format, Examples                                                                                                                           |
+|------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
+| Help             | `help`                                                                                                                                     |
+| Create group     | `create GROUP_NAME` <br> e.g. `create Friends`                                                                                             |
+| Enter group      | `enter GROUP_NAME` <br> e.g. `enter Friends`                                                                                               |
+| Add member       | `member USER_NAME` <br> e.g. `member Alice`                                                                                                |
+| Exit group       | `exit GROUP_NAME` <br> e.g. `exit Friends`                                                                                                 |
+| Add expense      | `expense DESCRIPTION /amount AMOUNT /paid USER_NAME /user USER_NAME GROUP_NAME` <br> e.g. `expense lunch /amount 20 /paid Alice /user Bob` |
+| List expenses    | `list` <br> e.g. `list`                                                                                                                    |
+| Delete expense   | `delete expense LIST_INDEX` <br> e.g. `delete expense 3`                                                                                   |
+| Balance          | `balance USER_NAME` <br> e.g. `balance Alice`                                                                                              |
+| Settle expenses  | `settle USER_NAME1 /user USER_NAME2` <br> e.g. `settle Alice /user Bob`                                                                    |
+| Exit application | `bye`                                                                                                                                      |
+=======
 
 
-Action | Format, Examples
---------|------------------
-Help | `help`
-Create group | `create GROUP_NAME` <br> e.g. `create Friends`
-Enter group | `enter GROUP_NAME` <br> e.g. `enter Friends`
-Add member | `member USER_NAME` <br> e.g. `member Alice`
-Exit group | `exit GROUP_NAME` <br> e.g. `exit Friends`
-Show balance | `balance USER_NAME` <br> e.g. `balance Alice`
-Settle expenses | `settle USER_NAME1 /user USER_NAME2` <br> e.g. `settle Alice /user Bob`
-Exit application | `bye`
 

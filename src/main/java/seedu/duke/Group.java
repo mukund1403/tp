@@ -66,14 +66,14 @@ public class Group {
         }
 
         // Create a new group if it doesn't exist
-        if (group.isEmpty() && !groupNameChecker.doesGroupNameExist(groupName)) {
+        if (group.isEmpty()) {
             Group newGroup = new Group(groupName);
             groups.put(groupName, newGroup);
             System.out.println(groupName + " created.");
             currentGroupName = Optional.of(groupName);
             group = Optional.of(newGroup);
             System.out.println("You are now in " + groupName);
-        } else if (groupNameChecker.doesGroupNameExist(groupName)) {
+        } else {
             System.out.println("Group already exists. Use 'enter " + groupName + "' to enter the group.");
             return Optional.empty();
         }
@@ -278,7 +278,7 @@ public class Group {
         User payee = findUser(payeeName);
 
         if (payer == null || payee == null) {
-            System.out.println("User not found.");
+            UserInterface.printMessage("User not found.", MessageType.ERROR);
             return;
         }
 
@@ -291,14 +291,14 @@ public class Group {
         }
 
         if (total.getAmount() <= 0f) {
-            System.out.println(
+            UserInterface.printMessage(
                     payerName + " has no outstanding balance with " + payeeName
             );
             return;
         }
 
         if (total.getAmount() > 0f) {
-            System.out.println(
+            UserInterface.printMessage(
                     payerName + " should pay " + payeeName + " " + String.format("SGD %.2f", total.getAmount())
             );
         }
@@ -324,40 +324,6 @@ public class Group {
                 continue;
             }
             settle(payerName, member.getName());
-        }
-    }
-    //@@author
-
-    /**
-     * Updates the balances of the users after a settlement.
-     *
-     * @param payerName The name of the user who will pay the outstanding amount.
-     * @param payeeName The name of the user who will receive the outstanding amount.
-     */
-    private void updateBalancesAfterSettlement(String payerName, String payeeName) {
-
-        ArrayList<Expense> payeeExpense = getPayerExpense(payeeName);
-
-        if (payeeExpense.size() == 0) {
-            return;
-        }
-
-        ArrayList<Expense> payerExpense = getPayerExpense(payerName);
-
-        float balance = calculateBalance(payerName, payeeName);
-
-        if (balance < 0) {
-            return;
-        }
-
-        for (Expense expense : payeeExpense) {
-            expense.clear();
-        }
-
-        if (!payerExpense.isEmpty()) {
-            for (Expense expense : payerExpense) {
-                expense.clearPayeeValue(payeeName);
-            }
         }
     }
 
@@ -446,44 +412,8 @@ public class Group {
 
         return total;
     }
-    //@@author
 
-    /**
-     * Checks if an expense is relevant to the payer and payee.
-     *
-     * @param expense The expense to check.
-     * @param payer   The user who paid the expense.
-     * @param payee   The user who owes money for the expense.
-     * @return true if the expense is relevant to the payer and payee, false otherwise.
-     */
-    private boolean isRelevantExpense(Expense expense, User payer, User payee) {
-        String payerName = payer.getName();
-        String payeeName = payee.getName();
-        String expensePayer = expense.getPayer();
-
-        return expensePayer.equals(payerName) || expensePayer.equals(payeeName);
-    }
-
-    /**
-     * Calculates the adjusted amount for a user in an expense.
-     *
-     * @param expense     The expense to calculate the adjusted amount for.
-     * @param payer       The user who paid the expense.
-     * @param payee       The user who owes money for the expense.
-     * @param userExpense The user and the amount they owe for the expense.
-     * @return The adjusted amount for the user in the expense.
-     */
-
-    private double calculateAdjustedAmount(Expense expense, User payer, User payee, Pair<String, Money> userExpense) {
-        String payerName = payer.getName();
-        String payeeName = payee.getName();
-        String expensePayer = expense.getPayer();
-
-        if (userExpense.getKey().equals(payeeName) && expensePayer.equals(payerName)) {
-            return userExpense.getValue().getAmount();
-        } else if (userExpense.getKey().equals(payerName) && expensePayer.equals(payeeName)) {
-            return -userExpense.getValue().getAmount();
-        }
-        return 0;
+    public static void removeGroup(String groupName) {
+        groups.remove(groupName);
     }
 }

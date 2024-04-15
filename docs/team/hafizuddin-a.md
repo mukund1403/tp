@@ -20,10 +20,18 @@ Given below are my contributions to the project.
     * User Guide:
         * Added documentation for the addition of members to groups [\#87](https://github.com/AY2324S2-CS2113-T15-3/tp/pull/87)
         * Added documentation for the storage of groups and members [\#87](https://github.com/AY2324S2-CS2113-T15-3/tp/pull/87)
+        * Added command summary in a table[\#159](https://github.com/AY2324S2-CS2113-T15-3/tp/pull/159)
+        * Added content page for the user guide [\#159](https://github.com/AY2324S2-CS2113-T15-3/tp/pull/159)
     * Developer Guide:
         * Added implementation for the addition of members to groups [\#87](https://github.com/AY2324S2-CS2113-T15-3/tp/pull/87)
-        * Added sequence diagram for the addition of members to groups [\#87](https://github.com/AY2324S2-CS2113-T15-3/tp/pull/87)
+        * Added implementation for the storage of group data [\#162](https://github.com/AY2324S2-CS2113-T15-3/tp/pull/162)
+        * Added 3 sequence diagrams for the addition of members to groups [\#171](https://github.com/AY2324S2-CS2113-T15-3/tp/pull/171)
+        * Added 2 sequence diagram for the storage of group data [\#171](https://github.com/AY2324S2-CS2113-T15-3/tp/pull/171)
+        * Added test cases for creation of groups [\#171](https://github.com/AY2324S2-CS2113-T15-3/tp/pull/171)
+        * Added test cases for the addition of members to groups [\#171](https://github.com/AY2324S2-CS2113-T15-3/tp/pull/171)
+        * Added test cases for the storage of group data [\#171](https://github.com/AY2324S2-CS2113-T15-3/tp/pull/171)
 
 * **Community**:
     * PRs reviewed (with non-trivial review comments): [\#55](https://github.com/AY2324S2-CS2113-T15-3/tp/pull/55)
+    * Triaged and assigned all the bugs during demo to other contributors [\#176](https://github.com/AY2324S2-CS2113-T15-3/tp/pull/176)
 

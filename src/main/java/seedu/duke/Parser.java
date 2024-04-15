@@ -2,6 +2,7 @@ package seedu.duke;
 
 import seedu.duke.commands.BalanceCommand;
 import seedu.duke.commands.ExpenseCommand;
+import seedu.duke.commands.GroupCommand;
 import seedu.duke.commands.ListCommand;
 import seedu.duke.commands.LuckCommand;
 import seedu.duke.exceptions.ExpensesException;
@@ -151,6 +152,10 @@ public class Parser {
             GroupCommand.createGroup(argument);
             break;
         case "delete":
+            if (argument == null || argument.isEmpty()) {
+                throw new ExpensesException("Mention if you want to delete an expense or group.");
+            }
+
             String[] deleteTypeAndValue = argument.split(" ");
             String deleteType = deleteTypeAndValue[0];
             String deleteValue;

@@ -1,7 +1,8 @@
 //@@author hafizuddin-a
 
-package seedu.duke;
+package seedu.duke.commands;
 
+import seedu.duke.Group;
 import seedu.duke.exceptions.GroupDeleteException;
 import seedu.duke.storage.FileIO;
 import seedu.duke.storage.FileIOImpl;
@@ -37,13 +38,19 @@ public class GroupCommand {
      * @param groupName the name of the group to delete
      */
     public static void deleteGroup(String groupName) {
+        Optional<Group> currentGroup = Group.getCurrentGroup();
+        if (currentGroup.isPresent() && currentGroup.get().getGroupName().equals(groupName)) {
+            System.out.println("Please exit current group before deleting group.");
+            return;
+        }
+
         try {
             FileIO fileIO = new FileIOImpl();
             GroupStorage groupStorage = new GroupStorage(fileIO);
             GroupNameChecker groupNameChecker = new GroupNameChecker();
             if (groupNameChecker.doesGroupNameExist(groupName)) {
                 groupStorage.deleteGroupFile(groupName);
-                Group.groups.remove(groupName);
+                Group.removeGroup(groupName);
                 System.out.println("The group " + groupName + " has been deleted.");
             } else {
                 System.out.println("The group " + groupName + " does not exist.");
@@ -68,6 +75,8 @@ public class GroupCommand {
 
         currentGroup.get().addMember(memberName);
     }
+
+    //@@author avrilgk
 
     /**
      * Enters an existing group with the specified name.
