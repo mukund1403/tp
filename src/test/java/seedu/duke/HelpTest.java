@@ -19,7 +19,7 @@ public class HelpTest {
                     "list: List all expenses in the group.\n" +
                     "balance <user_name>: Show user's balance.\n" +
                     "settle <payer_name> /user <payee_name>: Settle the amount between two users.\n" +
-                    "luck : luck <payer_name>: luck is in the air tonight";
+                    "luck <payer_name>: luck is in the air tonight";
 
     @Test
     public void dummyTest() {

@@ -119,7 +119,7 @@ public class Luck {
         ArrayList<Pair<String, Money>> payee =
                 new ArrayList<Pair<String, Money>>();
         payee.add(paymentDetails);
-        return new Expense(false, randomLuckyUser.getName(),
+        return new Expense(randomLuckyUser.getName(),
                 buyInDescription, buyIn, payee);
     }
 
