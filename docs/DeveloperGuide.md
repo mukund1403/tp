@@ -8,6 +8,14 @@ We would like to acknowledge Splitwise for the inspiration for the project. The 
 
 ### Architecture
 
+The high-level overview of the application is provided in the Architecture Diagram below.
+
+Users interact with the application through the Command Line Interface. 
+Application Storage is located in `/data/groups/` 
+and each `Group` object is stored in its own `.txt` file after program's runtime. 
+
+![Architecture_Diagram](images/ArchitectureDiagram.jpg)
+
 ### Group Storage
 
 The Group Storage feature allows users to save group information to files when exiting groups or ending the program. It also enables users to load group information from files when entering groups. This feature ensures that changes made to a group are persisted across sessions and that users can resume their interactions with groups seamlessly.
