@@ -108,6 +108,8 @@ Additionally, it implements the following operations:
 
 These operations are exposed in the Expense class through the `getPayerName()`, `getTotalAmount()`, and `getPayees()`
 functions respectively.
+![Sequence Diagram](images/equal.png)
+![Sequence Diagram](images/unequal.png)
 
 ### Balance feature
 
@@ -129,6 +131,7 @@ To print a user's Balance List, perform the following steps:
 1. Create a `Balance` object with the params String `userName` and the current Group `group`.
 2. From the `members` and `expenseList` List items in `group`, the Map `balanceList` is populated.
 3. Call method `printBalance()` to print the contents of the Map `balanceList`.
+4. ![Sequence Diagram](images/balance.png)
 
 ### Settle feature
 
@@ -147,6 +150,7 @@ settle the debt.
 
 The method then prints out the amount that is owed by `userName1` to `userName2`, and the amount that is owed
 by `userName2` to `userName1` after the settlement.
+![Sequence Diagram](images/settle.png)
 
 ### Group Storage feature
 

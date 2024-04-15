@@ -1,0 +1,615 @@
+@startuml
+participant Actor
+Actor -> Parser : handleUserInput
+activate Parser
+Parser -> GroupCommand : exitGroup
+activate GroupCommand
+GroupCommand -> Group : exitGroup
+activate Group
+Group -> GroupStorage : saveGroupToFile
+activate GroupStorage
+GroupStorage -> GroupFilePath : createGroupDirectory
+activate GroupFilePath
+GroupFilePath --> GroupStorage
+deactivate GroupFilePath
+GroupStorage -> GroupFilePath : getFilePath
+activate GroupFilePath
+GroupFilePath --> GroupStorage
+deactivate GroupFilePath
+GroupStorage -> FileIO : getFileWriter
+activate FileIO
+FileIO --> GroupStorage
+deactivate FileIO
+GroupStorage -> GroupStorage : saveGroupName
+activate GroupStorage
+GroupStorage --> GroupStorage
+deactivate GroupStorage
+GroupStorage -> GroupStorage : saveMembers
+activate GroupStorage
+GroupStorage --> GroupStorage
+deactivate GroupStorage
+GroupStorage -> GroupStorage : saveExpenses
+activate GroupStorage
+GroupStorage --> GroupStorage
+deactivate GroupStorage
+create GroupSaveException
+GroupStorage -> GroupSaveException : new
+activate GroupSaveException
+GroupSaveException --> GroupStorage
+deactivate GroupSaveException
+GroupStorage --> Group
+deactivate GroupStorage
+Group --> GroupCommand
+deactivate Group
+GroupCommand --> Parser
+deactivate GroupCommand
+Parser -> Help : printHelp
+activate Help
+Help --> Parser
+deactivate Help
+Parser -> GroupCommand : createGroup
+activate GroupCommand
+GroupCommand -> Group : getOrCreateGroup
+activate Group
+Group -> GroupNameChecker : doesGroupNameExist
+activate GroupNameChecker
+GroupNameChecker -> GroupNameChecker : checkGroupNameInDirectory
+activate GroupNameChecker
+GroupNameChecker --> GroupNameChecker
+deactivate GroupNameChecker
+GroupNameChecker --> Group
+deactivate GroupNameChecker
+create Group
+Group -> Group : new
+activate Group
+Group --> Group
+deactivate Group
+Group -> GroupNameChecker : doesGroupNameExist
+activate GroupNameChecker
+GroupNameChecker -> GroupNameChecker : checkGroupNameInDirectory
+activate GroupNameChecker
+GroupNameChecker --> GroupNameChecker
+deactivate GroupNameChecker
+GroupNameChecker --> Group
+deactivate GroupNameChecker
+Group --> GroupCommand
+deactivate Group
+GroupCommand --> Parser
+deactivate GroupCommand
+create ExpensesException
+Parser -> ExpensesException : new
+activate ExpensesException
+ExpensesException --> Parser
+deactivate ExpensesException
+Parser -> GroupCommand : deleteGroup
+activate GroupCommand
+create GroupStorage
+GroupCommand -> GroupStorage : new
+activate GroupStorage
+GroupStorage --> GroupCommand
+deactivate GroupStorage
+GroupCommand -> GroupNameChecker : doesGroupNameExist
+activate GroupNameChecker
+GroupNameChecker -> GroupNameChecker : checkGroupNameInDirectory
+activate GroupNameChecker
+GroupNameChecker -> GroupNameChecker : extractGroupNameFromFile
+activate GroupNameChecker
+GroupNameChecker --> GroupNameChecker
+deactivate GroupNameChecker
+GroupNameChecker --> GroupNameChecker
+deactivate GroupNameChecker
+GroupNameChecker --> GroupCommand
+deactivate GroupNameChecker
+GroupCommand -> GroupStorage : deleteGroupFile
+activate GroupStorage
+GroupStorage -> GroupFilePath : getFilePath
+activate GroupFilePath
+GroupFilePath --> GroupStorage
+deactivate GroupFilePath
+GroupStorage -> FileIO : deleteFile
+activate FileIO
+FileIO --> GroupStorage
+deactivate FileIO
+create GroupDeleteException
+GroupStorage -> GroupDeleteException : new
+activate GroupDeleteException
+create UniversalExceptions
+GroupDeleteException -> UniversalExceptions : new
+activate UniversalExceptions
+UniversalExceptions --> GroupDeleteException
+deactivate UniversalExceptions
+GroupDeleteException --> GroupStorage
+deactivate GroupDeleteException
+create GroupDeleteException
+GroupStorage -> GroupDeleteException : new
+activate GroupDeleteException
+create UniversalExceptions
+GroupDeleteException -> UniversalExceptions : new
+activate UniversalExceptions
+UniversalExceptions --> GroupDeleteException
+deactivate UniversalExceptions
+GroupDeleteException --> GroupStorage
+deactivate GroupDeleteException
+GroupStorage --> GroupCommand
+deactivate GroupStorage
+GroupCommand --> Parser
+deactivate GroupCommand
+Parser -> ExpenseCommand : deleteExpense
+activate ExpenseCommand
+create ExpensesException
+ExpenseCommand -> ExpensesException : new
+activate ExpensesException
+ExpensesException --> ExpenseCommand
+deactivate ExpensesException
+ExpenseCommand -> ExpenseCommand : getListIndex
+activate ExpenseCommand
+create ExpensesException
+ExpenseCommand -> ExpensesException : new
+activate ExpensesException
+ExpensesException --> ExpenseCommand
+deactivate ExpensesException
+create ExpensesException
+ExpenseCommand -> ExpensesException : new
+activate ExpensesException
+ExpensesException --> ExpenseCommand
+deactivate ExpensesException
+create ExpensesException
+ExpenseCommand -> ExpensesException : new
+activate ExpensesException
+ExpensesException --> ExpenseCommand
+deactivate ExpensesException
+ExpenseCommand --> ExpenseCommand
+deactivate ExpenseCommand
+ExpenseCommand -> Expense : toString
+activate Expense
+Expense --> ExpenseCommand
+deactivate Expense
+ExpenseCommand -> Group : deleteExpense
+activate Group
+Group --> ExpenseCommand
+deactivate Group
+ExpenseCommand --> Parser
+deactivate ExpenseCommand
+create ExpensesException
+Parser -> ExpensesException : new
+activate ExpensesException
+ExpensesException --> Parser
+deactivate ExpensesException
+Parser -> GroupCommand : addMember
+activate GroupCommand
+GroupCommand -> Group : addMember
+activate Group
+Group -> Group : isMember
+activate Group
+Group --> Group
+deactivate Group
+create User
+Group -> User : new
+activate User
+User --> Group
+deactivate User
+Group --> GroupCommand
+deactivate Group
+GroupCommand --> Parser
+deactivate GroupCommand
+Parser -> GroupCommand : enterGroup
+activate GroupCommand
+GroupCommand -> Group : enterGroup
+activate Group
+Group -> GroupNameChecker : doesGroupNameExist
+activate GroupNameChecker
+GroupNameChecker -> GroupNameChecker : checkGroupNameInDirectory
+activate GroupNameChecker
+GroupNameChecker --> GroupNameChecker
+deactivate GroupNameChecker
+GroupNameChecker --> Group
+deactivate GroupNameChecker
+Group -> GroupStorage : loadGroupFromFile
+activate GroupStorage
+GroupStorage -> GroupFilePath : getFilePath
+activate GroupFilePath
+GroupFilePath --> GroupStorage
+deactivate GroupFilePath
+GroupStorage -> FileIO : getFileReader
+activate FileIO
+FileIO --> GroupStorage
+deactivate FileIO
+GroupStorage -> GroupStorage : loadGroupName
+activate GroupStorage
+GroupStorage --> GroupStorage
+deactivate GroupStorage
+create GroupLoadException
+GroupStorage -> GroupLoadException : new
+activate GroupLoadException
+GroupLoadException --> GroupStorage
+deactivate GroupLoadException
+GroupStorage -> GroupStorage : loadMembers
+activate GroupStorage
+GroupStorage --> GroupStorage
+deactivate GroupStorage
+GroupStorage -> GroupStorage : loadExpenses
+activate GroupStorage
+GroupStorage --> GroupStorage
+deactivate GroupStorage
+create GroupLoadException
+GroupStorage -> GroupLoadException : new
+activate GroupLoadException
+GroupLoadException --> GroupStorage
+deactivate GroupLoadException
+create GroupLoadException
+GroupStorage -> GroupLoadException : new
+activate GroupLoadException
+GroupLoadException --> GroupStorage
+deactivate GroupLoadException
+create GroupLoadException
+GroupStorage -> GroupLoadException : new
+activate GroupLoadException
+GroupLoadException --> GroupStorage
+deactivate GroupLoadException
+GroupStorage --> Group
+deactivate GroupStorage
+Group --> GroupCommand
+deactivate Group
+GroupCommand --> Parser
+deactivate GroupCommand
+Parser -> GroupCommand : exitGroup
+activate GroupCommand
+GroupCommand -> Group : exitGroup
+activate Group
+Group -> GroupStorage : saveGroupToFile
+activate GroupStorage
+GroupStorage -> GroupFilePath : createGroupDirectory
+activate GroupFilePath
+GroupFilePath --> GroupStorage
+deactivate GroupFilePath
+GroupStorage -> GroupFilePath : getFilePath
+activate GroupFilePath
+GroupFilePath --> GroupStorage
+deactivate GroupFilePath
+GroupStorage -> FileIO : getFileWriter
+activate FileIO
+FileIO --> GroupStorage
+deactivate FileIO
+GroupStorage -> GroupStorage : saveGroupName
+activate GroupStorage
+GroupStorage --> GroupStorage
+deactivate GroupStorage
+GroupStorage -> GroupStorage : saveMembers
+activate GroupStorage
+GroupStorage --> GroupStorage
+deactivate GroupStorage
+GroupStorage -> GroupStorage : saveExpenses
+activate GroupStorage
+GroupStorage --> GroupStorage
+deactivate GroupStorage
+create GroupSaveException
+GroupStorage -> GroupSaveException : new
+activate GroupSaveException
+GroupSaveException --> GroupStorage
+deactivate GroupSaveException
+GroupStorage --> Group
+deactivate GroupStorage
+Group --> GroupCommand
+deactivate Group
+GroupCommand --> Parser
+deactivate GroupCommand
+Parser -> ExpenseCommand : addExpense
+activate ExpenseCommand
+create ExpensesException
+ExpenseCommand -> ExpensesException : new
+activate ExpensesException
+ExpensesException --> ExpenseCommand
+deactivate ExpensesException
+create ExpensesException
+ExpenseCommand -> ExpensesException : new
+activate ExpensesException
+ExpensesException --> ExpenseCommand
+deactivate ExpensesException
+ExpenseCommand -> ExpenseCommand : getTotal
+activate ExpenseCommand
+create ExpensesException
+ExpenseCommand -> ExpensesException : new
+activate ExpensesException
+ExpensesException --> ExpenseCommand
+deactivate ExpensesException
+create ExpensesException
+ExpenseCommand -> ExpensesException : new
+activate ExpensesException
+ExpensesException --> ExpenseCommand
+deactivate ExpensesException
+create ExpensesException
+ExpenseCommand -> ExpensesException : new
+activate ExpensesException
+ExpensesException --> ExpenseCommand
+deactivate ExpensesException
+ExpenseCommand --> ExpenseCommand
+deactivate ExpenseCommand
+ExpenseCommand -> ExpenseCommand : getCurrency
+activate ExpenseCommand
+create ExpensesException
+ExpenseCommand -> ExpensesException : new
+activate ExpensesException
+ExpensesException --> ExpenseCommand
+deactivate ExpensesException
+ExpenseCommand --> ExpenseCommand
+deactivate ExpenseCommand
+create Money
+ExpenseCommand -> Money : new
+activate Money
+Money --> ExpenseCommand
+deactivate Money
+ExpenseCommand -> ExpenseCommand : checkDescription
+activate ExpenseCommand
+create ExpensesException
+ExpenseCommand -> ExpensesException : new
+activate ExpensesException
+ExpensesException --> ExpenseCommand
+deactivate ExpensesException
+ExpenseCommand --> ExpenseCommand
+deactivate ExpenseCommand
+ExpenseCommand -> ExpenseCommand : addUnequalExpense
+activate ExpenseCommand
+create ExpensesException
+ExpenseCommand -> ExpensesException : new
+activate ExpensesException
+ExpensesException --> ExpenseCommand
+deactivate ExpensesException
+ExpenseCommand -> ExpenseCommand : mergeBack
+activate ExpenseCommand
+ExpenseCommand --> ExpenseCommand
+deactivate ExpenseCommand
+ExpenseCommand -> ExpenseCommand : checkPayeeInGroup
+activate ExpenseCommand
+ExpenseCommand -> Group : isMember
+activate Group
+Group --> ExpenseCommand
+deactivate Group
+create ExpensesException
+ExpenseCommand -> ExpensesException : new
+activate ExpensesException
+ExpensesException --> ExpenseCommand
+deactivate ExpensesException
+ExpenseCommand --> ExpenseCommand
+deactivate ExpenseCommand
+create Money
+ExpenseCommand -> Money : new
+activate Money
+Money --> ExpenseCommand
+deactivate Money
+create Pair
+ExpenseCommand -> Pair : new
+activate Pair
+Pair --> ExpenseCommand
+deactivate Pair
+create ExpensesException
+ExpenseCommand -> ExpensesException : new
+activate ExpensesException
+ExpensesException --> ExpenseCommand
+deactivate ExpensesException
+create ExpensesException
+ExpenseCommand -> ExpensesException : new
+activate ExpensesException
+ExpensesException --> ExpenseCommand
+deactivate ExpensesException
+create Money
+ExpenseCommand -> Money : new
+activate Money
+Money --> ExpenseCommand
+deactivate Money
+create Pair
+ExpenseCommand -> Pair : new
+activate Pair
+Pair --> ExpenseCommand
+deactivate Pair
+create Expense
+ExpenseCommand -> Expense : new
+activate Expense
+Expense -> Expense : printSuccessMessage
+activate Expense
+Expense --> Expense
+deactivate Expense
+Expense --> ExpenseCommand
+deactivate Expense
+ExpenseCommand --> ExpenseCommand
+deactivate ExpenseCommand
+ExpenseCommand -> ExpenseCommand : addEqualExpense
+activate ExpenseCommand
+create Money
+ExpenseCommand -> Money : new
+activate Money
+Money --> ExpenseCommand
+deactivate Money
+ExpenseCommand -> ExpenseCommand : checkPayeeInGroup
+activate ExpenseCommand
+ExpenseCommand -> Group : isMember
+activate Group
+Group --> ExpenseCommand
+deactivate Group
+create ExpensesException
+ExpenseCommand -> ExpensesException : new
+activate ExpensesException
+ExpensesException --> ExpenseCommand
+deactivate ExpensesException
+ExpenseCommand --> ExpenseCommand
+deactivate ExpenseCommand
+create Pair
+ExpenseCommand -> Pair : new
+activate Pair
+Pair --> ExpenseCommand
+deactivate Pair
+ExpenseCommand -> ExpenseCommand : checkPayeeInGroup
+activate ExpenseCommand
+ExpenseCommand -> Group : isMember
+activate Group
+Group --> ExpenseCommand
+deactivate Group
+create ExpensesException
+ExpenseCommand -> ExpensesException : new
+activate ExpensesException
+ExpensesException --> ExpenseCommand
+deactivate ExpensesException
+ExpenseCommand --> ExpenseCommand
+deactivate ExpenseCommand
+create Pair
+ExpenseCommand -> Pair : new
+activate Pair
+Pair --> ExpenseCommand
+deactivate Pair
+create Expense
+ExpenseCommand -> Expense : new
+activate Expense
+Expense -> Expense : printSuccessMessage
+activate Expense
+Expense --> Expense
+deactivate Expense
+Expense --> ExpenseCommand
+deactivate Expense
+ExpenseCommand --> ExpenseCommand
+deactivate ExpenseCommand
+ExpenseCommand -> Group : addExpense
+activate Group
+Group --> ExpenseCommand
+deactivate Group
+ExpenseCommand -> Parser : group ->
+activate Parser
+Parser -> Group : settle
+activate Group
+Group -> Group : findUser
+activate Group
+Group --> Group
+deactivate Group
+Group -> Group : findUser
+activate Group
+Group --> Group
+deactivate Group
+Group -> Group : calculateOutstandingAmount
+activate Group
+Group --> Group
+deactivate Group
+Group -> Group : updateBalancesAfterSettlement
+activate Group
+Group --> Group
+deactivate Group
+Group --> Parser
+deactivate Group
+Parser --> ExpenseCommand
+deactivate Parser
+ExpenseCommand --> Parser
+deactivate ExpenseCommand
+create LuckException
+Parser -> LuckException : new
+activate LuckException
+create UniversalExceptions
+LuckException -> UniversalExceptions : new
+activate UniversalExceptions
+UniversalExceptions --> LuckException
+deactivate UniversalExceptions
+LuckException --> Parser
+deactivate LuckException
+create LuckException
+Parser -> LuckException : new
+activate LuckException
+create UniversalExceptions
+LuckException -> UniversalExceptions : new
+activate UniversalExceptions
+UniversalExceptions --> LuckException
+deactivate UniversalExceptions
+LuckException --> Parser
+deactivate LuckException
+create Luck
+Parser -> Luck : new
+activate Luck
+Luck --> Parser
+deactivate Luck
+Parser -> Luck : printWelcome
+activate Luck
+Luck --> Parser
+deactivate Luck
+Parser -> Luck : startGambling
+activate Luck
+create SlotMachine
+Luck -> SlotMachine : new
+activate SlotMachine
+SlotMachine -> SlotMachine : fillSlots
+activate SlotMachine
+SlotMachine -> SlotMachine : fillSlot
+activate SlotMachine
+SlotMachine --> SlotMachine
+deactivate SlotMachine
+SlotMachine --> SlotMachine
+deactivate SlotMachine
+SlotMachine --> Luck
+deactivate SlotMachine
+Luck -> SlotMachine : reroll
+activate SlotMachine
+SlotMachine -> SlotMachine : fillSlots
+activate SlotMachine
+SlotMachine -> SlotMachine : fillSlot
+activate SlotMachine
+SlotMachine --> SlotMachine
+deactivate SlotMachine
+SlotMachine --> SlotMachine
+deactivate SlotMachine
+SlotMachine --> Luck
+deactivate SlotMachine
+Luck --> Parser
+deactivate Luck
+Parser -> ListCommand : printList
+activate ListCommand
+create ExpensesException
+ListCommand -> ExpensesException : new
+activate ExpensesException
+ExpensesException --> ListCommand
+deactivate ExpensesException
+ListCommand -> Expense : toString
+activate Expense
+Expense --> ListCommand
+deactivate Expense
+ListCommand --> Parser
+deactivate ListCommand
+Parser -> BalanceCommand : handleBalance
+activate BalanceCommand
+create ExpensesException
+BalanceCommand -> ExpensesException : new
+activate ExpensesException
+ExpensesException --> BalanceCommand
+deactivate ExpensesException
+BalanceCommand -> Group : isMember
+activate Group
+Group --> BalanceCommand
+deactivate Group
+create ExpensesException
+BalanceCommand -> ExpensesException : new
+activate ExpensesException
+ExpensesException --> BalanceCommand
+deactivate ExpensesException
+create Balance
+BalanceCommand -> Balance : new
+activate Balance
+create Balance
+Balance -> Balance : new
+activate Balance
+Balance -> Balance : addExpense
+activate Balance
+Balance --> Balance
+deactivate Balance
+Balance --> Balance
+deactivate Balance
+Balance --> BalanceCommand
+deactivate Balance
+BalanceCommand -> Balance : printBalance
+activate Balance
+Balance -> UserInterface : printMessage
+activate UserInterface
+UserInterface --> Balance
+deactivate UserInterface
+Balance --> BalanceCommand
+deactivate Balance
+BalanceCommand --> Parser
+deactivate BalanceCommand
+Parser -> Help : printHelp
+activate Help
+Help --> Parser
+deactivate Help
+return
+@enduml
