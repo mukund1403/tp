@@ -1,5 +1,8 @@
 package seedu.duke.storage;
 
+import seedu.duke.MessageType;
+import seedu.duke.UserInterface;
+
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -31,7 +34,8 @@ public class GroupNameChecker {
         try {
             return Paths.get(GroupFilePath.getGroupsDirectory());
         } catch (Exception e) {
-            System.out.println("An error occurred while getting the groups directory: " + e.getMessage());
+            UserInterface.printMessage("An error occurred while getting the groups directory path: "
+                    + e.getMessage(), MessageType.ERROR);
             return null;
         }
     }
@@ -51,7 +55,7 @@ public class GroupNameChecker {
                 }
             }
         } catch (IOException e) {
-            System.out.println("An error occurred while checking for the group name: " + e.getMessage());
+            System.out.println("Data directory not found: " + e.getMessage() + ". Creating new directory...");
         }
         return false;
     }
