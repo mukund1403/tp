@@ -66,23 +66,23 @@ public class SlotMachine {
         for (int i = 0; i < slotMachine.size(); i += 3) {
             // Draw the top of the boxes
             for (int j = 0; j < slotMachine.get(0).size(); j += 3) {
-                matrix.append("┌───┐");
+                matrix.append("_____");
             }
             matrix.append("\n");
             // Draw the content of each slot
             for (int row = i; row < i + 3; row++) {
                 for (int j = 0; j < slotMachine.get(0).size(); j += 3) {
-                    matrix.append("│");
+                    matrix.append("|");
                     for (int col = j; col < j + 3; col++) {
                         matrix.append(slotMachine.get(row).get(col));
                     }
-                    matrix.append("│");
+                    matrix.append("|");
                 }
                 matrix.append("\n");
             }
             // Draw the bottom of the boxes
             for (int j = 0; j < slotMachine.get(0).size(); j += 3) {
-                matrix.append("└───┘");
+                matrix.append("_____");
             }
             matrix.append("\n");
         }
