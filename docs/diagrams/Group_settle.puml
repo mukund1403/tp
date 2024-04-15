@@ -1,0 +1,89 @@
+@startuml
+Actor User
+User -> ":Group" : settle
+activate ":Group"
+":Group" -> ":Group" : findUser
+activate ":Group"
+":Group" --> ":Group"
+deactivate ":Group"
+":Group" -> ":Group" : findUser
+activate ":Group"
+":Group" --> ":Group"
+deactivate ":Group"
+":Group" -> ":UserInterface" : printMessage
+activate ":UserInterface"
+":UserInterface" --> ":Group"
+deactivate ":UserInterface"
+create ":Balance"
+":Group" -> ":Balance" : new
+activate ":Balance"
+":Balance" -> ":Balance" : addExpense
+activate ":Balance"
+":Balance" -> ":Balance" : addMoney
+activate ":Balance"
+":Balance" -> ":Money" : addition
+activate ":Money"
+":Money" --> ":Balance"
+deactivate ":Money"
+":Balance" --> ":Balance"
+deactivate ":Balance"
+":Balance" -> ":Balance" : subtractMoney
+activate ":Balance"
+":Balance" -> ":Money" : subtraction
+activate ":Money"
+":Money" --> ":Balance"
+deactivate ":Money"
+":Balance" -> ":Money" : multiplication
+activate ":Money"
+":Money" --> ":Balance"
+deactivate ":Money"
+":Balance" --> ":Balance"
+deactivate ":Balance"
+":Balance" --> ":Balance"
+deactivate ":Balance"
+":Balance" --> ":Group"
+deactivate ":Balance"
+create ":Money"
+":Group" -> ":Money" : new
+activate ":Money"
+":Money" --> ":Group"
+deactivate ":Money"
+":Group" -> ":Money" : addition
+activate ":Money"
+":Money" -> ":Money" : convertToSGD
+
+activate ":Money"
+":Money" --> ":Money"
+deactivate ":Money"
+":Money" --> ":Money"
+deactivate ":Money"
+":Money" -> ":Money" : convertToSGD
+activate ":Money"
+":Money" --> ":Money"
+deactivate ":Money"
+":Money" --> ":Money"
+deactivate ":Money"
+":Money" --> ":Money"
+deactivate ":Money"
+":Money" --> ":Group"
+deactivate ":Money"
+":Group" -> ":UserInterface" : printMessage
+activate ":UserInterface"
+":UserInterface" --> ":Group"
+deactivate ":UserInterface"
+":Group" -> ":UserInterface" : printMessage
+activate ":UserInterface"
+":UserInterface" --> ":Group"
+deactivate ":UserInterface"
+create ":Pair"
+":Group" -> ":Pair" : new
+activate ":Pair"
+":Pair" --> ":Group"
+deactivate ":Pair"
+create ":Expense"
+":Group" -> ":Expense" : new
+activate ":Expense"
+":Expense" --> ":Group"
+deactivate ":Expense"
+return
+@enduml
