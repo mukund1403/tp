@@ -1,0 +1,158 @@
+@startuml
+
+/' diagram meta data start
+config=StructureConfiguration;
+{
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": "",
+    "treatFinalFieldsAsMandatory": false
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": false,
+    "cutInterfaceStructures": false,
+    "cutDataStructures": false,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 6,
+    "backwardDepth": 6,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false, // root node is included
+    "useMethodCallsForStructureDiagram": "ForwardOnly" // ForwardOnly, BothDirections, No
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showClassGenericTypes": true,
+    "showMethods": true,
+    "showMethodParameterNames": true,
+    "showMethodParameterTypes": true,
+    "showMethodReturnType": true,
+    "showPackageLevels": 2,
+    "showDetailedClassStructure": true
+  },
+  "rootClass": "seedu.duke.commands.ExpenseCommand",
+  "extensionCallbackMethod": "" // qualified.class.name#methodName - signature: public static String method(String)
+}
+diagram meta data end '/
+
+
+
+digraph g {
+    rankdir="TB"
+    splines=polyline
+    
+
+'nodes 
+subgraph cluster_3094955 { 
+   	label=duke
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   Expense1407063755[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="CENTRE" >Expense</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   description: String </TD></TR>
+<TR><TD ALIGN="LEFT" >-   payees: ArrayList&lt;Pair&lt;String, Money&gt;&gt; </TD></TR>
+<TR><TD ALIGN="LEFT" >-   payerName: String</TD></TR>
+<TR><TD ALIGN="LEFT" >-   totalAmount: Money </TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ clear()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ clearPayeeValue(payeeName: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ successMessageString(): String</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+
+subgraph cluster_507334344 {
+   	label=storage
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+
+}
+
+subgraph cluster_867077269 {
+   	label=commands
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+
+   ExpenseCommand1418370849[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="CENTRE" >ExpenseCommand</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addExpense(params: HashMap&lt;String, ArrayList&lt;String&gt;&gt;, argument: String, userInput: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addEqualExpense(payeeList: ArrayList&lt;String&gt;, payees: ArrayList&lt;Pair&lt;String, Money&gt;&gt;, totalAmountAndCurrency: Money, payerName: String, argument: String): Expense</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addUnequalExpense(payeeList: ArrayList&lt;String&gt;, payees: ArrayList&lt;Pair&lt;String, Money&gt;&gt;, totalAmountAndCurrency: Money, payerName: String, argument: String): Expense</TD></TR>
+<TR><TD ALIGN="LEFT" >- checkDescription(argument: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >- checkPayeeInGroup(payee: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ deleteExpense(listIndex: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getCurrency(currencyString: String): CurrencyConversions</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getListIndex(listIndex: String, listSize: int): int</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getTotal(params: HashMap&lt;String, ArrayList&lt;String&gt;&gt;): Float</TD></TR>
+<TR><TD ALIGN="LEFT" >- mergeBack(splitArray: String[]): String</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+}
+}
+
+'edges    
+
+
+
+ExpenseCommand1418370849 -> Expense1407063755[label="addExpense() -> successMessageString()"];
+
+
+    
+}
+@enduml
