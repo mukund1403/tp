@@ -300,11 +300,11 @@ This command will settle the expenses between Alice and Bob, showing what Alice 
 --------------------------------------------------------------------------------------------------------------------
 ### LUCK COMMAND
 
-#### Trying your luck: `luck`
+#### Trying your luck: `luck USER_NAME1`
 
 Play slots to remove debts
 
-Format: `luck` (Coming soon feature)
+Format: `luck USER_NAME1`` 
 
 - Enters the slot machine
     - `/reroll` to reroll the slots
@@ -369,7 +369,7 @@ This command exits the application.
 | Help             | `help`                                                                                                                                     |
 | Create group     | `create GROUP_NAME` <br> e.g. `create Friends`                                                                                             |
 | Enter group      | `enter GROUP_NAME` <br> e.g. `enter Friends`                                                                                               |
-| Delete group      | `delete group GROUP_NAME` <br> e.g. `delete group Friends`                                                                                               |
+| Delete group     | `delete group GROUP_NAME` <br> e.g. `delete group Friends`                                                                                               |
 | Add member       | `member USER_NAME` <br> e.g. `member Alice`                                                                                                |
 | Exit group       | `exit GROUP_NAME` <br> e.g. `exit Friends`                                                                                                 |
 | Add expense      | `expense DESCRIPTION /amount AMOUNT /paid USER_NAME /user USER_NAME GROUP_NAME` <br> e.g. `expense lunch /amount 20 /paid Alice /user Bob` |
@@ -377,4 +377,5 @@ This command exits the application.
 | Delete expense   | `delete expense LIST_INDEX` <br> e.g. `delete expense 3`                                                                                   |
 | Balance          | `balance USER_NAME` <br> e.g. `balance Alice`                                                                                              |
 | Settle expenses  | `settle USER_NAME1 /user USER_NAME2` <br> e.g. `settle Alice /user Bob`                                                                    |
-| Exit application | `bye`                                                                                                                                      |
+| Luck             | `luck USER_NAME1` <br> e.g. `luck Alice`                                                                    
+| Exit application | `bye`    <br/>                                                                                                                                  |

@@ -3,8 +3,7 @@
 Split-liang is a CLI application that helps you split expenses with friends in a fun way! If you can type fast, Split-liang can help you manage your expenses faster than traditional GUI apps.
 
 * **Code Contributions**:
-  [RepoSense Link]
-https://nus-cs2113-ay2324s2.github.io/tp-dashboard/?search=&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=true&checkedFileTypes=docs~functional-code~test-code~other&since=2024-02-23&tabOpen=true&tabType=authorship&tabAuthor=MonkeScripts&tabRepo=AY2324S2-CS2113-T15-3%2Ftp%5Bmaster%5D&authorshipIsMergeGroup=false&authorshipFileTypes=docs~functional-code~test-code&authorshipIsBinaryFileTypeChecked=false&authorshipIsIgnoredFilesChecked=false
+  [RepoSense Link](https://nus-cs2113-ay2324s2.github.io/tp-dashboard/?search=&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=true&checkedFileTypes=docs~functional-code~test-code~other&since=2024-02-23&tabOpen=true&tabType=authorship&tabAuthor=MonkeScripts&tabRepo=AY2324S2-CS2113-T15-3%2Ftp%5Bmaster%5D&authorshipIsMergeGroup=false&authorshipFileTypes=docs~functional-code~test-code&authorshipIsBinaryFileTypeChecked=false&authorshipIsIgnoredFilesChecked=false)
 
 * **Enhancements implemented**:
 
@@ -25,7 +24,7 @@ https://nus-cs2113-ay2324s2.github.io/tp-dashboard/?search=&sort=groupTitle&sort
 
 * **Contributions to UG**
     * Added documentation relating to the help menu
-    * Added documentation relating to the slotmachine, Luck class
+    * Added documentation relating to the slot machine, Luck class
 
 * **Contributions to DG**
     * Added implementation for Luck 
