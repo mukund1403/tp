@@ -50,7 +50,7 @@ Format: `help`
 Example: `help`
 
 Output:
-
+```
 Welcome, here is a list of commands:
 
 - `help`: Access help menu.
@@ -58,15 +58,19 @@ Welcome, here is a list of commands:
 - `exit <name>`: Exit current group.
 - `delete group <name>`: Delete a group.
 - `member <name>`: Add a member to the group.
+- `enter <name>`: Enter a group.
+- `delete group <name>`: Delete a group.
 - `expense <description> /amount <amount> /paid <paid_by> /user <user_1> /user <user_2> ...`: Add an expense SPLIT
   EQUALLY.
 - `expense <description> /unequal /amount <amount> /paid <paid_by> /user <user_1> <amount_owed> /user <user_2> <amount owed> ...`:
   Add an expense SPLIT UNEQUALLY.
 - `delete expense <index>`: Delete an expense.
 - `list`: List all expenses in the group.
+- `delete expense <index>`: Delete an expense.
 - `balance <user_name>`: Show user's balance.
 - `settle <payer_name> /user <payee_name>`: Settle the amount between two users.
 - `luck`: Luck is in the air tonight.
+```
 
 --------------------------------------------------------------------------------------------------------------------
 ### GROUP COMMANDS
@@ -78,8 +82,9 @@ Creates a new group with the specified group name.
 Format: `create GROUP_NAME`
 
 - `GROUP_NAME` is the name of the group.
-- `GROUP_NAME` must be unique. It cannot be the same as an existing group name.
-- `GROUP_NAME` can contain whitespaces but cannot be empty.
+- `GROUP_NAME` is not case-sensitive.
+- `GROUP_NAME` can contain special characters.
+- User must not be in a group to create a new group.
 
 Example: `create Friends`
 
@@ -93,6 +98,7 @@ Format: `enter GROUP_NAME`
 
 - `GROUP_NAME` is the name of the group.
 - `GROUP_NAME` must be an existing group name.
+- User must not be in a group to enter a new group.
 
 Example: `enter Friends`
 
@@ -158,7 +164,7 @@ Format:`expense DESCRIPITON /amount AMOUNT /paid PAYER_USER_NAME /user USER_NAME
 - If `AMOUNT` value entered is greater than 2 decimal places, it will round off to 2 decimal places before calculating split.
 - The payer name (`PAYER_USER_NAME`) and all payees (`USER_NAME`) must be existing members of the group. 
 Otherwise, exception will be thrown.
-- Once the expense is created, the success 
+- Once the expense is created, the success message will be displayed.
 - The expense will be added to a list of expenses.
 
 Examples:
@@ -233,6 +239,8 @@ Format: `delete expense LIST_INDEX`
 - The `LIST_INDEX` needs to be a valid index from the Expenses list. To check expenses list use the `list` command 
 (see above).
 - If the `LIST_INDEX` does not exist, an exception will be thrown.
+- The `LIST_INDEX` starts from 1. 
+- The `LIST_INDEX` has to be an integer value.
 
 Example: 
 - `delete expense 3`  
@@ -245,6 +253,10 @@ This command deletes the expense at index 3 on the expense list.
 Shows list of members the user owes money to.
 
 Format: `balance USER_NAME`
+
+- `USER_NAME` is the name of the user whose balance is to be displayed.
+- The balance list will show the user's name and the amount they owe to each member.
+- `USER_NAME` must be an existing member of the group.
 
 Example: 
 ```
@@ -279,6 +291,7 @@ Format: `settle USER_NAME1 /user USER_NAME2`
 - `USER_NAME1` is the name of the first user.
 - `USER_NAME2` is the name of the second user.
 - `/user` is a keyword to indicate the start of the second user's name.
+- The two users must be existing members of the group.
 
 Example: `settle Alice /user Bob`
 
@@ -365,7 +378,3 @@ This command exits the application.
 | Balance          | `balance USER_NAME` <br> e.g. `balance Alice`                                                                                              |
 | Settle expenses  | `settle USER_NAME1 /user USER_NAME2` <br> e.g. `settle Alice /user Bob`                                                                    |
 | Exit application | `bye`                                                                                                                                      |
-=======
-
-
-
