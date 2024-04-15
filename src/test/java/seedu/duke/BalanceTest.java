@@ -19,7 +19,7 @@ public class BalanceTest {
         users.add(new User("member3"));
 
         List<Expense> expenses = new ArrayList<>();
-        expenses.add(new Expense(true, "member1", "expense1",
+        expenses.add(new Expense("member1", "expense1",
                 new Money(20f, CurrencyConversions.SGD),
                 new ArrayList<>(Arrays.asList(
                         new Pair<>("member2", new Money(5.0f, CurrencyConversions.SGD)),
