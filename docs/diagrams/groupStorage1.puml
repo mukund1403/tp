@@ -2,49 +2,46 @@
 actor User
 participant ":GroupCommand" as GroupCommand
 participant ":Group" as Group
-participant ":User" as NewUser
+participant ":GroupStorage" as GroupStorage
+participant ":FileIO" as FileIO
 
-User -> GroupCommand: member USER_NAME
+User -> GroupCommand: "exit Project Team"
 activate GroupCommand
 
-GroupCommand -> Group: addMember(memberName)
+GroupCommand -> Group: exitGroup("Project Team")
 activate Group
 
-Group -> Group: isValidMemberName(memberName)
-activate Group
-alt is valid member name
-    Group -> Group: isMember(memberName)
-    activate Group
-    alt is not a member
-        Group --> Group: false
-        deactivate Group
+Group -> GroupStorage: saveGroupToFile(projectTeamGroup)
+activate GroupStorage
 
-        Group -> NewUser: new User(memberName)
-        activate NewUser
-        NewUser --> Group: newUser
-        deactivate NewUser
+GroupStorage -> FileIO: getFileWriter(filePath)
+activate FileIO
+FileIO --> GroupStorage: writer
+deactivate FileIO
 
-        Group -> Group: members.add(newUser)
-        activate Group
-        deactivate Group
+GroupStorage -> GroupStorage: saveGroupName(writer, groupName)
+activate GroupStorage
+deactivate GroupStorage
 
-        Group --> GroupCommand: success message
-        deactivate Group
-    else is already a member
-        Group --> Group: true
-        deactivate Group
+GroupStorage -> GroupStorage: saveMembers(writer, members)
+activate GroupStorage
+deactivate GroupStorage
 
-        Group --> GroupCommand: failure message
-        deactivate Group
-    end
-else is invalid member name
-    Group --> Group: false
-    deactivate Group
+GroupStorage -> GroupStorage: saveExpenses(writer, expenses)
+activate GroupStorage
+deactivate GroupStorage
 
-    Group --> GroupCommand: failure message
-    deactivate Group
-end
+GroupStorage -> FileIO: writer.close()
+activate FileIO
+FileIO --> GroupStorage
+deactivate FileIO
 
-GroupCommand --> User: command result
+GroupStorage --> Group
+deactivate GroupStorage
+
+Group --> GroupCommand
+deactivate Group
+
+GroupCommand --> User
 deactivate GroupCommand
 @enduml

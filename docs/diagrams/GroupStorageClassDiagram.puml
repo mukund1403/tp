@@ -5,7 +5,6 @@ skinparam classAttributeIconSize 0
 
 class GroupStorage {
   + isLoading: boolean {static}
-  - fileIO: FileIO
   + saveGroupToFile(group: Group): void
   + loadGroupFromFile(groupName: String): Group
   + deleteGroupFile(groupName: String): void
@@ -34,9 +33,8 @@ class GroupNameChecker {
   + doesGroupNameExist(groupNameToCheck: String): boolean
 }
 
-GroupStorage --> FileIO
-GroupStorage --> Group
-Group --> GroupNameChecker
-Group --> GroupStorage
-GroupNameChecker --> GroupFilePath
+GroupStorage "1" --> "1" FileIO : uses
+GroupStorage "1" --> "*" Group : manages
+Group "1" --> "1" GroupNameChecker : uses
+Group "*" --> "1" GroupStorage : uses
 @enduml

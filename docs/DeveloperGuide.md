@@ -2,8 +2,7 @@
 
 ## Acknowledgements
 
-{list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the
-original source as well}
+We would like to acknowledge Splitwise for the inspiration for the project. The Splitwise application is a popular expense-sharing application that allows users to split bills and expenses with friends, family, and roommates. We have adapted the core features of Splitwise to create a simplified version of the application for our project. We would also like to acknowledge Shao Liang for the inspiration of the project's name.
 
 ## Design 
 
@@ -186,13 +185,13 @@ Step 8. When the user ends the program using the `bye` command, the `GroupStorag
 
 ### Target user profile
 
-{Describe the target user profile}
 Our target users are people who share expenses with friends, family, roommates, or colleagues.
+
 The application gives an accurate and simple way to represent unsettled debts between users and their friends
 
 ### Value proposition
 
-{Describe the value proposition: what problem does it solve?}
+Our application provides a simple and efficient way for users to manage shared expenses with friends, family, or colleagues. It allows users to create groups, add members to groups, and split expenses accurately among group members. The application helps users keep track of their debts and settle them easily. By automating the process of splitting expenses and tracking debts, the application saves users time and effort, making it a valuable tool for managing shared expenses. Users that are able to type fast and are familiar with the command line interface will find this application useful.
 
 ## User Stories
 
@@ -201,18 +200,157 @@ The application gives an accurate and simple way to represent unsettled debts be
 | v1.0    | new user | see usage instructions                                         | refer to them when I forget how to use the application      |
 | v1.0    | user     | add a new expense with description, amount, and users involved | split the expense equally                                   |
 | v1.0    | user     | create a new group                                             | split expenses with different groups                        |
-| v1.0    | user     | list all expenses within a group                               | see recent transactions                                     |
+| v1.0    | user     | add a new member to a group                                     | split expenses with different members in the group           |
 | v1.0    | user     | check how much I owe each member in the group                  | keep track of my debts                                      |
-| v2.0    | user     | find a to-do item by name                                      | locate a to-do without having to go through the entire list |
+| v2.0    | user     | settle debts between two users in the group                    | clear debts between users                                   |
+| v2.0    | user | save group information to files when exiting groups or ending the program | resume interactions with groups seamlessly |
+| v2.0    | user | load group information from files when entering groups | resume interactions with groups seamlessly |
+| v2.1 | user | add expenses in different currencies | split expenses accurately in different currencies |
 
 ## Non-Functional Requirements
 
-{Give non-functional requirements}
+1. **Performance**: The application should respond to user commands within a reasonable time frame, even when handling large amounts of data.
+2. **Reliability**: The application should be robust and handle errors gracefully, providing informative error messages to users.
+3. **Usability**: The application should have a user-friendly interface that is easy to navigate and understand.
+4. **Portability**: The application should be platform-independent and run on different operating systems without requirements for additional software. 
 
 ## Glossary
 
-* *glossary item* - Definition
+- **Group**: A collection of users who share expenses and debts with each other.
+- **User**: An individual who is a member of a group and participates in sharing expenses.
+- **Expense**: A transaction involving a group of users where one user pays for an expense that is shared among multiple users.
+- **Balance**: The amount of money that a user owes or is owed by other users in a group.
+- **Settle**: The process of clearing debts between two users in a group.
+- **Group Storage**: The feature that allows users to save and load group information to and from files.
+- **Currency**: A system of money used in a particular country or region.
+- **Debt**: An amount of money that is owed by one user to another user in a group.
 
 ## Instructions for manual testing
 
 {Give instructions on how to do a manual product testing e.g., how to load sample data to be used for testing}
+
+Important note: The provided test cases are independent of each other and can be run in any order. Test cases that require multiple steps are clearly outlined with the expected outcomes at each step. All test cases are designed to be run on a clean slate, i.e., without any existing groups or expenses in the system.
+
+
+### Test Case: Help Menu
+
+1. Run the application.
+2. Enter the `help` command.
+3. Verify that the help menu is displayed with a list of available commands and their descriptions.
+
+Expected outcome: The help menu is displayed with a list of available commands and their descriptions as shown below:
+
+```
+            "Welcome, here is a list of commands:\n" +
+                    "help: Access help menu.\n" +
+                    "create <name>: Create a group.\n" +
+                    "exit <name>: Exit current group.\n" +
+                    "member <name> : Add a member to the group.\n" +
+                    "expense <description> /amount <amount> /paid <paid_by> /user <user_1> /user <user_2> ...: " +
+                    "Add an expense SPLIT EQUALLY.\n" +
+                    "expense <description> /unequal /amount <amount> /paid <paid_by> " +
+                    "/user <user_1> <amount_owed> /user <user_2> <amount owed> ...: Add an expense SPLIT UNEQUALLY.\n" +
+                    "list: List all expenses in the group.\n" +
+                    "balance <user_name>: Show user's balance.\n" +
+                    "settle <payer_name> /user <payee_name>: Settle the amount between two users.\n" +
+                    "luck : luck is in the air tonight";
+```
+
+### Test Case: Group Creation
+
+1. Run the application.
+2. Enter the `create Project Team` command.
+3. Verify that a new group named "Project Team" is created successfully.
+
+Expected outcome: A success message is displayed indicating that the group "Project Team" has been created.
+
+```
+Project Team created.
+You are now in Project Team.
+```
+
+### Test Case: Add Member to Group
+
+1. Run the application.
+2. Enter the `create Project Team` command.
+3. Enter the `member John` command.
+4. Enter the `member Emily` command.
+5. Enter the `member John` command again.
+6. Verify the output messages at each step.
+
+Expected outcome:
+- Step 2: A success message is displayed indicating that the group "Project Team" has been created.
+```
+Project Team created.
+You are now in Project Team.
+```
+- Step 3: A success message is displayed indicating that the member "John" has been added to the group.
+```
+John has been added to Project Team.
+```
+
+- Step 4: A success message is displayed indicating that the member "Emily" has been added to the group.
+```
+Emily has been added to Project Team.
+```
+- Step 5: An error message is displayed indicating that the member "John" is already a member of the group.
+```
+John is already a member of Project Team.
+```
+
+### Test Case: Add Expense
+
+1. Run the application.
+2. Enter the `create Project Team` command.
+3. Enter the `member John` and `member Emily` commands.
+4. Add an expense to the "Project Team" group using the `expense Dinner /amount 100 /paid John /user Emily` command.
+5. Verify the output messages at each step.
+
+Expected outcome: A success message is displayed indicating that the expense "Dinner" has been added to the group with the correct details.
+
+```
+Added new expense with description Dinner and amount SGD 100.00 paid by John. The split is:
+Emily : SGD 50.00
+John : SGD 50.00
+```
+
+### Test Case: Save and Load Group Information
+
+1. Run the application.
+2. Create a new group named "Family" using the `create Family` command.
+3. Add members "Alice" and "Bob" to the "Family" group using the `member Alice` and `member Bob` commands.
+4. Add an expense to the "Family" group using the `expense Dinner /amount 50 /paid Alice /user Bob` command.
+5. Exit the "Family" group using the `exit Family` command.
+6. Exit the application using the `bye` command.
+7. Run the application again.
+8. Enter the `enter Family` command.
+9. Verify that the group "Family" is loaded with the members "Alice" and "Bob" and the expense "Dinner" with the correct details.
+
+Expected outcome:
+- Step 2: A success message is displayed indicating that the group "Family" has been created.
+```
+Family created.
+You are now in Family.
+```
+- Step 3: Success messages are displayed indicating that the members "Alice" and "Bob" have been added to the group.
+```
+Alice has been added to Family.
+Bob has been added to Family.
+```
+- Step 4: A success message is displayed indicating that the expense "Dinner" has been added to the group.
+```
+Added new expense with description Dinner and amount SGD 50.00 paid by Alice. The split is:
+Bob : SGD 25.00
+Alice : SGD 25.00
+```
+- Step 5: A success message is displayed indicating that the group "Family" has been saved to a file.
+```
+Group data saved successfully.
+You have exited Family.
+```
+- Step 8: A success message is displayed indicating that the group "Family" has been entered.
+```
+Group loaded successfully.
+You are now in Family.
+```
+

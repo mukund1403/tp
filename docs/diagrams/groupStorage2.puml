@@ -2,27 +2,18 @@
 actor User
 participant ":GroupCommand" as GroupCommand
 participant ":Group" as Group
-participant ":GroupNameChecker" as GroupNameChecker
 participant ":GroupStorage" as GroupStorage
 participant ":FileIO" as FileIO
 
-User -> GroupCommand: enter Project Team
+User -> GroupCommand: "enter Project Team"
 activate GroupCommand
 
 GroupCommand -> Group: enterGroup("Project Team")
 activate Group
 
-Group -> Group: check if group exists in memory
-activate Group
 alt group does not exist in memory
-    Group --> Group: false
-    deactivate Group
 
-    Group -> GroupNameChecker: doesGroupNameExist("Project Team")
-    activate GroupNameChecker
     alt group file exists
-        GroupNameChecker --> Group: true
-        deactivate GroupNameChecker
 
         Group -> GroupStorage: loadGroupFromFile("Project Team")
         activate GroupStorage
@@ -46,20 +37,16 @@ alt group does not exist in memory
 
         GroupStorage -> FileIO: reader.close()
         activate FileIO
+        FileIO --> GroupStorage
         deactivate FileIO
 
         GroupStorage --> Group: loadedGroup
         deactivate GroupStorage
     else group file does not exist
-        GroupNameChecker --> Group: false
-        deactivate GroupNameChecker
 
         Group --> GroupCommand: group does not exist
-        deactivate Group
     end
 else group exists in memory
-    Group --> Group: true
-    deactivate Group
 
     Group --> GroupCommand: group found in memory
     deactivate Group

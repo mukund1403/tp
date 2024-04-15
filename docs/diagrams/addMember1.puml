@@ -4,7 +4,7 @@ participant ":GroupCommand" as GroupCommand
 participant ":Group" as Group
 participant ":User" as JohnUser
 
-User -> GroupCommand: member John
+User -> GroupCommand: "member John"
 activate GroupCommand
 GroupCommand -> Group: addMember("John")
 activate Group
@@ -22,8 +22,8 @@ Group -> Group: members.add(johnUser)
 activate Group
 deactivate Group
 
-Group --> GroupCommand
+Group --> GroupCommand: "John has been added to group"
 deactivate Group
-GroupCommand --> User
+GroupCommand --> User: "John has been added to group"
 deactivate GroupCommand
 @enduml

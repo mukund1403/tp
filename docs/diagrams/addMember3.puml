@@ -4,42 +4,26 @@ participant ":GroupCommand" as GroupCommand
 participant ":Group" as Group
 participant ":User" as NewUser
 
-User -> GroupCommand: member USER_NAME
+User -> GroupCommand: "member USER_NAME"
 activate GroupCommand
 
 GroupCommand -> Group: addMember(memberName)
 activate Group
 
-Group -> Group: isValidMemberName(memberName)
-activate Group
 alt is valid member name
-    Group -> Group: isMember(memberName)
-    activate Group
     alt is not a member
-        Group --> Group: false
-        deactivate Group
 
         Group -> NewUser: new User(memberName)
         activate NewUser
         NewUser --> Group: newUser
         deactivate NewUser
 
-        Group -> Group: members.add(newUser)
-        activate Group
-        deactivate Group
-
         Group --> GroupCommand: success message
-        deactivate Group
     else is already a member
-        Group --> Group: true
-        deactivate Group
 
         Group --> GroupCommand: failure message
-        deactivate Group
     end
 else is invalid member name
-    Group --> Group: false
-    deactivate Group
 
     Group --> GroupCommand: failure message
     deactivate Group
