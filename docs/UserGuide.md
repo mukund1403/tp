@@ -131,12 +131,13 @@ Output: `Alice has been added to group.`
 
 Exits the current group.
 
-Format: `exit group GROUP_NAME`
+Format: `exit GROUP_NAME`
 
-- `group` is a keyword to indicate the start of the group name.
 - `GROUP_NAME` is the name of the group.
+- `GROUP_NAME` must be an existing group name.
+- If the user is not in any group, an exception will be thrown.
 
-Example: `exit group Friends`
+Example: `exit Friends`
 
 This command will exit the group named 'Friends'.
 
