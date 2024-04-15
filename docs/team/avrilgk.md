@@ -8,9 +8,8 @@ Split-liang can help you manage your expenses faster than traditional GUI apps
 ### Summary of Contributions
 
 * **Code Contributions**:
-  [RepoSense Link]
-
-https://nus-cs2113-ay2324s2.github.io/tp-dashboard/?search=&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=true&checkedFileTypes=docs~functional-code~test-code~other&since=2024-02-23&tabOpen=true&tabType=authorship&tabAuthor=avrilgk&tabRepo=AY2324S2-CS2113-T15-3/tp%5Bmaster%5D&authorshipIsMergeGroup=false&authorshipFileTypes=docs~functional-code~test-code&authorshipIsBinaryFileTypeChecked=false&authorshipIsIgnoredFilesChecked=false
+  [RepoSense Link](https://nus-cs2113-ay2324s2.github.io/tp-dashboard/?search=&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=true&checkedFileTypes=docs~functional-code~test-code~other&since=2024-02-23&tabOpen=true&tabType=authorship&tabAuthor=avrilgk&tabRepo=AY2324S2-CS2113-T15-3/tp%5Bmaster%5D&authorshipIsMergeGroup=false&authorshipFileTypes=docs~functional-code~test-code&authorshipIsBinaryFileTypeChecked=false&authorshipIsIgnoredFilesChecked=false
+  )
 
 * **Enhancements implemented**:
 
@@ -25,12 +24,12 @@ https://nus-cs2113-ay2324s2.github.io/tp-dashboard/?search=&sort=groupTitle&sort
             * What it does: allows the user to delete an existing group with a specified group name
 
     2. Implemented settle function
-        * Settle feature
-        * What it does: allows the user to settle the debts within the group
+        * What it does: Allows the user to settle the debts within the group
             * This feature can be used for both scenarios where the bill is split equally or unequally. Entering the
               settle
               function between Person A /user Person B will settle expenses between the two, showing what A owes B.
-
+            * The settle function will also show the total amount owed by each person in the group.
+            * After settling, the balance of each person will be 0.
 
 * **Contributions to UG**
     * Added documentation relating to the group function (create, enter, exit, delete group)
@@ -45,19 +44,18 @@ https://nus-cs2113-ay2324s2.github.io/tp-dashboard/?search=&sort=groupTitle&sort
 * **Contributions to team-based tasks**
     * Added a short introduction to Split-Liang in UG
     * Added FAQs in UG
-
+  
 
 * **Review/mentoring contributions**
-    * PRs reviewed (with non-trivial review comments):
-
-      https://github.com/AY2324S2-CS2113-T15-3/tp/pull/64
-
-      https://github.com/AY2324S2-CS2113-T15-3/tp/pull/152
-
-      https://github.com/AY2324S2-CS2113-T15-3/tp/pull/56
-
-      https://github.com/AY2324S2-CS2113-T15-3/tp/pull/6
-
+    * Examples of PRs reviewed (with non-trivial review comments):
+      *
+        [#56](https://github.com/AY2324S2-CS2113-T15-3/tp/pull/56)
+      * 
+        [#64](https://github.com/AY2324S2-CS2113-T15-3/tp/pull/64)
+      * 
+        [#152](https://github.com/AY2324S2-CS2113-T15-3/tp/pull/152)
+      * 
+        [#182](https://github.com/AY2324S2-CS2113-T15-3/tp/pull/182)
 
 * **Contributions beyond the project team**
 

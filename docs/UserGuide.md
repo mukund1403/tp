@@ -10,6 +10,7 @@ Split-liang is an application that helps you split expenses with friends in a fu
     - [Viewing help: `help`](#viewing-help-help)
     - [Creating a group: `create`](#creating-a-group-create)
     - [Entering a group: `enter`](#entering-a-group-enter)
+   -  [Deleting a group: `delete group`](#deleting-a-group-delete)
     - [Add members to group: `member`](#add-members-to-group-member)
     - [Exiting a group: `exit`](#exiting-a-group-exit)
     - [Create a new expense: `expense`](#create-a-new-expense-expense)
@@ -49,21 +50,19 @@ Format: `help`
 Example: `help`
 
 Output:
-
+```
 Welcome, here is a list of commands:
-
-- `help`: Access help menu.
-- `create <name>`: Create a group.
-- `exit <name>`: Exit current group.
-- `member <name>`: Add a member to the group.
-- `expense <description> /amount <amount> /paid <paid_by> /user <user_1> /user <user_2> ...`: Add an expense SPLIT
-  EQUALLY.
-- `expense <description> /unequal /amount <amount> /paid <paid_by> /user <user_1> <amount_owed> /user <user_2> <amount owed> ...`:
-  Add an expense SPLIT UNEQUALLY.
-- `list`: List all expenses in the group.
-- `balance <user_name>`: Show user's balance.
-- `settle <payer_name> /user <payee_name>`: Settle the amount between two users.
-- `luck`: Luck is in the air tonight.
+help: Access help menu.
+create <name>: Create a group.
+exit <name>: Exit current group.
+member <name> : Add a member to the group.
+expense <description> /amount <amount> /currency <currency> /paid <paid_by> /user <user_1> /user <user_2> ...: Add an expense SPLIT EQUALLY.
+expense <description> /unequal /amount <amount> /currency <currency> /paid <paid_by> /user <user_1> <amount_owed> /user <user_2> <amount owed> ...: Add an expense SPLIT UNEQUALLY.
+list: List all expenses in the group.
+balance <user_name>: Show user's balance.
+settle <payer_name> /user <payee_name>: Settle the amount between two users.
+luck <payer_name>: luck is in the air tonight
+```
 
 --------------------------------------------------------------------------------------------------------------------
 ### GROUP COMMANDS
@@ -72,12 +71,16 @@ Welcome, here is a list of commands:
 
 Creates a new group with the specified group name.
 
-Format: `create /group GROUP_NAME`
+Format: `create GROUP_NAME`
 
-- `/group` is a keyword to indicate the start of the group name.
 - `GROUP_NAME` is the name of the group.
+- `GROUP_NAME` can contain whitespaces but cannot be empty.
+- `GROUP_NAME` must be unique. It cannot be the same as an existing group name.
+- `GROUP_NAME` is not case-sensitive.
+- `GROUP_NAME` can contain special characters.
+- User must not be in a group to create a new group.
 
-Example: `create /group Friends`
+Example: `create Friends`
 
 This command will create a new group named 'Friends'.
 
@@ -85,14 +88,26 @@ This command will create a new group named 'Friends'.
 
 Enters an existing group with the specified group name.
 
-Format: `enter /group GROUP_NAME`
+Format: `enter GROUP_NAME`
 
-- `/group` is a keyword to indicate the start of the group name.
 - `GROUP_NAME` is the name of the group.
+- `GROUP_NAME` must be an existing group name.
+- User must not be in a group to enter a new group.
 
-Example: `enter /group Friends`
+Example: `enter Friends`
 
 This command will enter the group named 'Friends'.
+
+#### Deleting a group: `delete group GROUP_NAME`
+
+Deletes an existing group with the specified group name.
+
+Format: `delete group GROUP_NAME`
+
+- `GROUP_NAME` is the name of the group to be deleted.
+- `GROUP_NAME` must be an existing group name.
+
+Example: `delete group Friends`
 
 #### Add members to group: `member`
 
@@ -100,7 +115,7 @@ Adds a new member to the group.
 
 Format: `member USER_NAME`
 
-- `USER_NAME` is the name of the user to be added to the group.
+- `USER_NAME` is the name of the user to be added to the group. It is in alphanumeric format.
 - `USER_NAME` must be unique. It cannot be the same as an existing member's name.
 - `USER_NAME` can contain whitespaces but cannot be empty.
 - `USER_NAME` is not case-sensitive.
@@ -116,12 +131,15 @@ Output: `Alice has been added to group.`
 
 Exits the current group.
 
-Format: `exit /group GROUP_NAME`
+Format: `exit GROUP_NAME`
 
-- `/group` is a keyword to indicate the start of the group name.
 - `GROUP_NAME` is the name of the group.
+<<<<<<< HEAD
+- `GROUP_NAME` must be an existing group.
+- User must be in a group to exit the group.
+- If the user is not in any group, an exception will be thrown.
 
-Example: `exit /group Friends`
+Example: `exit Friends`
 
 This command will exit the group named 'Friends'.
 
@@ -142,7 +160,7 @@ Format:`expense DESCRIPITON /amount AMOUNT /paid PAYER_USER_NAME /user USER_NAME
 - If `AMOUNT` value entered is greater than 2 decimal places, it will round off to 2 decimal places before calculating split.
 - The payer name (`PAYER_USER_NAME`) and all payees (`USER_NAME`) must be existing members of the group. 
 Otherwise, exception will be thrown.
-- Once the expense is created, the success 
+- Once the expense is created, the success message will be displayed.
 - The expense will be added to a list of expenses.
 
 Examples:
@@ -217,6 +235,8 @@ Format: `delete expense LIST_INDEX`
 - The `LIST_INDEX` needs to be a valid index from the Expenses list. To check expenses list use the `list` command 
 (see above).
 - If the `LIST_INDEX` does not exist, an exception will be thrown.
+- The `LIST_INDEX` starts from 1. 
+- The `LIST_INDEX` has to be an integer value.
 
 Example: 
 - `delete expense 3`  
@@ -229,6 +249,10 @@ This command deletes the expense at index 3 on the expense list.
 Shows list of members the user owes money to.
 
 Format: `balance USER_NAME`
+
+- `USER_NAME` is the name of the user whose balance is to be displayed.
+- The balance list will show the user's name and the amount they owe to each member.
+- `USER_NAME` must be an existing member of the group.
 
 Example: 
 ```
@@ -263,6 +287,7 @@ Format: `settle USER_NAME1 /user USER_NAME2`
 - `USER_NAME1` is the name of the first user.
 - `USER_NAME2` is the name of the second user.
 - `/user` is a keyword to indicate the start of the second user's name.
+- The two users must be existing members of the group.
 
 Example: `settle Alice /user Bob`
 
@@ -271,11 +296,11 @@ This command will settle the expenses between Alice and Bob, showing what Alice 
 --------------------------------------------------------------------------------------------------------------------
 ### LUCK COMMAND
 
-#### Trying your luck: `luck`
+#### Trying your luck: `luck USER_NAME1`
 
 Play slots to remove debts
 
-Format: `luck` (Coming soon feature)
+Format: `luck USER_NAME1`` 
 
 - Enters the slot machine
     - `/reroll` to reroll the slots
@@ -287,10 +312,16 @@ This command enable users play slots to remove their debts
 --------------------------------------------------------------------------------------------------------------------
 ### Saving the data
 
-Split-liang automatically saves the data in each group to `GROUP_NAME.txt` in the `data` folder after the application
+Split-liang automatically saves the data in each group to `GROUP_NAME.txt` in the `data\groups` folder after the application
 exits. There is no need to save manually.
 
 The data is loaded automatically when the application starts.
+
+- The data folder is located in the same directory as the jar file.
+- The data folder contains the data for each group in a separate text file.
+- The data folder is created automatically if it does not exist.
+- The data folder can be deleted to clear all data.
+- Corrupted data files will be ignored and not loaded.
 
 --------------------------------------------------------------------------------------------------------------------
 ### Exiting the Application 
@@ -334,6 +365,7 @@ This command exits the application.
 | Help             | `help`                                                                                                                                     |
 | Create group     | `create GROUP_NAME` <br> e.g. `create Friends`                                                                                             |
 | Enter group      | `enter GROUP_NAME` <br> e.g. `enter Friends`                                                                                               |
+| Delete group     | `delete group GROUP_NAME` <br> e.g. `delete group Friends`                                                                                               |
 | Add member       | `member USER_NAME` <br> e.g. `member Alice`                                                                                                |
 | Exit group       | `exit GROUP_NAME` <br> e.g. `exit Friends`                                                                                                 |
 | Add expense      | `expense DESCRIPTION /amount AMOUNT /paid USER_NAME /user USER_NAME GROUP_NAME` <br> e.g. `expense lunch /amount 20 /paid Alice /user Bob` |
@@ -341,8 +373,5 @@ This command exits the application.
 | Delete expense   | `delete expense LIST_INDEX` <br> e.g. `delete expense 3`                                                                                   |
 | Balance          | `balance USER_NAME` <br> e.g. `balance Alice`                                                                                              |
 | Settle expenses  | `settle USER_NAME1 /user USER_NAME2` <br> e.g. `settle Alice /user Bob`                                                                    |
-| Exit application | `bye`                                                                                                                                      |
-=======
-
-
-
+| Luck             | `luck USER_NAME1` <br> e.g. `luck Alice`                                                                    
+| Exit application | `bye`    <br/>                                                                                                                                  |

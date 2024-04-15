@@ -35,6 +35,22 @@ The Group Storage feature:
 The implementation of the Group Storage feature is covered in the next section.
 
 
+### Expenses 
+The Expenses feature allows users to add and delete expenses. It does this through an intermediate 
+ExpenseCommand class which handles Parser input and calls the Expense constructor to create a new expense.
+
+Below is the class diagram for Expense feature:
+
+![ExpenseClassDiagram.png](images/ExpenseClassDiagram.png)
+
+The Expense feature:
+- `Expense` class: Represents a new expense with total Amount, payer, payee list with amount owed by each payee and description of expense
+- `ExpenseCommand` class: Responsible for taking in the user input and creating a new object of the Expense class. Also handles deletion of expense objects.
+  - It contains the `addEqualExpense` and `addUnequalExpense` methods to handle both kinds of expenses.
+  - It also uses the `Money` class to add the correct currency to totalAmount and payee Amounts.
+
+The implementation of Expense is covered in the next section.
+
 ## Implementation
 
 ### Help menu feature
@@ -97,34 +113,56 @@ The following sequence diagram illustrates the flow of the "Add Member to Group"
 
 #### Implementation
 
-The Expenses feature is facilitated through the Expense class. It allows users to add a new Expense through creation of
+The Expenses feature is facilitated through the Expense class and ExpenseCommand class. It allows users to add a new Expense through creation of
 a new Expense object. Users can specify amount paid, the payee, and the members of the group involved in the
 transaction.
-Additionally, it implements the following operations:
 
+It implements the following operations:
+
+
++ `Expense#addExpense` - Creates a new expense and adds it to the expense list
++ `Expense#deleteExpense` - Deletes an existing expense
+These operations are exposed in the ExpenseCommand class through the `addExpense` and `deleteExpense` functions respectively.
+
+
+Additionally, it implements the following:
 + `Expenses#payer()` - Gives the name of the member who paid for the expense
 + `Expenses#totalAmount()` - Returns the total amount of the expense
 + `Expenses#payees()` - Returns all the members involved in the transaction
++ `Expenses#currency()` - Returns the currency of the expense
 
-These operations are exposed in the Expense class through the `getPayerName()`, `getTotalAmount()`, and `getPayees()`
+These operations are exposed in the Expense class through the `getPayerName()`, `getTotalAmount()`, `getPayees()`, and `getCurrency()`
 functions respectively.
+
+
+The following sequence diagrams show the process of adding an equal split and unequal split expense:
+
+![Sequence Diagram](images/equal.png)
+![Sequence Diagram](images/unequal.png)
 
 ### Balance feature
 
 #### Implementation
+
+
+Below is a Class Diagram for the Balance Feature:
+![Balance Structure](images/BalanceStructure.png)
 
 The Balance feature is facilitated through the Balance class.
 It allows a user to view a printed list of other users in the Group, and the amount that is owed by/to each user.
 
 Each `Balance` object contains a String of a user `userName`,
 and a Map `balanceList`. This Map uses String of other users' usernames as Key, and
-a Float of the amount that is owed by/to each user.
+a list of Money objects owed by/to the user.
 
 To print a user's Balance List, perform the following steps:
 
 1. Create a `Balance` object with the params String `userName` and the current Group `group`.
 2. From the `members` and `expenseList` List items in `group`, the Map `balanceList` is populated.
 3. Call method `printBalance()` to print the contents of the Map `balanceList`.
+
+Below is the Sequence Diagram for the Balance Feature:
+![Sequence Diagram](images/balance.png)
 
 ### Settle feature
 
@@ -143,6 +181,7 @@ settle the debt.
 
 The method then prints out the amount that is owed by `userName1` to `userName2`, and the amount that is owed
 by `userName2` to `userName1` after the settlement.
+![Sequence Diagram](images/settle.png)
 
 ### Group Storage feature
 
@@ -187,6 +226,22 @@ Step 8. When the user ends the program using the `bye` command, the `GroupStorag
 - **Alternative 2:** Saving group information after every command that modifies the group, and loading group information whenever a group is accessed. 
   - Pros: Ensures that changes are immediately persisted and reduces the risk of data loss in case of unexpected program termination. 
   - Cons: Increases file I/O operations and may impact performance, especially for frequent group modifications.
+
+### Luck feature
+
+#### Implementation
+
+The Luck features offers users the unique opportunity to clear their debts by playing with a slot machine.
+User enters the command `luck` in the parser to enter the slot machine game. 
+Parser checks whether the user is in a group and also whether the said group has more than one user. 
+To win in the slot machine, all three slots in the MIDDLE row must show the same character
+The user can either key in `/reroll` or `/exit` to either roll the slot machine or leave the game.
+For every new `/reroll`, an additional Expense of 10USD would be created and allocated to a random member in the group 
+For a win, the user clears all his debts within the group.
+Following sequence diagram shows user calls `startGambling()` within Luck class and a new SlotMachine class is instantiated
+For every reroll, fillSlots() is called which fills individual slots in the 3 x 3 slot machine with a randomised character
+![Sequence Diagram](images/luckGambling.png)
+
 
 
 ## Product scope

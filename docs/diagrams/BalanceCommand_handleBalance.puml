@@ -1,0 +1,47 @@
+@startuml
+Actor User
+User -> ":BalanceCommand" : handleBalance
+activate ":BalanceCommand"
+create ":ExpensesException"
+":BalanceCommand" -> ":ExpensesException" : new
+activate ":ExpensesException"
+":ExpensesException" --> ":BalanceCommand"
+deactivate ":ExpensesException"
+":BalanceCommand" -> ":Group" : isMember
+activate ":Group"
+":Group" --> ":BalanceCommand"
+deactivate ":Group"
+create ":ExpensesException"
+":BalanceCommand" -> ":ExpensesException" : new
+activate ":ExpensesException"
+":ExpensesException" --> ":BalanceCommand"
+deactivate ":ExpensesException"
+create ":Balance"
+":BalanceCommand" -> ":Balance" : new
+activate ":Balance"
+":Balance" -> ":Balance" : addExpense
+activate ":Balance"
+":Balance" -> ":Balance" : addMoney
+activate ":Balance"
+":Balance" --> ":Balance"
+deactivate ":Balance"
+":Balance" -> ":Balance" : subtractMoney
+activate ":Balance"
+":Balance" --> ":Balance"
+deactivate ":Balance"
+":Balance" --> ":Balance"
+deactivate ":Balance"
+":Balance" --> ":Balance"
+deactivate ":Balance"
+":Balance" --> ":BalanceCommand"
+deactivate ":Balance"
+":BalanceCommand" -> ":Balance" : printBalance
+activate ":Balance"
+":Balance" -> ":UserInterface" : printMessage
+activate ":UserInterface"
+":UserInterface" --> ":Balance"
+deactivate ":UserInterface"
+":Balance" --> ":BalanceCommand"
+deactivate ":Balance"
+return
+@enduml

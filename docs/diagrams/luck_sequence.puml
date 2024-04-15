@@ -1,0 +1,151 @@
+@startuml
+Actor User
+User -> ":LuckCommand" : handleLuck
+activate ":LuckCommand"
+create ":LuckException"
+":LuckCommand" -> ":LuckException" : new
+activate ":LuckException"
+create ":UniversalExceptions"
+":LuckException" -> ":UniversalExceptions" : new
+activate ":UniversalExceptions"
+":UniversalExceptions" --> ":LuckException"
+deactivate ":UniversalExceptions"
+":LuckException" --> ":LuckCommand"
+deactivate ":LuckException"
+create ":LuckException"
+":LuckCommand" -> ":LuckException" : new
+activate ":LuckException"
+create ":UniversalExceptions"
+":LuckException" -> ":UniversalExceptions" : new
+activate ":UniversalExceptions"
+":UniversalExceptions" --> ":LuckException"
+deactivate ":UniversalExceptions"
+":LuckException" --> ":LuckCommand"
+deactivate ":LuckException"
+create ":Luck"
+":LuckCommand" -> ":Luck" : new
+activate ":Luck"
+":Luck" --> ":LuckCommand"
+deactivate ":Luck"
+":LuckCommand" -> ":Luck" : printWelcome
+activate ":Luck"
+":Luck" --> ":LuckCommand"
+deactivate ":Luck"
+":LuckCommand" -> ":Luck" : startGambling
+activate ":Luck"
+create ":SlotMachine"
+":Luck" -> ":SlotMachine" : new
+activate ":SlotMachine"
+":SlotMachine" -> ":SlotMachine" : fillSlots
+activate ":SlotMachine"
+":SlotMachine" -> ":SlotMachine" : fillSlot
+activate ":SlotMachine"
+":SlotMachine" --> ":SlotMachine"
+deactivate ":SlotMachine"
+":SlotMachine" --> ":SlotMachine"
+deactivate ":SlotMachine"
+":SlotMachine" --> ":Luck"
+deactivate ":SlotMachine"
+":Luck" -> ":Help" : printHelp
+activate ":Help"
+":Help" --> ":Luck"
+deactivate ":Help"
+":Luck" -> ":SlotMachine" : reroll
+activate ":SlotMachine"
+":SlotMachine" -> ":SlotMachine" : fillSlots
+activate ":SlotMachine"
+":SlotMachine" -> ":SlotMachine" : fillSlot
+activate ":SlotMachine"
+":SlotMachine" --> ":SlotMachine"
+deactivate ":SlotMachine"
+":SlotMachine" --> ":SlotMachine"
+deactivate ":SlotMachine"
+":SlotMachine" --> ":Luck"
+deactivate ":SlotMachine"
+":Luck" -> ":Group" : settleAll
+activate ":Group"
+":Group" -> ":Group" : findUser
+activate ":Group"
+":Group" --> ":Group"
+deactivate ":Group"
+":Group" -> ":Group" : settle
+activate ":Group"
+":Group" -> ":Group" : findUser
+activate ":Group"
+":Group" --> ":Group"
+deactivate ":Group"
+":Group" -> ":Group" : findUser
+activate ":Group"
+":Group" --> ":Group"
+deactivate ":Group"
+":Group" -> ":UserInterface" : printMessage
+activate ":UserInterface"
+":UserInterface" --> ":Group"
+deactivate ":UserInterface"
+create ":Balance"
+":Group" -> ":Balance" : new
+activate ":Balance"
+":Balance" --> ":Group"
+deactivate ":Balance"
+create ":Money"
+":Group" -> ":Money" : new
+activate ":Money"
+":Money" --> ":Group"
+deactivate ":Money"
+":Group" -> ":Money" : addition
+activate ":Money"
+":Money" --> ":Group"
+deactivate ":Money"
+":Group" -> ":UserInterface" : printMessage
+activate ":UserInterface"
+":UserInterface" --> ":Group"
+deactivate ":UserInterface"
+":Group" -> ":UserInterface" : printMessage
+activate ":UserInterface"
+":UserInterface" --> ":Group"
+deactivate ":UserInterface"
+create ":Pair"
+":Group" -> ":Pair" : new
+activate ":Pair"
+":Pair" --> ":Group"
+deactivate ":Pair"
+create ":Expense"
+":Group" -> ":Expense" : new
+activate ":Expense"
+":Expense" --> ":Group"
+deactivate ":Expense"
+":Group" --> ":Group"
+deactivate ":Group"
+":Group" --> ":Luck"
+deactivate ":Group"
+":Luck" -> ":Luck" : calculateDebt
+activate ":Luck"
+create ":Money"
+":Luck" -> ":Money" : new
+activate ":Money"
+":Money" --> ":Luck"
+deactivate ":Money"
+create ":Pair"
+":Luck" -> ":Pair" : new
+activate ":Pair"
+":Pair" --> ":Luck"
+deactivate ":Pair"
+create ":Expense"
+":Luck" -> ":Expense" : new
+activate ":Expense"
+":Expense" --> ":Luck"
+deactivate ":Expense"
+":Luck" --> ":Luck"
+deactivate ":Luck"
+":Luck" -> ":Expense" : successMessageString
+activate ":Expense"
+":Expense" --> ":Luck"
+deactivate ":Expense"
+":Luck" -> ":Group" : addExpense
+activate ":Group"
+":Group" --> ":Luck"
+deactivate ":Group"
+":Luck" --> ":LuckCommand"
+deactivate ":Luck"
+return
+@enduml
