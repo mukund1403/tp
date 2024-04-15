@@ -1,11 +1,11 @@
 # Ayagari Mukund - Project Portfolio Page
 
-## Project: Split-liang
-<p>
+### Project: Split-liang
+
 Split Liang is an application that helps you split expenses with friends in a fun way! If you are tired of keeping track 
 of calculating who owes who, Split-liang is here to help you. Split-liang allows you to keep track through the creation 
 of groups and expenses so that you can simultaneously manage expenses with multiple friend groups!
-<br>
+
 
 ### Summary of Contributions
 
