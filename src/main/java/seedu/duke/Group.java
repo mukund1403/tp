@@ -21,6 +21,8 @@ public class Group {
 
     private static List<User> members = null;
 
+    private static GroupNameChecker groupNameChecker = new GroupNameChecker();
+
     private final String groupName;
 
     private final List<Expense> expenseList;
