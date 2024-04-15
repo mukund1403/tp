@@ -156,6 +156,7 @@ public class GroupStorage {
             throw new GroupLoadException("An unexpected error occurred while loading the group: " + e.getMessage());
         } finally {
             isLoading = false;
+            System.out.println("Group loaded successfully.");
         }
     }
 

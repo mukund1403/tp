@@ -3,7 +3,7 @@ actor User
 participant ":GroupCommand" as GroupCommand
 participant ":Group" as Group
 
-User -> GroupCommand: member John
+User -> GroupCommand: "member John"
 activate GroupCommand
 
 GroupCommand -> Group: addMember("John")
@@ -14,9 +14,9 @@ activate Group
 Group --> Group: true
 deactivate Group
 
-Group --> GroupCommand: "John is already a member"
+Group --> GroupCommand: "John is already a member of group"
 deactivate Group
 
-GroupCommand --> User: "John is already a member"
+GroupCommand --> User: "John is already a member of group"
 deactivate GroupCommand
 @enduml
