@@ -390,4 +390,8 @@ public class Group {
         }
         return null;
     }
+
+    public static void removeGroup(String groupName) {
+        groups.remove(groupName);
+    }
 }

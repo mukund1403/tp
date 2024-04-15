@@ -16,6 +16,12 @@ and each `Group` object is stored in its own `.txt` file after program's runtime
 
 ![Architecture_Diagram](images/ArchitectureDiagram.jpg)
 
+### Balance
+
+Below is a Class Diagram for the Balance Feature:
+
+![Balance Structure](images/BalanceStructure.png)
+
 ### Group Storage
 
 The Group Storage feature allows users to save group information to files when exiting groups or ending the program. It also enables users to load group information from files when entering groups. This feature ensures that changes made to a group are persisted across sessions and that users can resume their interactions with groups seamlessly.
@@ -144,10 +150,6 @@ The following sequence diagrams show the process of adding an equal split and un
 
 #### Implementation
 
-
-Below is a Class Diagram for the Balance Feature:
-
-![Balance Structure](images/BalanceStructure.png)
 
 The Balance feature is facilitated through the Balance class.
 It allows a user to view a printed list of other users in the Group, and the amount that is owed by/to each user.
