@@ -6,7 +6,9 @@ import seedu.duke.Pair;
 import seedu.duke.CurrencyConversions;
 import seedu.duke.Money;
 import seedu.duke.Expense;
+import seedu.duke.UserInterface;
 import seedu.duke.exceptions.ExpensesException;
+import seedu.duke.MessageType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +17,14 @@ import java.util.Optional;
 
 public class ExpenseCommand {
 
+    /**
+     * Takes in an expense from Parser and creates a new expense object.
+     * Adds the new expense object into the expense list
+     * @param params : The parameters for the expense including amount, payer, payeeList
+     * @param argument : The description of the expense
+     * @param userInput : A string containing users input
+     * @throws ExpensesException : An exception for expenses class that prints the relevant error message
+     */
     //@@author Cohii2
     public static void addExpense(HashMap <String, ArrayList<String>> params,String argument, String userInput)
             throws ExpensesException {
@@ -53,7 +63,7 @@ public class ExpenseCommand {
         } else {
             newTransaction = addEqualExpense(payeeList, payees, amountAndCurrency, payerName, argument);
         }
-        newTransaction.printSuccessMessage();
+        UserInterface.printMessage(newTransaction.successMessageString(),MessageType.SUCCESS);
         currentGroup.get().addExpense(newTransaction);
     }
 
@@ -62,6 +72,7 @@ public class ExpenseCommand {
     /**
      * The method deletes expense from the expenses list
      * @param listIndex : The index from the list, the user wishes to delete (will be 1 indexed)
+     * @throws ExpensesException : An exception for expenses class that prints the relevant error message
      */
     public static void deleteExpense(String listIndex) throws ExpensesException {
         Optional<Group> currentGroup = Group.getCurrentGroup();
@@ -74,9 +85,16 @@ public class ExpenseCommand {
         int index = getListIndex(listIndex, listSize) - 1;
         String deletedExpenseDescription = expenseList.get(index).toString();
         currentGroup.get().deleteExpense(index);
-        System.out.println("Deleted expense:\n" + deletedExpenseDescription);
+        UserInterface.printMessage("Deleted expense:\n" + deletedExpenseDescription,MessageType.SUCCESS);
+        //System.out.println("Deleted expense:\n" + deletedExpenseDescription);
     }
 
+    /**
+     * Gets the total amount for the expense
+     * @param params : The parameters for the expense including amount, payer, payeeList
+     * @return : The total amount as a float
+     * @throws ExpensesException : An exception for expenses class that prints the relevant error message
+     */
     public static Float getTotal(HashMap<String, ArrayList<String>> params) throws ExpensesException {
         float totalAmount;
         String amount = params.get("amount").get(0);
@@ -99,6 +117,12 @@ public class ExpenseCommand {
         return totalAmount;
     }
 
+    /**
+     * Checks if the currency entered is valid and returns it
+     * @param currencyString : The currency in String format
+     * @return : The currency for the expense
+     * @throws ExpensesException : An exception for expenses class that prints the relevant error message
+     */
     public static CurrencyConversions getCurrency(String currencyString)
             throws ExpensesException {
         if(currencyString.isEmpty()){
@@ -126,6 +150,13 @@ public class ExpenseCommand {
         }
     }
 
+    /**
+     * Checks if the expenses list index provided is valid and returns it
+     * @param listIndex : The String containing the list index
+     * @param listSize : The total size of the expenses list
+     * @return : The list index as integer
+     * @throws ExpensesException : An exception for expenses class that prints the relevant error message
+     */
     public static int getListIndex(String listIndex, int listSize) throws ExpensesException {
         int index;
         try{
@@ -145,6 +176,16 @@ public class ExpenseCommand {
         return index;
     }
 
+    /**
+     * Takes in an expense split unequally and creates a new expense
+     * @param payeeList : List of people who owe money for the expense
+     * @param payees : List of people who owe money and how much they owe
+     * @param totalAmountAndCurrency : Money object containing the total amount and the currency of the expense
+     * @param payerName : Name of the person who paid for the expense
+     * @param argument : Description of the expense
+     * @return : The Expense object created
+     * @throws ExpensesException : An exception for expenses class that prints the relevant error message
+     */
     public static Expense addUnequalExpense(ArrayList<String> payeeList, ArrayList<Pair<String, Money>> payees,
                                             Money totalAmountAndCurrency,
                                             String payerName, String argument) throws ExpensesException{
@@ -184,6 +225,16 @@ public class ExpenseCommand {
     }
 
 
+    /**
+     * Takes in an expense split equally and creates a new expense
+     * @param payeeList : List of people who owe money for the expense
+     * @param payees : List of people who owe money and how much they owe
+     * @param totalAmountAndCurrency : Money object containing the total amount and the currency of the expense
+     * @param payerName : Name of the person who paid for the expense
+     * @param argument : Description of the expense
+     * @return : The Expense object created
+     * @throws ExpensesException : An exception for expenses class that prints the relevant error message
+     */
     public static Expense addEqualExpense(ArrayList<String> payeeList, ArrayList<Pair<String, Money>> payees,
                                            Money totalAmountAndCurrency,
                                           String payerName,String argument)throws ExpensesException {

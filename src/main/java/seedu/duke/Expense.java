@@ -1,8 +1,5 @@
 //@@author mukund1403
 package seedu.duke;
-
-
-
 import seedu.duke.storage.GroupStorage;
 import java.util.ArrayList;
 
@@ -87,17 +84,21 @@ public class Expense {
         return expensesDetails.toString();
     }
 
-    public void printSuccessMessage() {
+    public String successMessageString() {
+        StringBuilder successMessage = new StringBuilder();
         if (!(GroupStorage.isLoading) && !(this instanceof Settle)) {
-            System.out.println("Added new expense with description " + description + " and amount "
-                    + String.format(totalAmount.getCurrency() + " %.2f",totalAmount.getAmount()) +
-                    " paid by " + payerName + ". The split is:");
+            successMessage.append("Added new expense with description ")
+                    .append(description).append(" and amount ")
+                    .append(String.format(totalAmount.getCurrency() + " %.2f", totalAmount.getAmount()))
+                    .append(" paid by ").append(payerName).append(". The split is:\n");
 
             for (Pair<String, Money> payee : payees) {
-                System.out.println(payee.getKey() + " : " + String.format(payee.getValue().getCurrency() +
-                        " %.2f", payee.getValue().getAmount()));
+                successMessage.append(payee.getKey()).append(" : ")
+                        .append(String.format(payee.getValue().getCurrency() +
+                        " %.2f", payee.getValue().getAmount())).append("\n");
             }
         }
+        return String.valueOf(successMessage);
     }
 
     public void clear() {
