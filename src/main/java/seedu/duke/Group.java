@@ -278,7 +278,7 @@ public class Group {
         User payee = findUser(payeeName);
 
         if (payer == null || payee == null) {
-            System.out.println("User not found.");
+            UserInterface.printMessage("User not found.", MessageType.ERROR);
             return;
         }
 
@@ -291,14 +291,14 @@ public class Group {
         }
 
         if (total.getAmount() <= 0f) {
-            System.out.println(
+            UserInterface.printMessage(
                     payerName + " has no outstanding balance with " + payeeName
             );
             return;
         }
 
         if (total.getAmount() > 0f) {
-            System.out.println(
+            UserInterface.printMessage(
                     payerName + " should pay " + payeeName + " " + String.format("SGD %.2f", total.getAmount())
             );
         }
@@ -310,7 +310,7 @@ public class Group {
 
         Expense repaymentExpense = new Expense(payer.getName(), "Settlement", total, repaymentList);
         expenseList.add(repaymentExpense);
-        System.out.println(payerName + " has settled the full amount with " + payeeName);
+        UserInterface.printMessage(payerName + " has settled the full amount with " + payeeName);
     }
     //@@author
 

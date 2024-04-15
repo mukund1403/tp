@@ -33,7 +33,7 @@ public class Duke {
             } catch (Parser.EndProgramException e) {
                 break;
             } catch (ExpensesException e) {
-                System.out.println(e.getMessage());
+                UserInterface.printMessage(e.getMessage(), MessageType.ERROR);
             }
         }
         System.out.println("Goodbye!");
